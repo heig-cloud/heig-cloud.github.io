@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>HEIG-Cloud blog</title>
-    <link>http://www.heig-cloud.github.io/</link>
+    <link>http://heig-cloud.github.io/</link>
     <description>Recent content on HEIG-Cloud blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 21 Dec 2015 13:19:07 +0100</lastBuildDate>
-    <atom:link href="http://www.heig-cloud.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://heig-cloud.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Monitoring with Ganglia</title>
-      <link>http://www.heig-cloud.github.io/article/ganglia/</link>
+      <link>http://heig-cloud.github.io/article/ganglia/</link>
       <pubDate>Mon, 21 Dec 2015 13:19:07 +0100</pubDate>
       
-      <guid>http://www.heig-cloud.github.io/article/ganglia/</guid>
+      <guid>http://heig-cloud.github.io/article/ganglia/</guid>
       <description>
 
 &lt;h2 id=&#34;ganglia:154f68e092bb9cc4a3c5c5508681544a&#34;&gt;Ganglia&lt;/h2&gt;
@@ -23,7 +23,7 @@
 
 &lt;p&gt;Ganglia is a free software that allows you to keep an eye on your cluster quite easily. This is the kind of information you can get:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.heig-cloud.github.io/static/img/ganglia/ganglia_sample.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ganglia/ganglia_sample.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;You can see here the use of resources, here we are seeing the load. There is a pic along the way, probably a job that was run at this moment.&lt;/p&gt;
 
@@ -163,11 +163,11 @@ $ sudo service apache2 restart
 
 &lt;p&gt;Here is another sample of the informations you can get. Here you see general informations, as memory, cpu, load and network for the entire cluster called iict_cloud.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.heig-cloud.github.io/static/img/ganglia/ganglia_sample2.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ganglia/ganglia_sample2.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;And here we can see more information about one host, the controller, its CPU usages and specific information.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.heig-cloud.github.io/static/img/ganglia/ganglia_sample3.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ganglia/ganglia_sample3.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;conclusion:154f68e092bb9cc4a3c5c5508681544a&#34;&gt;Conclusion&lt;/h2&gt;
 
@@ -177,10 +177,10 @@ $ sudo service apache2 restart
     
     <item>
       <title>Orchestration with Ansible</title>
-      <link>http://www.heig-cloud.github.io/article/ansible/</link>
+      <link>http://heig-cloud.github.io/article/ansible/</link>
       <pubDate>Fri, 18 Dec 2015 14:40:53 +0100</pubDate>
       
-      <guid>http://www.heig-cloud.github.io/article/ansible/</guid>
+      <guid>http://heig-cloud.github.io/article/ansible/</guid>
       <description>
 
 &lt;h2 id=&#34;orchestration-tools:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;Orchestration tools&lt;/h2&gt;
@@ -523,10 +523,10 @@ $ cat services/mysql/main.yaml
     
     <item>
       <title>LDAP and multi-domain Keystone</title>
-      <link>http://www.heig-cloud.github.io/article/ldap/</link>
+      <link>http://heig-cloud.github.io/article/ldap/</link>
       <pubDate>Thu, 17 Dec 2015 16:47:45 +0100</pubDate>
       
-      <guid>http://www.heig-cloud.github.io/article/ldap/</guid>
+      <guid>http://heig-cloud.github.io/article/ldap/</guid>
       <description>
 
 &lt;h2 id=&#34;what-is-ldap:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;What is LDAP&lt;/h2&gt;
@@ -567,17 +567,17 @@ $ cat services/mysql/main.yaml
 
 &lt;p&gt;Both these points may sound like they are the same but they are not. The first part is authentification (&lt;strong&gt;warning:&lt;/strong&gt; this will be very brief, naive and incomplete, but as always, it should be enough, you can always find more information about this on the internet). To explain this, let&amp;rsquo;s make an easy scenario. We have two people and a door. One of them is a guard whose name is Keystone. he is posted in front of the door leading to the wonderful world of OpenStack. The other one wants to go through, that&amp;rsquo;s Bob, a simple user.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.heig-cloud.github.io/static/img/ldap/keystone1.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ldap/keystone1.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;In this case, Keystone is responsible for authentificating and authorizing the users of the door. Keystone knows Bob, because they are buddies, so he lets him through.&lt;/p&gt;
 
 &lt;p&gt;Now let&amp;rsquo;s say that Carl wants to go through, Keystone does not know him.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.heig-cloud.github.io/static/img/ldap/keystone2.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ldap/keystone2.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The thing is, Carl can authentificate himslef differently. If keystone accepts authentification from that other medium (let&amp;rsquo;s say a LDAP server for example), it can work.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.heig-cloud.github.io/static/img/ldap/keystone3.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ldap/keystone3.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;So here, Carl was granted the authorization by Keystone after LDAP vouched for him (authentification part).&lt;/p&gt;
 
@@ -607,7 +607,7 @@ $ cat services/mysql/main.yaml
 
 &lt;p&gt;The following image shows you what it&amp;rsquo;s possible to achieve with multi-domain Keystone:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.heig-cloud.github.io/static/img/ldap/multidomain.png&#34; alt=&#34;Multi-domain Keystone&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ldap/multidomain.png&#34; alt=&#34;Multi-domain Keystone&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;So what do we have?&lt;/p&gt;
 
@@ -712,7 +712,7 @@ group_allow_delete = false
 
 &lt;p&gt;The last step is to enable multi-domain login on horizon, it will add a &amp;ldquo;domain&amp;rdquo; line that you&amp;rsquo;ll have to fill when logging on the dashboard.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.heig-cloud.github.io/static/img/ldap/login_domain.png&#34; alt=&#34;Multi-domain Keystone&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ldap/login_domain.png&#34; alt=&#34;Multi-domain Keystone&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The line to change is here:&lt;/p&gt;
 
@@ -769,10 +769,10 @@ CACHES = {
     
     <item>
       <title>Openstack Swift</title>
-      <link>http://www.heig-cloud.github.io/article/swift/</link>
+      <link>http://heig-cloud.github.io/article/swift/</link>
       <pubDate>Thu, 17 Dec 2015 14:01:53 +0100</pubDate>
       
-      <guid>http://www.heig-cloud.github.io/article/swift/</guid>
+      <guid>http://heig-cloud.github.io/article/swift/</guid>
       <description>
 
 &lt;h2 id=&#34;what-is-openstack-swift:9ba7d4d50c31dd7166688703e242142d&#34;&gt;What is OpenStack Swift&lt;/h2&gt;
@@ -856,7 +856,7 @@ $ swift -V 3 post container-name
 
 &lt;p&gt;A fair question indeed. You can either use it for storage, which would probably be the primary option but there are other things one can do with an object store. This image will give you a good hint:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.heig-cloud.github.io/static/img/swift/hadoop_spark_scala.png&#34; alt=&#34;Hadoop, Spark and Scala&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/swift/hadoop_spark_scala.png&#34; alt=&#34;Hadoop, Spark and Scala&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;If you have ever worked with Hadoop or Spark, chances are pretty good that you are familiar with HDFS. If not, HDFS is simply a shared filesystem used by the hadoop workers to share data (read and write). Hadoop needs HDFS and Spark may use it as well but is not entirely dependant. It should be possible (as we read on Spark&amp;rsquo;s website) to replace HDFS by Swift. Why would we do that though? Well, first reason, we already have a working swift cluster. An other reason is, to use HDFS we need to install it on all the workers, meaning if we want to have a &amp;ldquo;virtual&amp;rdquo; cluster, we still need to give our instances a lot of &lt;strong&gt;block storage&lt;/strong&gt;. Also, deleting the instances will delete the HDFS cluster, which won&amp;rsquo;t be the case with Swift.&lt;/p&gt;
 
@@ -877,10 +877,10 @@ $ swift -V 3 post container-name
     
     <item>
       <title>ELK Stack</title>
-      <link>http://www.heig-cloud.github.io/article/elk/</link>
+      <link>http://heig-cloud.github.io/article/elk/</link>
       <pubDate>Wed, 16 Dec 2015 17:11:39 +0100</pubDate>
       
-      <guid>http://www.heig-cloud.github.io/article/elk/</guid>
+      <guid>http://heig-cloud.github.io/article/elk/</guid>
       <description>
 
 &lt;h2 id=&#34;what-is-elk:36c24ba243767c751831e175c3e18b66&#34;&gt;What is ELK?&lt;/h2&gt;
@@ -895,7 +895,7 @@ $ swift -V 3 post container-name
 
 &lt;h3 id=&#34;the-stack:36c24ba243767c751831e175c3e18b66&#34;&gt;The Stack&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.heig-cloud.github.io/static/img/elk/elkstack.png&#34; alt=&#34;ELK Stack&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/elk/elkstack.png&#34; alt=&#34;ELK Stack&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;First of all, let&amp;rsquo;s see what these applications can do.&lt;/p&gt;
 
@@ -914,7 +914,7 @@ Kibana is the tool used for visualizing the logs. It&amp;rsquo;s a web based int
 
 &lt;p&gt;It would be nice if you could just see the messages that present the keyword error for example, right? Well guess what, you can :)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.heig-cloud.github.io/static/img/elk/kibana_preview.png&#34; alt=&#34;Kibana preview&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/elk/kibana_preview.png&#34; alt=&#34;Kibana preview&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We can use Kibana to search the logs by specifying the time and a filter. By adding this filter:&lt;/p&gt;
 
@@ -999,10 +999,10 @@ Content of file C
     
     <item>
       <title>Architecture</title>
-      <link>http://www.heig-cloud.github.io/article/architecture/</link>
+      <link>http://heig-cloud.github.io/article/architecture/</link>
       <pubDate>Wed, 16 Dec 2015 16:59:49 +0100</pubDate>
       
-      <guid>http://www.heig-cloud.github.io/article/architecture/</guid>
+      <guid>http://heig-cloud.github.io/article/architecture/</guid>
       <description>
 
 &lt;h2 id=&#34;architecture-of-our-project:1bf455b3a3c6e1e40be41ef6023b75eb&#34;&gt;Architecture of our project&lt;/h2&gt;
@@ -1013,10 +1013,10 @@ Content of file C
     
     <item>
       <title>About</title>
-      <link>http://www.heig-cloud.github.io/about/</link>
+      <link>http://heig-cloud.github.io/about/</link>
       <pubDate>Wed, 16 Dec 2015 10:59:56 +0100</pubDate>
       
-      <guid>http://www.heig-cloud.github.io/about/</guid>
+      <guid>http://heig-cloud.github.io/about/</guid>
       <description>
 
 &lt;h2 id=&#34;who-we-are:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;Who we are&lt;/h2&gt;
