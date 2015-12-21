@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Openstack Swift</title>
+  	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/heig-cloud-home.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/static/img/favicon.png" />
+
+</head>
+<body>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+     
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://localhost:1313/">HEIG-Cloud</a>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="http://localhost:1313/">Home</a></li>
+                    <li><a href="/article/">Articles</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="http://www.heig-vd.ch">HEIG-VD website</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+    </nav>
+
+    
+	<div class="container">
+	    <div class="row">
+
+	        
+	        <div class="col-lg-8">
+
+	            
+	            <h2><a href="http://localhost:1313/article/swift/">Openstack Swift</a></h2>
+	            <p class="lead">
+	                by <a href="http://localhost:1313/">HEIG-Cloud</a>
+	            </p>
+	            <p><span class="glyphicon glyphicon-time"></span> Posted on Thu, Dec 17, 2015</p>
+
+	            <hr>
+	            
+	            
+
+<h2 id="what-is-openstack-swift:9ba7d4d50c31dd7166688703e242142d">What is OpenStack Swift</h2>
+
+<p>Swift is OpenStack&rsquo;s implementation of an object storage. In cloud computing, we often refer to block and object storage. OpenStack provides two different components, each responsibe for one of these parts:</p>
+
+<ul>
+<li><strong>Cinder:</strong> Block storage</li>
+<li><strong>Swift:</strong> Object storage</li>
+</ul>
+
+<p><strong>Note:</strong> We won&rsquo;t be covering Cinder in this article.</p>
+
+<h2 id="object-storage-vs-block-storage:9ba7d4d50c31dd7166688703e242142d">Object storage VS Block storage</h2>
+
+<p>What is the difference between these two types of storage? Well, the name probably says it all, one is on the block level, it means that you can install an operating system, have a filesystem and use it as you would use any physical drive you may have.</p>
+
+<p>The other one is about objects, it means you can store data (images, music, videos, archives, all kind of data). So you guessed right, the title is misleading with the &ldquo;VS&rdquo;, because they don&rsquo;t provide the same kind of service.</p>
+
+<h2 id="more-about-swift:9ba7d4d50c31dd7166688703e242142d">More about Swift</h2>
+
+<p>Here are a few cool things about Swift:</p>
+
+<ul>
+<li>The project is considered &ldquo;mature&rdquo; by the community.</li>
+<li>Quite easy to use.</li>
+<li>Manages the repplication of your objects (3 copys by default)</li>
+<li>Works well with OpenStack (integrated in the dashboard)</li>
+<li>So on&hellip;</li>
+</ul>
+
+<h3 id="how-do-i-access-data:9ba7d4d50c31dd7166688703e242142d">How do I access data</h3>
+
+<p>Swift, like all the components of the stack uses a REST API to communicate. It&rsquo;s also true for the user. It&rsquo;s possible to interact with swift in 3 separate ways:</p>
+
+<ul>
+<li><p><strong>CLI:</strong> using the CLI (Command-Line Interface). To do so, you need to install the python client that provides the command. Usually, the openstack clients packages are named like this: python-*name*client, which in the case of swift is:</p>
+
+<blockquote>
+<p>python-swiftclient</p>
+</blockquote>
+
+<p>To use it, you only need to install the following packages:</p>
+
+<pre><code>$ sudo apt-get install python-swiftclient python-keystoneclient
+
+
+OR
+
+
+$ sudo pip install python-swiftclient python-keystoneclient
+</code></pre>
+
+<p>Note that we also install the keystone client because by default swift will use keystone for authentification. It&rsquo;s possible to change this, swift has its own auth methods but that would only add some needless complications so we&rsquo;ll stick with keystone.</p>
+
+<p>Here are a few examples of what you can do with the cli (you need to source an openrc.sh script first or use the env vars):</p>
+
+<pre><code>$ swift -V 3 upload container-name file
+$ swift -V 3 download container-name file
+$ swift -V 3 post container-name 
+</code></pre>
+
+<p>So, in order:</p>
+
+<ul>
+<li>Uploads a file (or a directory) on the given container</li>
+<li>Downloads a file (or a directory) from the given container</li>
+<li>Creates a new container with the given name (if does not exist)</li>
+</ul></li>
+
+<li><p><strong>Python API</strong></p>
+
+<p>You can also work on your own version of the python client, we don&rsquo;t do that so this is just for reference. More info can be found <a href="http://docs.openstack.org/developer/python-swiftclient/swiftclient.html">here</a>.</p></li>
+
+<li><p><strong>REST API</strong></p>
+
+<p>Usually, the cli python clients do nothing more than provide you with friendly commands you can use on your terminal. All these commands exist with the REST API as well (the basic rule is, you should be able to do the same things with the CLI and the REST API). As for Swift, we never really had to work with the API, but once again, you can check it <a href="http://developer.openstack.org/api-ref-objectstorage-v1.html">here</a> for reference.</p></li>
+</ul>
+
+<h3 id="what-can-i-do-with-an-object-storage:9ba7d4d50c31dd7166688703e242142d">What can I do with an object storage</h3>
+
+<p>A fair question indeed. You can either use it for storage, which would probably be the primary option but there are other things one can do with an object store. This image will give you a good hint:</p>
+
+<p><img src="/static/img/swift/hadoop_spark_scala.png" alt="Hadoop, Spark and Scala" /></p>
+
+<p>If you have ever worked with Hadoop or Spark, chances are pretty good that you are familiar with HDFS. If not, HDFS is simply a shared filesystem used by the hadoop workers to share data (read and write). Hadoop needs HDFS and Spark may use it as well but is not entirely dependant. It should be possible (as we read on Spark&rsquo;s website) to replace HDFS by Swift. Why would we do that though? Well, first reason, we already have a working swift cluster. An other reason is, to use HDFS we need to install it on all the workers, meaning if we want to have a &ldquo;virtual&rdquo; cluster, we still need to give our instances a lot of <strong>block storage</strong>. Also, deleting the instances will delete the HDFS cluster, which won&rsquo;t be the case with Swift.</p>
+
+<p>We are still working on this but the big part of the work is to adapt our codes to work with swift (login, access, etc). We have high expectations regarding this so we&rsquo;ll keep working on it until it works :)</p>
+
+<h2 id="problems-with-swift:9ba7d4d50c31dd7166688703e242142d">Problems with Swift</h2>
+
+<p>We&rsquo;ve had a few problems while installing Swift. First, swift does not create logs files, it uses syslog for logging. It means that you need to consult this file to see what&rsquo;s up:
+&gt; /var/log/syslog</p>
+
+<p>Is this really a problem? No but it&rsquo;s worth knowing :)</p>
+
+<p>Also, Swift makes a loooooot of logs, because it&rsquo;s very verbose. Once again, having an ELK Stack is very useful :P (you can check our post about it if you are interested).</p>
+
+<p>The installation in itself is pretty straightforward, once the conf files are downloaded, change them accordingly, create the rings, distribute them accross your swift-storage nodes and check if everything works fine.</p>
+
+	            <hr>
+	           <div id="disqus_thread"></div>
+				<script>
+				    
+
+				    
+
+
+
+				    (function() {  
+				        var d = document, s = d.createElement('script');
+				        
+				        s.src = '//heigcloud.disqus.com/embed.js';
+				        
+				        s.setAttribute('data-timestamp', +new Date());
+				        (d.head || d.body).appendChild(s);
+				    })();
+				</script>
+				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+				<script id="dsq-count-scr" src="//heigcloud.disqus.com/count.js" async></script>
+    
+    
+	        </div>
+
+
+
+
+            <div class="col-md-4">
+
+                
+                <div class="well">
+                    <h4>Blog Search</h4>
+                    <div class="input-group">
+                        <input type="text" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        </span>
+                    </div>
+                    
+                </div>
+
+                
+                <div class="well">
+                    <h4>Last posts</h4>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                              
+                                
+                                  <li><a href="http://localhost:1313/article/ganglia/">Monitoring with Ganglia</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://localhost:1313/article/ansible/">Orchestration with Ansible</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://localhost:1313/article/ldap/">LDAP and multi-domain Keystone</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://localhost:1313/article/swift/">Openstack Swift</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://localhost:1313/article/elk/">ELK Stack</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://localhost:1313/article/architecture/">Architecture</a></li>
+                                
+                              
+                                
+                              
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                            <li><strong><a href="/article/">See all articles</a></strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                
+                <div class="well">
+                    <h4>Social</h4>
+                    <div class="fb-page" data-href="https://www.facebook.com/HEIGVD/" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/HEIGVD/"><a href="https://www.facebook.com/HEIGVD/">HEIG-VD (Haute Ecole d&#039;Ingénierie et de Gestion du Canton de Vaud)</a></blockquote></div></div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                	<p><a href="#top">Go back to the top</a></p>
+                    <p>Copyright &copy; HEIG-VD, 2015. Content generated with <a href="http://gohugo.io/">Hugo</a>.</p>
+                </div>
+                
+            </div>
+            
+        </footer>
+
+    </div>
+    <script src="/static/js/jquery.js"></script>
+
+    
+    <script src="/static/js/bootstrap.min.js"></script>
+<script data-no-instant>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+		+ ':1313/livereload.js?mindelay=10"></'
+        + 'script>')</script></body>
+</html>
