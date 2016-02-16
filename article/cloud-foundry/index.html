@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cloud Foundry</title>
+  	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/heig-cloud-home.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/static/img/favicon.png" />
+
+</head>
+<body>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+     
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="http://heig-cloud.github.io/">Home</a></li>
+                    <li><a href="/article/">Articles</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="http://www.heig-vd.ch">HEIG-VD website</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+    </nav>
+
+    
+	<div class="container">
+	    <div class="row">
+
+	        
+	        <div class="col-lg-8">
+
+	            
+	            <h2><a href="http://heig-cloud.github.io/article/cloud-foundry/">Cloud Foundry</a></h2>
+	            <p class="lead">
+	                by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+	            </p>
+	            <p><span class="glyphicon glyphicon-time"></span> Posted on Mon, Feb 15, 2016</p>
+
+	            <hr>
+	            
+	            
+
+<h2 id="what-is-cloud-foundry:88b8fd34b48b477d62af4366503b244a">What is Cloud Foundry?</h2>
+
+<p>Cloud Foundry is a <abbr title="Platform as a Service">PaaS</abbr> provider. It is currently developped by many groups, mainly Pivotal but also Swisscom. A PaaS allows developpers to deploy web application very quickly and painlessly. How painless? Well, not much more than one command, maybe two or three depending on the needs and the difficulty of the application. Say a user wants to push a JS app that only writes &ldquo;Hello World&rdquo;, here is how he does it on Cloud Foundry:</p>
+
+<pre><code>cf push app.js 
+</code></pre>
+
+<p>And that&rsquo;s all, really. Once the user is logged, he only needs to make simple calls like this. How does he delete his app? Same thing really.</p>
+
+<pre><code>cf delete app.js
+</code></pre>
+
+<p>The only need thing you need is the <a href="https://docs.cloudfoundry.org/devguide/cf-cli/">cf-cli </a> (cf meaning cloud foundry of course).</p>
+
+<h3 id="why-use-a-paas:88b8fd34b48b477d62af4366503b244a">Why use a PaaS</h3>
+
+<p>A PaaS allows developpers to deploy web applications very easily, without the need to configure an environment (server, db, etc.). It takes care of creating routes, creates new instances when the load increases and it&rsquo;s all transparent to the user. A few PaaS exists now, among them, Google App Engine, Cloud Foundry and Heroku. Cloud Foundry is open-source, and since it&rsquo;s the only one, a lot of people and groups contribute to the project. There are now many providers, like Pivotal, IBM and even Swisscom. Just remember the following, a PaaS allows developpers to work subsequently faster.</p>
+
+<h4 id="cloud-foundry:88b8fd34b48b477d62af4366503b244a">Cloud Foundry</h4>
+
+<p>You probably guessed it, we have deployed Cloud Foundry. There are a few (good) reasons for that. Let&rsquo;s see how it&rsquo;s possible to use CF and why it&rsquo;s advantageous:</p>
+
+<ul>
+<li>Deploying Cloud Foundry on a private cloud
+
+<ul>
+<li>You have full control over your CF deployment. You can make any arrangements necessary and your sensible data is safe.</li>
+</ul></li>
+<li>Deploying Cloud Foundry on a public cloud
+
+<ul>
+<li>You have a certain control over your deployment, mainly over the CF stack itself, you can change and tune things according to your needs.</li>
+</ul></li>
+<li>Deploying Cloud Foundry on an existing provider
+
+<ul>
+<li>You have the ability to deploy your apps on a tested and functional environment. You have minimal control over the deployment since you are nothing more than a simple user.</li>
+</ul></li>
+</ul>
+
+<p>No matter the solution you pick, your code will work on either one of those, so you can avoid any vendor lock you would have otherwise. This is one of the main reasons why CF is so appreciated and used.</p>
+
+<h3 id="what-we-want-from-it:88b8fd34b48b477d62af4366503b244a">What we want from it?</h3>
+
+<p>This CF deployment could allow students to work with it, to test their web apps. At the moment, they learn to work with Heroku, which is also a powerful well-known PaaS but as previously stated, is vendor specific. It becomes quite hard to change things or to be compatible with other technologies.</p>
+
+<p>It&rsquo;s also a good way to test our OpenStack deployment, as CF needs some very specific configuration to work on top of it. We now have a PaaS and a spark cluster on top of our private cloud, plus a fair number of instances, with various applications installed.</p>
+
+<h3 id="how-to-deploy-cloud-foundry:88b8fd34b48b477d62af4366503b244a">How to deploy Cloud Foundry?</h3>
+
+<p>There are a few ways to deploy it, the most used one is to use <a href="https://bosh.io/">BOSH</a>. BOSH is used to deploy distibuted systems, you give it a deployment manifest and it will create your machine. In a classical BOSH CF deployment, there are two phases:</p>
+
+<ul>
+<li>Creating the director with BOSH</li>
+<li>Creating the CF architecture</li>
+</ul>
+
+<p>Both theses steps require a manifest file that will be used to create the instances. The manifest will define the state of each host and how it should be configured. Let&rsquo;s take a look at the director first.</p>
+
+<h4 id="deploy-the-director-with-bosh:88b8fd34b48b477d62af4366503b244a">Deploy the director with BOSH</h4>
+
+<p>A cloud foundry deployment usually comes in &ldquo;two&rdquo; parts, the director and the CF VMs. The director is the VM responsible for the creation of the CF cluster. When new machines need to be added, changes in the configuration or updates need to be made, the director is responsible for it.</p>
+
+<p>The second part, which we will see more in details after, is composed of all the machines included in the CF cluster.</p>
+
+<p>To deploy the director on OpenStack, you will need to follow these steps, from the bosh website: <a href="https://bosh.io/docs/init-openstack.html">Initialize a BOSH environment on OpenStack</a>. There are a few needed steps, like creating a keypair and a few security groups, then you need to create a manifest.</p>
+
+<p>After creating the manifest, the director should be deployed on your OpenStack project. The manifest looks like this:</p>
+
+<pre><code>---
+name: bosh
+
+releases:
+- name: bosh
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=253
+  sha1: 940956a23b642af3bb24b3cac37c4da746d6f9a9
+- name: bosh-openstack-cpi
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-openstack-cpi-release?v=21
+  sha1: f28d30f0e20acbbf346f8d3fafcef05e3850c3d5
+
+resource_pools:
+- name: vms
+  network: private
+  stemcell:
+    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-trusty-go_agent?v=3012
+    sha1: e92f3bd5081301652005bdc3dd11bff545a304ef
+  cloud_properties:
+    instance_type: m1.xlarge
+
+disk_pools:
+- name: disks
+  disk_size: 20_000
+
+networks:
+- name: private
+  type: manual
+  subnets:
+  - range: PRIVATE-CIDR # &lt;--- Replace with a private subnet CIDR
+    gateway: PRIVATE-GATEWAY-IP # &lt;--- Replace with a private subnet's gateway
+    dns: [DNS-IP] # &lt;--- Replace with your DNS
+    cloud_properties: {net_id: NETWORK-UUID} # &lt;--- # Replace with private network UUID
+- name: public
+  type: vip
+
+jobs:
+- name: bosh
+  instances: 1
+
+  templates:
+  - {name: nats, release: bosh}
+  - {name: redis, release: bosh}
+  - {name: postgres, release: bosh}
+  - {name: blobstore, release: bosh}
+  - {name: director, release: bosh}
+  - {name: health_monitor, release: bosh}
+  - {name: registry, release: bosh}
+  - {name: openstack_cpi, release: bosh-openstack-cpi}
+
+  resource_pool: vms
+  persistent_disk_pool: disks
+
+  networks:
+  - name: private
+    static_ips: [PRIVATE-IP] # &lt;--- Replace with a private IP
+    default: [dns, gateway]
+  - name: public
+    static_ips: [FLOATING-IP] # &lt;--- Replace with a floating IP
+
+  properties:
+    nats:
+      address: 127.0.0.1
+      user: nats
+      password: nats-password
+
+    redis:
+      listen_address: 127.0.0.1
+      address: 127.0.0.1
+      password: redis-password
+
+    postgres: &amp;db
+      listen_address: 127.0.0.1
+      host: 127.0.0.1
+      user: postgres
+      password: postgres-password
+      database: bosh
+      adapter: postgres
+
+    registry:
+      address: PRIVATE-IP # &lt;--- Replace with a private IP
+      host: PRIVATE-IP # &lt;--- Replace with a private IP
+      db: *db
+      http: {user: admin, password: admin, port: 25777}
+      username: admin
+      password: admin
+      port: 25777
+
+    blobstore:
+      address: PRIVATE-IP # &lt;--- Replace with a private IP
+      port: 25250
+      provider: dav
+      director: {user: director, password: director-password}
+      agent: {user: agent, password: agent-password}
+
+    director:
+      address: 127.0.0.1
+      name: my-bosh
+      db: *db
+      cpi_job: openstack_cpi
+      max_threads: 3
+      user_management:
+        provider: local
+        local:
+          users:
+          - {name: admin, password: admin}
+          - {name: hm, password: hm-password}
+
+    hm:
+      director_account: {user: hm, password: hm-password}
+      resurrector_enabled: true
+
+    openstack: &amp;openstack
+      auth_url: IDENTITY-API-ENDPOINT # &lt;--- Replace with OpenStack Identity API endpoint
+      tenant: OPENSTACK-TENANT # &lt;--- Replace with OpenStack tenant name
+      username: OPENSTACK-USERNAME # &lt;--- Replace with OpenStack username
+      api_key: OPENSTACK-PASSWORD # &lt;--- Replace with OpenStack password
+      default_key_name: bosh
+      default_security_groups: [bosh]
+
+    agent: {mbus: &quot;nats://nats:nats-password@PRIVATE-IP:4222&quot;} # &lt;--- Replace with a private IP
+
+    ntp: &amp;ntp [0.pool.ntp.org, 1.pool.ntp.org]
+
+cloud_provider:
+  template: {name: openstack_cpi, release: bosh-openstack-cpi}
+
+  ssh_tunnel:
+    host: FLOATING-IP # &lt;--- Replace with a floating IP
+    port: 22
+    user: vcap
+    private_key: ./bosh.pem # Path relative to this manifest file
+
+  mbus: &quot;https://mbus:mbus-password@FLOATING-IP:6868&quot; # &lt;--- Replace with a floating IP
+
+  properties:
+    openstack: *openstack
+    agent: {mbus: &quot;https://mbus:mbus-password@0.0.0.0:6868&quot;}
+    blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
+    ntp: *ntp
+</code></pre>
+
+<p>You can initialize the manifest like this:</p>
+
+<pre><code>$ bosh-init deploy bosh.yml
+</code></pre>
+
+<p>You need the <a href="https://bosh.io/docs/install-bosh-init.html">bosh-init cli</a> to do this.</p>
+
+<h4 id="deploy-cf:88b8fd34b48b477d62af4366503b244a">Deploy CF</h4>
+
+<p>The following image shows a basical deployment of CF: <a href="https://bosh.io/docs/init-openstack.html">bootstrap the environment on OpenStack</a>. There are different guides depending on your IaaS (AWS, OpenStack vSphere, etc.)</p>
+
+<p><img src="/static/img/cf/cf_architecture.png" alt="CF Architecture" /></p>
+
+	            <hr>
+	           <div id="disqus_thread"></div>
+				<script>
+				    
+
+				    
+
+
+
+				    (function() {  
+				        var d = document, s = d.createElement('script');
+				        
+				        s.src = '//heigcloud.disqus.com/embed.js';
+				        
+				        s.setAttribute('data-timestamp', +new Date());
+				        (d.head || d.body).appendChild(s);
+				    })();
+				</script>
+				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+				<script id="dsq-count-scr" src="//heigcloud.disqus.com/count.js" async></script>
+    
+    
+	        </div>
+
+
+
+
+            <div class="col-md-4">
+
+                
+                <div class="well">
+                    <h4>Blog Search</h4>
+                    <div class="input-group">
+                        <input type="text" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        </span>
+                    </div>
+                    
+                </div>
+
+                
+                <div class="well">
+                    <h4>Last posts</h4>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/cloud-foundry/">Cloud Foundry</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/ganglia/">Monitoring with Ganglia</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/ansible/">Orchestration with Ansible</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/ldap/">LDAP and multi-domain Keystone</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/swift/">Openstack Swift</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/elk/">ELK Stack</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/architecture/">Architecture</a></li>
+                                
+                              
+                                
+                              
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                            <li><strong><a href="/article/">See all articles</a></strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                
+                <div class="well">
+                    <h4>Social</h4>
+                    <div class="fb-page" data-href="https://www.facebook.com/HEIGVD/" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/HEIGVD/"><a href="https://www.facebook.com/HEIGVD/">HEIG-VD (Haute Ecole d&#039;Ingénierie et de Gestion du Canton de Vaud)</a></blockquote></div></div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                	<p><a href="#top">Go back to the top</a></p>
+                    <p>Copyright &copy; HEIG-VD, 2015. Content generated with <a href="http://gohugo.io/">Hugo</a>.</p>
+                </div>
+                
+            </div>
+            
+        </footer>
+
+    </div>
+    <script src="/static/js/jquery.js"></script>
+
+    
+    <script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html>
