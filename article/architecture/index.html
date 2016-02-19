@@ -70,9 +70,51 @@
 	            
 	            
 
-<h2 id="architecture-of-our-project:1bf455b3a3c6e1e40be41ef6023b75eb">Architecture of our project</h2>
+<h2 id="architecture-of-our-openstack-deployment:1bf455b3a3c6e1e40be41ef6023b75eb">Architecture of our OpenStack deployment</h2>
 
-<p>This first post is about the architecture of our OpenStack deployment. This chapter is important because</p>
+<p>This first post is about the architecture of our OpenStack
+deployment. At maximum size our private cloud will run on 13
+servers.</p>
+
+<p><img src="/static/img/architecture/heig-cloud architecture.svg" alt="HEIG-Cloud deployment" /></p>
+
+<p>We chose a deployment that follows closely the standard installation
+guide. In total there are 13 servers with the following roles:</p>
+
+<ul>
+<li>One controller node</li>
+<li>One networking node</li>
+<li>Nine compute nodes</li>
+<li>Two storage nodes</li>
+</ul>
+
+<p>When a server has a certain role it hosts a certain combination of
+OpenStack components. Roughly speaking, the <em>controller node</em> hosts
+central components like the message broker that is used by the
+OpenStack components to communicate with each other, the database, the
+authentication and authorization components and the user interface.</p>
+
+<p>The <em>networking node</em> is responsible for attaching externally visible
+floating IP addresses to the virtual machines and provides virtual
+subnetworks and virtual routers.</p>
+
+<p>A <em>compute node</em> contains a hypervisor that enables the creation of
+many virtual machines on that server.</p>
+
+<p>A <em>storage node</em> provides its disk space in the form of virtual disks
+that can be attached to the virtual machines running in the compute
+nodes. To the guest OS in the VM they appear as any other disk and
+typically it will place a file system on them.</p>
+
+<p>We have also created three separate networks:</p>
+
+<ul>
+<li>Management network (red): accessible only from the intranet</li>
+<li>Instance tunnels network (green): connects the compute nodes with the networking node</li>
+<li>External network (blue): makes the virtual machines accessible from
+the Internet (through the networking node) as well as the user interface
+(running on the controller node).</li>
+</ul>
 
 	            <hr>
 	           <div id="disqus_thread"></div>
