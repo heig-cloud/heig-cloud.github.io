@@ -11,13 +11,13 @@
     
     <item>
       <title>Cloud Foundry</title>
-      <link>http://heig-cloud.github.io/article/cloud-foundry/</link>
+      <link>http://heig-cloud.github.io/article/2016-02-15%20cloud-foundry/</link>
       <pubDate>Mon, 15 Feb 2016 14:58:22 +0100</pubDate>
       
-      <guid>http://heig-cloud.github.io/article/cloud-foundry/</guid>
+      <guid>http://heig-cloud.github.io/article/2016-02-15%20cloud-foundry/</guid>
       <description>
 
-&lt;h2 id=&#34;what-is-cloud-foundry:88b8fd34b48b477d62af4366503b244a&#34;&gt;What is Cloud Foundry?&lt;/h2&gt;
+&lt;h2 id=&#34;what-is-cloud-foundry:3b5fec49f84e5d5cfa51d881c4db4598&#34;&gt;What is Cloud Foundry?&lt;/h2&gt;
 
 &lt;p&gt;Cloud Foundry is a &lt;abbr title=&#34;Platform as a Service&#34;&gt;PaaS&lt;/abbr&gt; provider. It is currently developped by many groups, mainly Pivotal but also Swisscom. A PaaS allows developpers to deploy web application very quickly and painlessly. How painless? Well, not much more than one command, maybe two or three depending on the needs and the difficulty of the application. Say a user wants to push a JS app that only writes &amp;ldquo;Hello World&amp;rdquo;, here is how he does it on Cloud Foundry:&lt;/p&gt;
 
@@ -31,11 +31,11 @@
 
 &lt;p&gt;The only need thing you need is the &lt;a href=&#34;https://docs.cloudfoundry.org/devguide/cf-cli/&#34;&gt;cf-cli &lt;/a&gt; (cf meaning cloud foundry of course).&lt;/p&gt;
 
-&lt;h3 id=&#34;why-use-a-paas:88b8fd34b48b477d62af4366503b244a&#34;&gt;Why use a PaaS&lt;/h3&gt;
+&lt;h3 id=&#34;why-use-a-paas:3b5fec49f84e5d5cfa51d881c4db4598&#34;&gt;Why use a PaaS&lt;/h3&gt;
 
 &lt;p&gt;A PaaS allows developpers to deploy web applications very easily, without the need to configure an environment (server, db, etc.). It takes care of creating routes, creates new instances when the load increases and it&amp;rsquo;s all transparent to the user. A few PaaS exists now, among them, Google App Engine, Cloud Foundry and Heroku. Cloud Foundry is open-source, and since it&amp;rsquo;s the only one, a lot of people and groups contribute to the project. There are now many providers, like Pivotal, IBM and even Swisscom. Just remember the following, a PaaS allows developpers to work subsequently faster.&lt;/p&gt;
 
-&lt;h4 id=&#34;cloud-foundry:88b8fd34b48b477d62af4366503b244a&#34;&gt;Cloud Foundry&lt;/h4&gt;
+&lt;h4 id=&#34;cloud-foundry:3b5fec49f84e5d5cfa51d881c4db4598&#34;&gt;Cloud Foundry&lt;/h4&gt;
 
 &lt;p&gt;You probably guessed it, we have deployed Cloud Foundry. There are a few (good) reasons for that. Let&amp;rsquo;s see how it&amp;rsquo;s possible to use CF and why it&amp;rsquo;s advantageous:&lt;/p&gt;
 
@@ -59,13 +59,13 @@
 
 &lt;p&gt;No matter the solution you pick, your code will work on either one of those, so you can avoid any vendor lock you would have otherwise. This is one of the main reasons why CF is so appreciated and used.&lt;/p&gt;
 
-&lt;h3 id=&#34;what-we-want-from-it:88b8fd34b48b477d62af4366503b244a&#34;&gt;What we want from it?&lt;/h3&gt;
+&lt;h3 id=&#34;what-we-want-from-it:3b5fec49f84e5d5cfa51d881c4db4598&#34;&gt;What we want from it?&lt;/h3&gt;
 
 &lt;p&gt;This CF deployment could allow students to work with it, to test their web apps. At the moment, they learn to work with Heroku, which is also a powerful well-known PaaS but as previously stated, is vendor specific. It becomes quite hard to change things or to be compatible with other technologies.&lt;/p&gt;
 
 &lt;p&gt;It&amp;rsquo;s also a good way to test our OpenStack deployment, as CF needs some very specific configuration to work on top of it. We now have a PaaS and a spark cluster on top of our private cloud, plus a fair number of instances, with various applications installed.&lt;/p&gt;
 
-&lt;h3 id=&#34;how-to-deploy-cloud-foundry:88b8fd34b48b477d62af4366503b244a&#34;&gt;How to deploy Cloud Foundry?&lt;/h3&gt;
+&lt;h3 id=&#34;how-to-deploy-cloud-foundry:3b5fec49f84e5d5cfa51d881c4db4598&#34;&gt;How to deploy Cloud Foundry?&lt;/h3&gt;
 
 &lt;p&gt;There are a few ways to deploy it, the most used one is to use &lt;a href=&#34;https://bosh.io/&#34;&gt;BOSH&lt;/a&gt;. BOSH is used to deploy distibuted systems, you give it a deployment manifest and it will create your machine. In a classical BOSH CF deployment, there are two phases:&lt;/p&gt;
 
@@ -76,7 +76,7 @@
 
 &lt;p&gt;Both theses steps require a manifest file that will be used to create the instances. The manifest will define the state of each host and how it should be configured. Let&amp;rsquo;s take a look at the director first.&lt;/p&gt;
 
-&lt;h4 id=&#34;deploy-the-director-with-bosh:88b8fd34b48b477d62af4366503b244a&#34;&gt;Deploy the director with BOSH&lt;/h4&gt;
+&lt;h4 id=&#34;deploy-the-director-with-bosh:3b5fec49f84e5d5cfa51d881c4db4598&#34;&gt;Deploy the director with BOSH&lt;/h4&gt;
 
 &lt;p&gt;A cloud foundry deployment usually comes in &amp;ldquo;two&amp;rdquo; parts, the director and the CF VMs. The director is the VM responsible for the creation of the CF cluster. When new machines need to be added, changes in the configuration or updates need to be made, the director is responsible for it.&lt;/p&gt;
 
@@ -234,33 +234,33 @@ cloud_provider:
 
 &lt;p&gt;You need the &lt;a href=&#34;https://bosh.io/docs/install-bosh-init.html&#34;&gt;bosh-init cli&lt;/a&gt; to do this.&lt;/p&gt;
 
-&lt;h4 id=&#34;deploy-cf:88b8fd34b48b477d62af4366503b244a&#34;&gt;Deploy CF&lt;/h4&gt;
+&lt;h4 id=&#34;deploy-cf:3b5fec49f84e5d5cfa51d881c4db4598&#34;&gt;Deploy CF&lt;/h4&gt;
 
 &lt;p&gt;The following image shows a basical deployment of CF: &lt;a href=&#34;https://bosh.io/docs/init-openstack.html&#34;&gt;bootstrap the environment on OpenStack&lt;/a&gt;. There are different guides depending on your IaaS (AWS, OpenStack vSphere, etc.)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/cf/cf_architecture.png&#34; alt=&#34;CF Architecture&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2016-02-15 cloud_foundry/cf_architecture.png&#34; alt=&#34;CF Architecture&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Monitoring with Ganglia</title>
-      <link>http://heig-cloud.github.io/article/ganglia/</link>
+      <link>http://heig-cloud.github.io/article/2015-12-21%20ganglia/</link>
       <pubDate>Mon, 21 Dec 2015 13:19:07 +0100</pubDate>
       
-      <guid>http://heig-cloud.github.io/article/ganglia/</guid>
+      <guid>http://heig-cloud.github.io/article/2015-12-21%20ganglia/</guid>
       <description>
 
-&lt;h2 id=&#34;ganglia:154f68e092bb9cc4a3c5c5508681544a&#34;&gt;Ganglia&lt;/h2&gt;
+&lt;h2 id=&#34;ganglia:2def89ffd0aeab566d25881f452e1009&#34;&gt;Ganglia&lt;/h2&gt;
 
 &lt;p&gt;We already talked about the ELK stack which is very useful to centralize and access log files. But we still haven&amp;rsquo;t found a way to monitor the physical nodes themselves (use of CPU, memory, disks, network, etc.). Well that&amp;rsquo;s ganglia&amp;rsquo;s job ;-)&lt;/p&gt;
 
 &lt;p&gt;Ganglia is a free software that allows you to keep an eye on your cluster quite easily. This is the kind of information you can get:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ganglia/ganglia_sample.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-21 ganglia/ganglia_sample.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;You can see here the use of resources, here we are seeing the load. There is a pic along the way, probably a job that was run at this moment.&lt;/p&gt;
 
-&lt;h3 id=&#34;how-does-ganglia-work:154f68e092bb9cc4a3c5c5508681544a&#34;&gt;How does ganglia work&lt;/h3&gt;
+&lt;h3 id=&#34;how-does-ganglia-work:2def89ffd0aeab566d25881f452e1009&#34;&gt;How does ganglia work&lt;/h3&gt;
 
 &lt;p&gt;Well there are basically two things ganglia has:&lt;/p&gt;
 
@@ -275,7 +275,7 @@ cloud_provider:
 
 &lt;p&gt;There are many customisations, we can have various servers, use multicast to manage the connection between hosts and change the intervals but we&amp;rsquo;ll keep a very basic configuration.&lt;/p&gt;
 
-&lt;h2 id=&#34;configure-server:154f68e092bb9cc4a3c5c5508681544a&#34;&gt;Configure server&lt;/h2&gt;
+&lt;h2 id=&#34;configure-server:2def89ffd0aeab566d25881f452e1009&#34;&gt;Configure server&lt;/h2&gt;
 
 &lt;p&gt;You need to edit the /etc/ganglia/gmetad.conf file and add the following line&lt;/p&gt;
 
@@ -320,7 +320,7 @@ udp_recv_channel {
 
 &lt;p&gt;That&amp;rsquo;s all for the server.&lt;/p&gt;
 
-&lt;h3 id=&#34;apache:154f68e092bb9cc4a3c5c5508681544a&#34;&gt;Apache&lt;/h3&gt;
+&lt;h3 id=&#34;apache:2def89ffd0aeab566d25881f452e1009&#34;&gt;Apache&lt;/h3&gt;
 
 &lt;p&gt;The last thing to do is to put this in a file in the enabled-websites of your webserver:&lt;/p&gt;
 
@@ -334,7 +334,7 @@ udp_recv_channel {
 &amp;lt;/Directory&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;configure-agents:154f68e092bb9cc4a3c5c5508681544a&#34;&gt;Configure agents&lt;/h2&gt;
+&lt;h2 id=&#34;configure-agents:2def89ffd0aeab566d25881f452e1009&#34;&gt;Configure agents&lt;/h2&gt;
 
 &lt;p&gt;We still need to configure the other hosts, we will need to change the gmond.conf files again.&lt;/p&gt;
 
@@ -385,7 +385,7 @@ $ sudo service apache2 restart
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Reboot gmetad first and then reboot the ganglia-monitor service on the hosts. You must always start ganglia-monitor after gmetad, so if you need to reboot gmetad, also reboot ganglia-monitor on all hosts or they won&amp;rsquo;t send their metrics.&lt;/p&gt;
 
-&lt;h2 id=&#34;accessing-the-webpage:154f68e092bb9cc4a3c5c5508681544a&#34;&gt;Accessing the webpage&lt;/h2&gt;
+&lt;h2 id=&#34;accessing-the-webpage:2def89ffd0aeab566d25881f452e1009&#34;&gt;Accessing the webpage&lt;/h2&gt;
 
 &lt;p&gt;To access the monitoring interface, go to:&lt;/p&gt;
 
@@ -396,13 +396,13 @@ $ sudo service apache2 restart
 
 &lt;p&gt;Here is another sample of the informations you can get. Here you see general informations, as memory, cpu, load and network for the entire cluster called iict_cloud.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ganglia/ganglia_sample2.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-21 ganglia/ganglia_sample2.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;And here we can see more information about one host, the controller, its CPU usages and specific information.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ganglia/ganglia_sample3.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-21 ganglia/ganglia_sample3.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;conclusion:154f68e092bb9cc4a3c5c5508681544a&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;h2 id=&#34;conclusion:2def89ffd0aeab566d25881f452e1009&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;That&amp;rsquo;s all for Ganglia, we won&amp;rsquo;t cover how to use it as it&amp;rsquo;s quite easy, you can also check the &lt;a href=&#34;http://ganglia.sourceforge.net/&#34;&gt;official website&lt;/a&gt;.&lt;/p&gt;
 </description>
@@ -410,17 +410,17 @@ $ sudo service apache2 restart
     
     <item>
       <title>Orchestration with Ansible</title>
-      <link>http://heig-cloud.github.io/article/ansible/</link>
+      <link>http://heig-cloud.github.io/article/2015-12-18%20ansible/</link>
       <pubDate>Fri, 18 Dec 2015 14:40:53 +0100</pubDate>
       
-      <guid>http://heig-cloud.github.io/article/ansible/</guid>
+      <guid>http://heig-cloud.github.io/article/2015-12-18%20ansible/</guid>
       <description>
 
-&lt;h2 id=&#34;orchestration-tools:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;Orchestration tools&lt;/h2&gt;
+&lt;h2 id=&#34;orchestration-tools:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Orchestration tools&lt;/h2&gt;
 
 &lt;p&gt;First of all, what is an orchestration tool? Well, as the name implies, it&amp;rsquo;s something that plays the rool of a chief conductor that is leading an orchestra. Its job is to manage the orchestra by giving orders and instructions.&lt;/p&gt;
 
-&lt;h3 id=&#34;different-tools:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;Different tools&lt;/h3&gt;
+&lt;h3 id=&#34;different-tools:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Different tools&lt;/h3&gt;
 
 &lt;p&gt;There are many orchestration tools that you can use and most of them are free. The famous ones are:&lt;/p&gt;
 
@@ -435,7 +435,7 @@ $ sudo service apache2 restart
 
 &lt;p&gt;As you can imagine we chose to use Ansible, though we could have used any of the others. The main point is to have an idempotent script that you can run to make your setup, update it and recover it in case of emergency.&lt;/p&gt;
 
-&lt;h2 id=&#34;install-ansible:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;Install Ansible&lt;/h2&gt;
+&lt;h2 id=&#34;install-ansible:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Install Ansible&lt;/h2&gt;
 
 &lt;p&gt;From now on, we will only be speaking about Ansible.&lt;/p&gt;
 
@@ -460,7 +460,7 @@ $ source ./hacking/env-setup
 
 &lt;p&gt;That&amp;rsquo;s all for the installation.&lt;/p&gt;
 
-&lt;h2 id=&#34;state-scripts:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;State scripts&lt;/h2&gt;
+&lt;h2 id=&#34;state-scripts:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;State scripts&lt;/h2&gt;
 
 &lt;p&gt;There is a very cool concept with Ansible (and probably most of the orchestration tools), we don&amp;rsquo;t specify the commands we want to do, we specify a &lt;strong&gt;state&lt;/strong&gt;. What does it mean? Let&amp;rsquo;s take an example, say we need to install the package called &lt;em&gt;mysql-server&lt;/em&gt;. In Ansible we&amp;rsquo;ll say:&lt;/p&gt;
 
@@ -502,7 +502,7 @@ $ source ./hacking/env-setup
 
 &lt;p&gt;The new state is &amp;ldquo;absent&amp;rdquo;, meaning that it must be deleted if it exists or nothing will be done.&lt;/p&gt;
 
-&lt;h2 id=&#34;yaml:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;YAML&lt;/h2&gt;
+&lt;h2 id=&#34;yaml:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;YAML&lt;/h2&gt;
 
 &lt;p&gt;If you&amp;rsquo;ve ever worked on configuration files, maybe for an application or a website, you&amp;rsquo;ve probably already know a little about YAML. This is a language with a very human friendly syntax. It means that it is quite easy to understand at first glance, unline XML or JSON for example.&lt;/p&gt;
 
@@ -535,7 +535,7 @@ $ source ./hacking/env-setup
 
 &lt;p&gt;You can already see what a playbook looks like, in here we indicate on which hosts we want to run this, if we need sudo permissions, if we want to gather_facts, we set a few variables and have a task to install a package. We will see this in detail later ;-)&lt;/p&gt;
 
-&lt;h3 id=&#34;architecture-of-the-project:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;Architecture of the project&lt;/h3&gt;
+&lt;h3 id=&#34;architecture-of-the-project:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Architecture of the project&lt;/h3&gt;
 
 &lt;p&gt;This is an example of a project, we&amp;rsquo;ll use this example as reference.&lt;/p&gt;
 
@@ -549,7 +549,7 @@ $ source ./hacking/env-setup
         - all.yaml
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;templating:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;Templating&lt;/h2&gt;
+&lt;h2 id=&#34;templating:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Templating&lt;/h2&gt;
 
 &lt;p&gt;The other functionnality that we use a lot with Ansible is templating. This is very powerful, it allows us to use variables in files. For instance, we need to have an IP address in a conf file, instead of writing it ourselves, we put a variable. It means that if one day we need to change the IP, we don&amp;rsquo;t need to change the conf file itself. It gives us a lot of options and we are going to see a few examples, so you can grasp the amazing possibilities if offers you.&lt;/p&gt;
 
@@ -590,7 +590,7 @@ keystone_admin_token : &amp;quot;{{ lookup(&#39;password&#39;, inventory_dir + &
   bind-address      = {{ controller_host }}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;ansible-template-instruction:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;Ansible template instruction&lt;/h3&gt;
+&lt;h3 id=&#34;ansible-template-instruction:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Ansible template instruction&lt;/h3&gt;
 
 &lt;p&gt;When you want to replace a conf file by one that has been &amp;ldquo;templated&amp;rdquo;, you need to use ansible&amp;rsquo;s template command. Let&amp;rsquo;s say we want to change the &lt;strong&gt;my.cnf&lt;/strong&gt; file of mysql on a certain host with one we templated ourselves (changing the bind-address value with {{ controller_host }} for instance).&lt;/p&gt;
 
@@ -606,7 +606,7 @@ keystone_admin_token : &amp;quot;{{ lookup(&#39;password&#39;, inventory_dir + &
 
 &lt;p&gt;You can also specify the mode, group and user of the file once it has been copied on the remote host. The backup line will copy the original file and leave it as &lt;em&gt;name.backup&lt;/em&gt;, in our case, we&amp;rsquo;ll have a &lt;strong&gt;my.cnf.backup&lt;/strong&gt; file present on the remote host.&lt;/p&gt;
 
-&lt;h2 id=&#34;project:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;Project&lt;/h2&gt;
+&lt;h2 id=&#34;project:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Project&lt;/h2&gt;
 
 &lt;p&gt;Once you have Ansible ready, you can test if you have this command in your path for instance:&lt;/p&gt;
 
@@ -628,7 +628,7 @@ keystone_admin_token : &amp;quot;{{ lookup(&#39;password&#39;, inventory_dir + &
 
 &lt;p&gt;There are also a few good practices about the playbooks that we will see later.&lt;/p&gt;
 
-&lt;h3 id=&#34;ssh-on-remote:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;SSH on remote&lt;/h3&gt;
+&lt;h3 id=&#34;ssh-on-remote:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;SSH on remote&lt;/h3&gt;
 
 &lt;p&gt;Ansible needs to connect to the remote hosts to run the commands. To do so, it needs to be able to ssh on the remote hosts.&lt;/p&gt;
 
@@ -643,7 +643,7 @@ ssh_pass = pa$$word
 
 &lt;p&gt;Once you can ssh on the remote hosts without typing a password and with the user &amp;ldquo;ssh_user&amp;rdquo;, it should work fine.&lt;/p&gt;
 
-&lt;h3 id=&#34;inventory-file:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;Inventory file&lt;/h3&gt;
+&lt;h3 id=&#34;inventory-file:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Inventory file&lt;/h3&gt;
 
 &lt;p&gt;The inventory file is very important, it contains all the information about the hosts. You must know that with Ansible, you can create groups of hosts. Let&amp;rsquo;s say you have 10 nodes:&lt;/p&gt;
 
@@ -695,7 +695,7 @@ compute3
 
 &lt;p&gt;This is of course a very basic inventory file. There are other options too, you can check them &lt;a href=&#34;http://docs.ansible.com/ansible/intro_inventory.html&#34;&gt;here&lt;/a&gt;. You also probably noticed the &lt;strong&gt;ansible_ssh_host=xxx.xxx.xxx.xxx&lt;/strong&gt; part, it&amp;rsquo;s the IP address for each host that will be accessed by Ansible. Specifying it once on top of the file is enough, when creating groups you only need to specify the name of the host.That&amp;rsquo;s enough about the inventory.&lt;/p&gt;
 
-&lt;h3 id=&#34;playbooks:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;Playbooks&lt;/h3&gt;
+&lt;h3 id=&#34;playbooks:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Playbooks&lt;/h3&gt;
 
 &lt;p&gt;Now that we can access all our remote hosts and that we have our groups, all we need to do is to actually give them instructions, that&amp;rsquo;s what playbooks are for.&lt;/p&gt;
 
@@ -748,7 +748,7 @@ $ cat services/mysql/main.yaml
 &lt;pre&gt;&lt;code&gt;$ ansible-playbook -i inventory openstack.yaml # -i is for specifying an inventory file
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;conclusion:ad79c06bee1a26d7bf97bc259037a4ce&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;h2 id=&#34;conclusion:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;Ansible is a very powerful tool that is quite easy to use. The official documentation is complete and there are a lot of examples on the web. Also, it is important to always think about idempotency, because you can also use shell commands with ansible, sometimes you don&amp;rsquo;t have a choice. If you have to, make sure it won&amp;rsquo;t act redundantly (like adding the same line many times in a file instead of just once).&lt;/p&gt;
 </description>
@@ -756,21 +756,21 @@ $ cat services/mysql/main.yaml
     
     <item>
       <title>LDAP and multi-domain Keystone</title>
-      <link>http://heig-cloud.github.io/article/ldap/</link>
+      <link>http://heig-cloud.github.io/article/2015-12-17%20ldap/</link>
       <pubDate>Thu, 17 Dec 2015 16:47:45 +0100</pubDate>
       
-      <guid>http://heig-cloud.github.io/article/ldap/</guid>
+      <guid>http://heig-cloud.github.io/article/2015-12-17%20ldap/</guid>
       <description>
 
-&lt;h2 id=&#34;what-is-ldap:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;What is LDAP&lt;/h2&gt;
+&lt;h2 id=&#34;what-is-ldap:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;What is LDAP&lt;/h2&gt;
 
 &lt;p&gt;LDAP is a protocole used to create a directory, we often speak of LDAP directories. For those who are more familiar with Microsoft&amp;rsquo;s world, you&amp;rsquo;ve probably already heard about Active Directory. This is &amp;ldquo;nothing more&amp;rdquo; than a special implementation of LDAP made by Microsoft. Of course that&amp;rsquo;s not true, but it&amp;rsquo;s possible to get both to work together. It&amp;rsquo;s not the aim of this post though ;-) (Even if we use Active Directory, or AD for short, and not another LDAP implementation).&lt;/p&gt;
 
-&lt;h3 id=&#34;why-do-i-need-a-directory:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;Why do I need a directory&lt;/h3&gt;
+&lt;h3 id=&#34;why-do-i-need-a-directory:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Why do I need a directory&lt;/h3&gt;
 
 &lt;p&gt;Well, why do we all have an annuary on our celle phones for instance? Because it&amp;rsquo;s not easy to remember and manage all the contacts we have. It&amp;rsquo;s also possible to groupe people (familiy, friends, job, ennemies?). Well LDAP servers are here to provide that same kind of service but for an institution.&lt;/p&gt;
 
-&lt;h4 id=&#34;what-can-i-store-in-a-directory:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;What can I store in a directory&lt;/h4&gt;
+&lt;h4 id=&#34;what-can-i-store-in-a-directory:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;What can I store in a directory&lt;/h4&gt;
 
 &lt;p&gt;Well, pretty much everything to be honest. Usually we&amp;rsquo;ll find:&lt;/p&gt;
 
@@ -785,11 +785,11 @@ $ cat services/mysql/main.yaml
 
 &lt;p&gt;So yes, it&amp;rsquo;s possible to store in a lot of information.&lt;/p&gt;
 
-&lt;h2 id=&#34;ldap-and-keystone:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;LDAP and Keystone&lt;/h2&gt;
+&lt;h2 id=&#34;ldap-and-keystone:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;LDAP and Keystone&lt;/h2&gt;
 
 &lt;p&gt;So, why are we talking about LDAP, AD and all that on this blog? Quite simple, we&amp;rsquo;ve added a &lt;strong&gt;domain&lt;/strong&gt; that makes use of AD to authentificate users.&lt;/p&gt;
 
-&lt;h3 id=&#34;why-do-that:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;Why do that&lt;/h3&gt;
+&lt;h3 id=&#34;why-do-that:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Why do that&lt;/h3&gt;
 
 &lt;p&gt;First, let&amp;rsquo;s see what Keystone does before we can answer that question. Keystone is one of the main parts of the OpenStack project. It has two main jobs:&lt;/p&gt;
 
@@ -800,17 +800,17 @@ $ cat services/mysql/main.yaml
 
 &lt;p&gt;Both these points may sound like they are the same but they are not. The first part is authentification (&lt;strong&gt;warning:&lt;/strong&gt; this will be very brief, naive and incomplete, but as always, it should be enough, you can always find more information about this on the internet). To explain this, let&amp;rsquo;s make an easy scenario. We have two people and a door. One of them is a guard whose name is Keystone. he is posted in front of the door leading to the wonderful world of OpenStack. The other one wants to go through, that&amp;rsquo;s Bob, a simple user.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ldap/keystone1.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/keystone1.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;In this case, Keystone is responsible for authentificating and authorizing the users of the door. Keystone knows Bob, because they are buddies, so he lets him through.&lt;/p&gt;
 
 &lt;p&gt;Now let&amp;rsquo;s say that Carl wants to go through, Keystone does not know him.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ldap/keystone2.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/keystone2.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The thing is, Carl can authentificate himslef differently. If keystone accepts authentification from that other medium (let&amp;rsquo;s say a LDAP server for example), it can work.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ldap/keystone3.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/keystone3.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;So here, Carl was granted the authorization by Keystone after LDAP vouched for him (authentification part).&lt;/p&gt;
 
@@ -823,7 +823,7 @@ $ cat services/mysql/main.yaml
 
 &lt;p&gt;No matter the situation, Keystone has the final saying as to the permissions given to the users but will recognize the identity of the users if given by a trusted source (LDAP, AD, or other).&lt;/p&gt;
 
-&lt;h2 id=&#34;domains:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;Domains&lt;/h2&gt;
+&lt;h2 id=&#34;domains:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Domains&lt;/h2&gt;
 
 &lt;p&gt;In Keystone, it&amp;rsquo;s possible to define domains. Domains contain users, projects, groups, etc. The cool thing about them is the fact that it&amp;rsquo;s possible to have different sources of users for each domain. For example, we have two domains in our setup:&lt;/p&gt;
 
@@ -834,29 +834,29 @@ $ cat services/mysql/main.yaml
 
 &lt;p&gt;It allows us to give access to our cloud to all the users already managed in the AD without having to manage them ourselves. The other cool thing is, Keystone is still responsible of authorizing the users, so once a user is authentificated with LDAP/AD, he will follow keystone&amp;rsquo;s instructions. By default, a user has &amp;ldquo;user&amp;rdquo; permissions, which basically allows him to create instances. He does not have access to the management interface and can only do limited operations. That&amp;rsquo;s why we have a multi-domain setup.&lt;/p&gt;
 
-&lt;h3 id=&#34;multi-domain:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;Multi-domain&lt;/h3&gt;
+&lt;h3 id=&#34;multi-domain:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Multi-domain&lt;/h3&gt;
 
 &lt;p&gt;The possibility of having multiple domains came with the v3 of the Keystone API. By default, there is only one domain called &amp;ldquo;default&amp;rdquo;. It contains the admin user and the services (glance, nova, neutron, etc.). The cloud admin can then add some projects, users or groups to this domain. It means that the admin &lt;em&gt;needs to add the users and manage them&lt;/em&gt;. That&amp;rsquo;s not exactly nice. That&amp;rsquo;s why it&amp;rsquo;s now possible to have multiple domains. We already explained earlier that we have 2 domains earlier, the truth is we can separate the users from the services and we also don&amp;rsquo;t need to manually add the users to the authentification pool. All we have to do is give the users the &lt;strong&gt;right permissions.&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;The following image shows you what it&amp;rsquo;s possible to achieve with multi-domain Keystone:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ldap/multidomain.png&#34; alt=&#34;Multi-domain Keystone&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/multidomain.png&#34; alt=&#34;Multi-domain Keystone&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;So what do we have?&lt;/p&gt;
 
-&lt;h4 id=&#34;domain-1:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;Domain 1&lt;/h4&gt;
+&lt;h4 id=&#34;domain-1:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Domain 1&lt;/h4&gt;
 
 &lt;p&gt;This domain contains 1 project. There is one group, called group 1 that has rights on this project. There are also 2 users who are presently not linked to any project.&lt;/p&gt;
 
-&lt;h4 id=&#34;domain-2:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;Domain 2&lt;/h4&gt;
+&lt;h4 id=&#34;domain-2:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Domain 2&lt;/h4&gt;
 
 &lt;p&gt;This domains contains 2 projects. Each project has a group associated.&lt;/p&gt;
 
-&lt;h4 id=&#34;so:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;So?&lt;/h4&gt;
+&lt;h4 id=&#34;so:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;So?&lt;/h4&gt;
 
 &lt;p&gt;What we wanted to show here is, it&amp;rsquo;s possible to manage users by groups or individually. You can say, all the people in this group can work on this project or for instance chose to associate group 1 to the proj 1 but also authorize Carl to work on it.&lt;/p&gt;
 
-&lt;h3 id=&#34;groups-roles:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;Groups != roles&lt;/h3&gt;
+&lt;h3 id=&#34;groups-roles:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Groups != roles&lt;/h3&gt;
 
 &lt;p&gt;When we talk about groups and users, we are talking about authentification accounts that you&amp;rsquo;ll find on your AD or LDAP server. However, Roles are managed by Keystone. Usually there are 2 roles (you can obviously create more but you&amp;rsquo;ll need to change the policy.json file):&lt;/p&gt;
 
@@ -867,7 +867,7 @@ $ cat services/mysql/main.yaml
 
 &lt;p&gt;Be careful, the old policy file does not manage domains, it means that someone who is an admin can manage &lt;strong&gt;all domains&lt;/strong&gt;. To prevent that, you need to update the policies, you can find it &lt;a href=&#34;https://github.com/openstack/keystone/blob/master/etc/policy.v3cloudsample.json&#34;&gt;here&lt;/a&gt;. Depending on your configuration, if you only plan to have a domain for users working with LDAP and one admin to manage all of that, the old policy file can be acceptable.&lt;/p&gt;
 
-&lt;h2 id=&#34;enable-multi-domain-keystone:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;Enable multi-domain Keystone&lt;/h2&gt;
+&lt;h2 id=&#34;enable-multi-domain-keystone:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Enable multi-domain Keystone&lt;/h2&gt;
 
 &lt;p&gt;There are only a few operations you need to do to enable multi-domain Keystone:&lt;/p&gt;
 
@@ -945,7 +945,7 @@ group_allow_delete = false
 
 &lt;p&gt;The last step is to enable multi-domain login on horizon, it will add a &amp;ldquo;domain&amp;rdquo; line that you&amp;rsquo;ll have to fill when logging on the dashboard.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/ldap/login_domain.png&#34; alt=&#34;Multi-domain Keystone&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/login_domain.png&#34; alt=&#34;Multi-domain Keystone&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The line to change is here:&lt;/p&gt;
 
@@ -992,7 +992,7 @@ CACHES = {
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; obvioulsy, we presume that you have memcached installed, which should be the case if you followed the official installation guide for OS Kilo.&lt;/p&gt;
 
-&lt;h2 id=&#34;conclusion:e553667a2781ca6da8f61dd87c8dcbb9&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;h2 id=&#34;conclusion:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;Enabling a LDAP-backend for authentification is not hard on OpenStack, the problems you may encounter are the creation of the config file for your domain, the fact that you may be using the V2 of Keystone (which does not know about domains at all), the sessions engine not configured on memcached and that&amp;rsquo;s pretty much all. If you followed the guide, it already makes you work with the V3 when it&amp;rsquo;s possible.&lt;/p&gt;
 
@@ -1002,13 +1002,13 @@ CACHES = {
     
     <item>
       <title>Openstack Swift</title>
-      <link>http://heig-cloud.github.io/article/swift/</link>
+      <link>http://heig-cloud.github.io/article/2015-12-17%20swift/</link>
       <pubDate>Thu, 17 Dec 2015 14:01:53 +0100</pubDate>
       
-      <guid>http://heig-cloud.github.io/article/swift/</guid>
+      <guid>http://heig-cloud.github.io/article/2015-12-17%20swift/</guid>
       <description>
 
-&lt;h2 id=&#34;what-is-openstack-swift:9ba7d4d50c31dd7166688703e242142d&#34;&gt;What is OpenStack Swift&lt;/h2&gt;
+&lt;h2 id=&#34;what-is-openstack-swift:8c7538e959991150e91a688eedefb8d1&#34;&gt;What is OpenStack Swift&lt;/h2&gt;
 
 &lt;p&gt;Swift is OpenStack&amp;rsquo;s implementation of an object storage. In cloud computing, we often refer to block and object storage. OpenStack provides two different components, each responsibe for one of these parts:&lt;/p&gt;
 
@@ -1019,13 +1019,13 @@ CACHES = {
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; We won&amp;rsquo;t be covering Cinder in this article.&lt;/p&gt;
 
-&lt;h2 id=&#34;object-storage-vs-block-storage:9ba7d4d50c31dd7166688703e242142d&#34;&gt;Object storage VS Block storage&lt;/h2&gt;
+&lt;h2 id=&#34;object-storage-vs-block-storage:8c7538e959991150e91a688eedefb8d1&#34;&gt;Object storage VS Block storage&lt;/h2&gt;
 
 &lt;p&gt;What is the difference between these two types of storage? Well, the name probably says it all, one is on the block level, it means that you can install an operating system, have a filesystem and use it as you would use any physical drive you may have.&lt;/p&gt;
 
 &lt;p&gt;The other one is about objects, it means you can store data (images, music, videos, archives, all kind of data). So you guessed right, the title is misleading with the &amp;ldquo;VS&amp;rdquo;, because they don&amp;rsquo;t provide the same kind of service.&lt;/p&gt;
 
-&lt;h2 id=&#34;more-about-swift:9ba7d4d50c31dd7166688703e242142d&#34;&gt;More about Swift&lt;/h2&gt;
+&lt;h2 id=&#34;more-about-swift:8c7538e959991150e91a688eedefb8d1&#34;&gt;More about Swift&lt;/h2&gt;
 
 &lt;p&gt;Here are a few cool things about Swift:&lt;/p&gt;
 
@@ -1037,7 +1037,7 @@ CACHES = {
 &lt;li&gt;So on&amp;hellip;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;how-do-i-access-data:9ba7d4d50c31dd7166688703e242142d&#34;&gt;How do I access data&lt;/h3&gt;
+&lt;h3 id=&#34;how-do-i-access-data:8c7538e959991150e91a688eedefb8d1&#34;&gt;How do I access data&lt;/h3&gt;
 
 &lt;p&gt;Swift, like all the components of the stack uses a REST API to communicate. It&amp;rsquo;s also true for the user. It&amp;rsquo;s possible to interact with swift in 3 separate ways:&lt;/p&gt;
 
@@ -1085,17 +1085,17 @@ $ swift -V 3 post container-name
 &lt;p&gt;Usually, the cli python clients do nothing more than provide you with friendly commands you can use on your terminal. All these commands exist with the REST API as well (the basic rule is, you should be able to do the same things with the CLI and the REST API). As for Swift, we never really had to work with the API, but once again, you can check it &lt;a href=&#34;http://developer.openstack.org/api-ref-objectstorage-v1.html&#34;&gt;here&lt;/a&gt; for reference.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;what-can-i-do-with-an-object-storage:9ba7d4d50c31dd7166688703e242142d&#34;&gt;What can I do with an object storage&lt;/h3&gt;
+&lt;h3 id=&#34;what-can-i-do-with-an-object-storage:8c7538e959991150e91a688eedefb8d1&#34;&gt;What can I do with an object storage&lt;/h3&gt;
 
 &lt;p&gt;A fair question indeed. You can either use it for storage, which would probably be the primary option but there are other things one can do with an object store. This image will give you a good hint:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/swift/hadoop_spark_scala.png&#34; alt=&#34;Hadoop, Spark and Scala&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 swift/hadoop_spark_scala.png&#34; alt=&#34;Hadoop, Spark and Scala&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;If you have ever worked with Hadoop or Spark, chances are pretty good that you are familiar with HDFS. If not, HDFS is simply a shared filesystem used by the hadoop workers to share data (read and write). Hadoop needs HDFS and Spark may use it as well but is not entirely dependant. It should be possible (as we read on Spark&amp;rsquo;s website) to replace HDFS by Swift. Why would we do that though? Well, first reason, we already have a working swift cluster. An other reason is, to use HDFS we need to install it on all the workers, meaning if we want to have a &amp;ldquo;virtual&amp;rdquo; cluster, we still need to give our instances a lot of &lt;strong&gt;block storage&lt;/strong&gt;. Also, deleting the instances will delete the HDFS cluster, which won&amp;rsquo;t be the case with Swift.&lt;/p&gt;
 
 &lt;p&gt;We are still working on this but the big part of the work is to adapt our codes to work with swift (login, access, etc). We have high expectations regarding this so we&amp;rsquo;ll keep working on it until it works :)&lt;/p&gt;
 
-&lt;h2 id=&#34;problems-with-swift:9ba7d4d50c31dd7166688703e242142d&#34;&gt;Problems with Swift&lt;/h2&gt;
+&lt;h2 id=&#34;problems-with-swift:8c7538e959991150e91a688eedefb8d1&#34;&gt;Problems with Swift&lt;/h2&gt;
 
 &lt;p&gt;We&amp;rsquo;ve had a few problems while installing Swift. First, swift does not create logs files, it uses syslog for logging. It means that you need to consult this file to see what&amp;rsquo;s up:
 &amp;gt; /var/log/syslog&lt;/p&gt;
@@ -1110,25 +1110,25 @@ $ swift -V 3 post container-name
     
     <item>
       <title>ELK Stack</title>
-      <link>http://heig-cloud.github.io/article/elk/</link>
+      <link>http://heig-cloud.github.io/article/2015-12-16%20elk/</link>
       <pubDate>Wed, 16 Dec 2015 17:11:39 +0100</pubDate>
       
-      <guid>http://heig-cloud.github.io/article/elk/</guid>
+      <guid>http://heig-cloud.github.io/article/2015-12-16%20elk/</guid>
       <description>
 
-&lt;h2 id=&#34;what-is-elk:36c24ba243767c751831e175c3e18b66&#34;&gt;What is ELK?&lt;/h2&gt;
+&lt;h2 id=&#34;what-is-elk:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;What is ELK?&lt;/h2&gt;
 
 &lt;p&gt;We are talking about Elasticsearch, Logstash and Kibana.&lt;/p&gt;
 
-&lt;h2 id=&#34;what-is-it:36c24ba243767c751831e175c3e18b66&#34;&gt;What is it?&lt;/h2&gt;
+&lt;h2 id=&#34;what-is-it:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;What is it?&lt;/h2&gt;
 
 &lt;p&gt;This is a very powerful combination of applications that allows you to centralize all of your logs, index them and consult them very easily and efficiently.&lt;/p&gt;
 
 &lt;p&gt;This stack is quite powerful but is not exactly easy to install. We won&amp;rsquo;t show you the whole process but there are a few points of interests that we will try to cover. Stick with us ;-)&lt;/p&gt;
 
-&lt;h3 id=&#34;the-stack:36c24ba243767c751831e175c3e18b66&#34;&gt;The Stack&lt;/h3&gt;
+&lt;h3 id=&#34;the-stack:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;The Stack&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/elk/elkstack.png&#34; alt=&#34;ELK Stack&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-16 elk/elkstack.png&#34; alt=&#34;ELK Stack&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;First of all, let&amp;rsquo;s see what these applications can do.&lt;/p&gt;
 
@@ -1141,13 +1141,13 @@ Kibana is the tool used for visualizing the logs. It&amp;rsquo;s a web based int
 
 &lt;p&gt;That&amp;rsquo;s it for the stack, of course, this is a very simple and naive way to describe it, but you don&amp;rsquo;t need to know much more than that.&lt;/p&gt;
 
-&lt;h3 id=&#34;why-use-it:36c24ba243767c751831e175c3e18b66&#34;&gt;Why use it&lt;/h3&gt;
+&lt;h3 id=&#34;why-use-it:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;Why use it&lt;/h3&gt;
 
 &lt;p&gt;As the name implies, OpenStack is a stack of components. It means that all of them can be managed separately. One of the big drawbacks is the fact that every component creates its own logs. Why is this a problem you may ask? Well, let&amp;rsquo;s say we have a problem somewhere, for instance, users can&amp;rsquo;t create new instances. If you are using Horizon as the dashboard, you probably know that the error messages are not always very self-explanatory. You will need to check every log file on every compute nodes (you could have a lot of them), the controller and who knows, maybe even the network node.&lt;/p&gt;
 
 &lt;p&gt;It would be nice if you could just see the messages that present the keyword error for example, right? Well guess what, you can :)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/elk/kibana_preview.png&#34; alt=&#34;Kibana preview&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-16 elk/kibana_preview.png&#34; alt=&#34;Kibana preview&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We can use Kibana to search the logs by specifying the time and a filter. By adding this filter:&lt;/p&gt;
 
@@ -1156,11 +1156,11 @@ Kibana is the tool used for visualizing the logs. It&amp;rsquo;s a web based int
 
 &lt;p&gt;We make sure to only get the logs that contain the word error (which is a simple way to find easy errors). You can filter by host, time, type of the message, etc. There are so much possibilities and we are only scratching the surface there. This should have convinced you to try ELK for your installation.&lt;/p&gt;
 
-&lt;h2 id=&#34;how-do-i-install-it:36c24ba243767c751831e175c3e18b66&#34;&gt;How do I install it&lt;/h2&gt;
+&lt;h2 id=&#34;how-do-i-install-it:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;How do I install it&lt;/h2&gt;
 
 &lt;p&gt;We&amp;rsquo;ve been following the tutorial on &lt;a href=&#34;https://www.digitalocean.com/community/tutorials/how-to-install-elasticsearch-logstash-and-kibana-elk-stack-on-ubuntu-14-04&#34;&gt;digitalocean&lt;/a&gt; for our own installation, it&amp;rsquo;s very well made and up to date. We will not provide a step-by-step installation in this post, but we may do it if there is a demand ;-)&lt;/p&gt;
 
-&lt;h2 id=&#34;what-to-be-careful-about:36c24ba243767c751831e175c3e18b66&#34;&gt;What to be careful about&lt;/h2&gt;
+&lt;h2 id=&#34;what-to-be-careful-about:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;What to be careful about&lt;/h2&gt;
 
 &lt;p&gt;As always, the biggest problem we encountered is the fact that we have to modify a lot of different files, on different hosts, so it&amp;rsquo;s quite easy to make a mistake and not so easy to find it. As always, we&amp;rsquo;ve been using Ansible to install the ELK stack and it prevents us from committing a lot of stupid errors and mistakes. In this setup, we have:&lt;/p&gt;
 
@@ -1171,7 +1171,7 @@ Kibana is the tool used for visualizing the logs. It&amp;rsquo;s a web based int
 
 &lt;p&gt;It means that there are only 2 differents setups. All the nodes except from the controller, which is also the ELK server, have the same configuration. That&amp;rsquo;s why it makes even more sense to automatize the process with Ansible.&lt;/p&gt;
 
-&lt;h3 id=&#34;logstash-conf:36c24ba243767c751831e175c3e18b66&#34;&gt;Logstash conf&lt;/h3&gt;
+&lt;h3 id=&#34;logstash-conf:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;Logstash conf&lt;/h3&gt;
 
 &lt;p&gt;This is probably the biggest problem you&amp;rsquo;ll encounter while installing the stack. The conf file used by logstash is often &amp;ldquo;cut&amp;rdquo; in multiple parts. It means that you can have 3 or 5 different files to configure your logstash service. The truth is when logstash loads the conf, it takes all the files and just makes a new one by copying in succession the content. Example:&lt;/p&gt;
 
@@ -1224,27 +1224,26 @@ Content of file C
 
 &lt;p&gt;This has happened to a lot of people (us too) and can easily make you waste a few hours :(&lt;/p&gt;
 
-&lt;h2 id=&#34;conclusion:36c24ba243767c751831e175c3e18b66&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;h2 id=&#34;conclusion:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;The ELK Stack is a really good thing to have on your OpenStack cluster to be efficient and find errors that you probably wouldn&amp;rsquo;t find otherwise (or with a lot more effort).&lt;/p&gt;
 </description>
     </item>
     
     <item>
-      <title>Architecture</title>
-      <link>http://heig-cloud.github.io/article/architecture/</link>
+      <title>Architecture of our OpenStack deployment</title>
+      <link>http://heig-cloud.github.io/article/2015-12-16%20architecture/</link>
       <pubDate>Wed, 16 Dec 2015 16:59:49 +0100</pubDate>
       
-      <guid>http://heig-cloud.github.io/article/architecture/</guid>
+      <guid>http://heig-cloud.github.io/article/2015-12-16%20architecture/</guid>
       <description>
 
-&lt;h2 id=&#34;architecture-of-our-openstack-deployment:1bf455b3a3c6e1e40be41ef6023b75eb&#34;&gt;Architecture of our OpenStack deployment&lt;/h2&gt;
+&lt;h2 id=&#34;architecture-of-our-openstack-deployment:593496d0d6b736371eaf697b784e9afc&#34;&gt;Architecture of our OpenStack deployment&lt;/h2&gt;
 
-&lt;p&gt;This first post is about the architecture of our OpenStack
-deployment. At maximum size our private cloud will run on 13
-servers.&lt;/p&gt;
+&lt;p&gt;This post is about the architecture of our OpenStack deployment at
+HEIG-VD. At maximum size our private cloud will run on 13 servers.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/architecture/heig-cloud architecture.svg&#34; alt=&#34;HEIG-Cloud deployment&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-16 architecture/heig-cloud architecture.svg&#34; alt=&#34;HEIG-Cloud deployment&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We chose a deployment that follows closely the standard installation
 guide. In total there are 13 servers with the following roles:&lt;/p&gt;
@@ -1315,6 +1314,129 @@ the Internet (through the networking node) as well as the user interface
 &lt;h2 id=&#34;i-have-a-question-can-i-contact-you-directly:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;I have a question, can I contact you directly?&lt;/h2&gt;
 
 &lt;p&gt;Every post has a comment section (Disqus API), feel free to ask your questions on there (if it&amp;rsquo;s related to the actual post). If you have a different question that we don&amp;rsquo;t cover in one of our posts, you can contact us here: ADD CONTACT&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>How to deploy OpenStack</title>
+      <link>http://heig-cloud.github.io/article/2015-12-15%20openstack_deployment/</link>
+      <pubDate>Tue, 15 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-15%20openstack_deployment/</guid>
+      <description>
+
+&lt;h2 id=&#34;how-to-deploy-openstack:6edb1a0cfe65e6967cfa8690bfb1a8f5&#34;&gt;How to deploy OpenStack&lt;/h2&gt;
+
+&lt;p&gt;Deploying OpenStack, or any cloud middleware for that matter, is no
+piece of cake. OpenStack consists of many many moving parts that need
+to be carefully configured to work correctly. (To give you an idea of
+the number of components and their interrelations we have reproduced
+below the diagram of the logical architecture from the
+&lt;a href=&#34;http://docs.openstack.org/admin-guide-cloud/common/get_started_logical_architecture.html&#34;&gt;official OpenStack documentation&lt;/a&gt;.)
+On top of that each cloud deployment is different: different number of
+servers to deploy on, different network topologies, different
+integration points with existing sytesm, and so on. The complexity of
+the configuration far exceeds the capabilities of regular Linux
+package managers like APT and YUM.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-15 openstack_deployment/openstack-arch-kilo-logical-v1.png&#34; alt=&#34;OpenStack Kilo logical architecture&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So is it possible to tame this complexity? One has to decide between
+two main approaches to installing OpenStack:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Install manually by following the 150+ page
+&lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/&#34;&gt;OpenStack Installation Guide&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Use a configuration management tool like Puppet, Chef or Ansible and
+use ready-made scripts to automate the installation.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The manual install will be a lot of work. There is a non-negligible
+risk of making errors. The installation effort needs to be repated for
+every machine. Let&amp;rsquo;s say you want to dedicate ten servers to the
+compute component that provides virtual machines. You would have to
+repeat ten times the installation of the compute component.&lt;/p&gt;
+
+&lt;p&gt;The automated install reduces the chances of making errors as you are
+relying on scripts developed and tested by somebody else. Repeating
+the installation, once it is working, on nine more machines is a
+breeze. However a considerable manual effort is still needed to
+customize the deployment scripts to your particular situation. To be
+able to do that, and to be able to troubleshoot any installation
+problems that are likely to occur, you need to become familiar with
+the configuration management tool.&lt;/p&gt;
+
+&lt;p&gt;So it worth learning a configuration management tool? We think in the
+case of OpenStack, the answer is yes.&lt;/p&gt;
+
+&lt;p&gt;Among the most widely used configuration management tools
+&lt;a href=&#34;http://ansible.com&#34;&gt;Ansible&lt;/a&gt; is the least complex one. It is
+relatively easy to learn. It is also easyer to deploy as the
+competition, as it does not need the setup of a central
+server. Instead configuration scripts are pushed from your local
+workstation to the machines that need to be configured.&lt;/p&gt;
+
+&lt;p&gt;RackSpace, one of the bigger cloud service providers, has developed an
+OpenStack deployment solution based on Ansible that is now officialy
+part of the OpenStack project:
+&lt;a href=&#34;https://github.com/openstack/openstack-ansible&#34;&gt;openstack-ansible&lt;/a&gt;. This
+is our starting base to create a private cloud at HEIG-VD. More on
+that in an upcoming blog post.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Creating your own private cloud</title>
+      <link>http://heig-cloud.github.io/article/2015-12-14%20private_cloud/</link>
+      <pubDate>Mon, 14 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-14%20private_cloud/</guid>
+      <description>
+
+&lt;h2 id=&#34;creating-your-own-private-cloud:365f7f745395937a012ca0f9a668a231&#34;&gt;Creating your own private cloud&lt;/h2&gt;
+
+&lt;p&gt;One of the reasons why Cloud Computing has been such a success is that
+it &lt;em&gt;automates&lt;/em&gt; many tasks that previously had to be done manually by
+system administrators. Take the provisioning of a server to run a web
+application. Traditionally this takes several weeks (ordering,
+delivering, installing, configuring, &amp;hellip;) while a virtual machine in
+the cloud is provisioned with a few clicks and available in two
+minutes. This automation, coupled with economies of scale through
+immense data centers, is what allows companies like Amazon or
+Microsoft to offer cloud services at very low cost. Much cheaper than
+what a typical company pays to run its own traditional IT
+infrastructure.&lt;/p&gt;
+
+&lt;p&gt;Now there are many companies that shy away from public cloud offerings
+like AWS and Azure because the data they work with is sensitive. Think
+of banks, anybody providing health services like hospitals, or even
+schools that need to keep personal data which is protected by privacy
+laws. Sometimes using public cloud services has to be ruled out
+because there are not enough assurances that the data will be kept
+safe. In these cases one can still reap the benefits of cloud
+automation by running a &lt;em&gt;private cloud&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;To run a private cloud one needs the servers and the cloud
+software. For the latter, there basically two options: commercial
+software or Open Source
+software. &lt;a href=&#34;https://www.vmware.com/cloud-computing/overview&#34;&gt;VMware&lt;/a&gt;
+dominates the commercial cloud segment. Its software is seen as very
+solid, well documented, but also quite pricey. In the Open Source
+segment two projects dominate: &lt;a href=&#34;https://www.openstack.org&#34;&gt;OpenStack&lt;/a&gt;
+and &lt;a href=&#34;https://cloudstack.apache.org&#34;&gt;Apache CloudStack&lt;/a&gt;. OpenStack is
+very widely used, offers a wide range of functionalities, but has a
+(deserved)
+&lt;a href=&#34;https://ask.openstack.org/en/question/58965/have-you-ever-experienced-anything-worse-than-openstack/&#34;&gt;reputation to be difficult to install and run&lt;/a&gt;. CloudStack
+is
+&lt;a href=&#34;https://www.getfilecloud.com/blog/2014/02/a-game-of-stacks-openstack-vs-cloudstack/#.VtWc58e75OM&#34;&gt;easier to use&lt;/a&gt;,
+but focuses on the core IaaS services: compute, storage and
+networking. OpenStack&amp;rsquo;s scope is broader and it offers more
+flexibility. Uptake of CloudStack is less than OpenStack&amp;rsquo;s.&lt;/p&gt;
+
+&lt;p&gt;We at HEIG-VD have deployed a private cloud for research and teaching
+based on OpenStack. In upcoming blog postings we will talk about our
+experiences, good and bad, with OpenStack.&lt;/p&gt;
 </description>
     </item>
     

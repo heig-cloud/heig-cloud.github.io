@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Articles</title>
+	<title>Creating your own private cloud</title>
   	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -60,67 +60,85 @@
 	        <div class="col-lg-8">
 
 	            
-	            <h2><a href="http://heig-cloud.github.io/article/">Articles</a></h2>
-	            <h2>List of articles (from newest to oldest)</h2>
-					
-					<table class="table">
-					  <tr>
-					    <th class="">Name of the article</th>
-					    <th class="">Date</th>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2016-02-15%20cloud-foundry/">Cloud Foundry</a></strong></td>
-					    <td class="">Mon, Feb 15, 2016</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-21%20ganglia/">Monitoring with Ganglia</a></strong></td>
-					    <td class="">Mon, Dec 21, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-18%20ansible/">Orchestration with Ansible</a></strong></td>
-					    <td class="">Fri, Dec 18, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-17%20ldap/">LDAP and multi-domain Keystone</a></strong></td>
-					    <td class="">Thu, Dec 17, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-17%20swift/">Openstack Swift</a></strong></td>
-					    <td class="">Thu, Dec 17, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-16%20elk/">ELK Stack</a></strong></td>
-					    <td class="">Wed, Dec 16, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-16%20architecture/">Architecture of our OpenStack deployment</a></strong></td>
-					    <td class="">Wed, Dec 16, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-15%20openstack_deployment/">How to deploy OpenStack</a></strong></td>
-					    <td class="">Tue, Dec 15, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-14%20private_cloud/">Creating your own private cloud</a></strong></td>
-					    <td class="">Mon, Dec 14, 2015</td>
-					  </tr>
-					  
-					</table>
-				  
+	            <h2><a href="http://heig-cloud.github.io/article/2015-12-14%20private_cloud/">Creating your own private cloud</a></h2>
+	            <p class="lead">
+	                by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+	            </p>
+	            <p><span class="glyphicon glyphicon-time"></span> Posted on Mon, Dec 14, 2015</p>
+
 	            <hr>
-	           
+	            
+	            
+
+<h2 id="creating-your-own-private-cloud:365f7f745395937a012ca0f9a668a231">Creating your own private cloud</h2>
+
+<p>One of the reasons why Cloud Computing has been such a success is that
+it <em>automates</em> many tasks that previously had to be done manually by
+system administrators. Take the provisioning of a server to run a web
+application. Traditionally this takes several weeks (ordering,
+delivering, installing, configuring, &hellip;) while a virtual machine in
+the cloud is provisioned with a few clicks and available in two
+minutes. This automation, coupled with economies of scale through
+immense data centers, is what allows companies like Amazon or
+Microsoft to offer cloud services at very low cost. Much cheaper than
+what a typical company pays to run its own traditional IT
+infrastructure.</p>
+
+<p>Now there are many companies that shy away from public cloud offerings
+like AWS and Azure because the data they work with is sensitive. Think
+of banks, anybody providing health services like hospitals, or even
+schools that need to keep personal data which is protected by privacy
+laws. Sometimes using public cloud services has to be ruled out
+because there are not enough assurances that the data will be kept
+safe. In these cases one can still reap the benefits of cloud
+automation by running a <em>private cloud</em>.</p>
+
+<p>To run a private cloud one needs the servers and the cloud
+software. For the latter, there basically two options: commercial
+software or Open Source
+software. <a href="https://www.vmware.com/cloud-computing/overview">VMware</a>
+dominates the commercial cloud segment. Its software is seen as very
+solid, well documented, but also quite pricey. In the Open Source
+segment two projects dominate: <a href="https://www.openstack.org">OpenStack</a>
+and <a href="https://cloudstack.apache.org">Apache CloudStack</a>. OpenStack is
+very widely used, offers a wide range of functionalities, but has a
+(deserved)
+<a href="https://ask.openstack.org/en/question/58965/have-you-ever-experienced-anything-worse-than-openstack/">reputation to be difficult to install and run</a>. CloudStack
+is
+<a href="https://www.getfilecloud.com/blog/2014/02/a-game-of-stacks-openstack-vs-cloudstack/#.VtWc58e75OM">easier to use</a>,
+but focuses on the core IaaS services: compute, storage and
+networking. OpenStack&rsquo;s scope is broader and it offers more
+flexibility. Uptake of CloudStack is less than OpenStack&rsquo;s.</p>
+
+<p>We at HEIG-VD have deployed a private cloud for research and teaching
+based on OpenStack. In upcoming blog postings we will talk about our
+experiences, good and bad, with OpenStack.</p>
+
+	            <hr>
+	           <div id="disqus_thread"></div>
+				<script>
+				    
+
+				    
+
+
+
+				    (function() {  
+				        var d = document, s = d.createElement('script');
+				        
+				        s.src = '//heigcloud.disqus.com/embed.js';
+				        
+				        s.setAttribute('data-timestamp', +new Date());
+				        (d.head || d.body).appendChild(s);
+				    })();
+				</script>
+				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+				<script id="dsq-count-scr" src="//heigcloud.disqus.com/count.js" async></script>
+    
+    
 	        </div>
 
-	        
+
 
 
             <div class="col-md-4">
@@ -205,7 +223,6 @@
 
             </div>
         </div>
-
 
         <footer>
             <div class="row">

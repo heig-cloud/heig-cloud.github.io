@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Configuration Management on HEIG-Cloud blog</title>
+    <link>http://heig-cloud.github.io/tags/configuration-management/</link>
+    <description>Recent content in Configuration Management on HEIG-Cloud blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 15 Dec 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://heig-cloud.github.io/tags/configuration-management/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>How to deploy OpenStack</title>
+      <link>http://heig-cloud.github.io/article/2015-12-15%20openstack_deployment/</link>
+      <pubDate>Tue, 15 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-15%20openstack_deployment/</guid>
+      <description>
+
+&lt;h2 id=&#34;how-to-deploy-openstack:6edb1a0cfe65e6967cfa8690bfb1a8f5&#34;&gt;How to deploy OpenStack&lt;/h2&gt;
+
+&lt;p&gt;Deploying OpenStack, or any cloud middleware for that matter, is no
+piece of cake. OpenStack consists of many many moving parts that need
+to be carefully configured to work correctly. (To give you an idea of
+the number of components and their interrelations we have reproduced
+below the diagram of the logical architecture from the
+&lt;a href=&#34;http://docs.openstack.org/admin-guide-cloud/common/get_started_logical_architecture.html&#34;&gt;official OpenStack documentation&lt;/a&gt;.)
+On top of that each cloud deployment is different: different number of
+servers to deploy on, different network topologies, different
+integration points with existing sytesm, and so on. The complexity of
+the configuration far exceeds the capabilities of regular Linux
+package managers like APT and YUM.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-15 openstack_deployment/openstack-arch-kilo-logical-v1.png&#34; alt=&#34;OpenStack Kilo logical architecture&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So is it possible to tame this complexity? One has to decide between
+two main approaches to installing OpenStack:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Install manually by following the 150+ page
+&lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/&#34;&gt;OpenStack Installation Guide&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Use a configuration management tool like Puppet, Chef or Ansible and
+use ready-made scripts to automate the installation.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The manual install will be a lot of work. There is a non-negligible
+risk of making errors. The installation effort needs to be repated for
+every machine. Let&amp;rsquo;s say you want to dedicate ten servers to the
+compute component that provides virtual machines. You would have to
+repeat ten times the installation of the compute component.&lt;/p&gt;
+
+&lt;p&gt;The automated install reduces the chances of making errors as you are
+relying on scripts developed and tested by somebody else. Repeating
+the installation, once it is working, on nine more machines is a
+breeze. However a considerable manual effort is still needed to
+customize the deployment scripts to your particular situation. To be
+able to do that, and to be able to troubleshoot any installation
+problems that are likely to occur, you need to become familiar with
+the configuration management tool.&lt;/p&gt;
+
+&lt;p&gt;So it worth learning a configuration management tool? We think in the
+case of OpenStack, the answer is yes.&lt;/p&gt;
+
+&lt;p&gt;Among the most widely used configuration management tools
+&lt;a href=&#34;http://ansible.com&#34;&gt;Ansible&lt;/a&gt; is the least complex one. It is
+relatively easy to learn. It is also easyer to deploy as the
+competition, as it does not need the setup of a central
+server. Instead configuration scripts are pushed from your local
+workstation to the machines that need to be configured.&lt;/p&gt;
+
+&lt;p&gt;RackSpace, one of the bigger cloud service providers, has developed an
+OpenStack deployment solution based on Ansible that is now officialy
+part of the OpenStack project:
+&lt;a href=&#34;https://github.com/openstack/openstack-ansible&#34;&gt;openstack-ansible&lt;/a&gt;. This
+is our starting base to create a private cloud at HEIG-VD. More on
+that in an upcoming blog post.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

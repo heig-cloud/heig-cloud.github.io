@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Monitoring with Ganglia</title>
+  	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/heig-cloud-home.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/static/img/favicon.png" />
+
+</head>
+<body>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+     
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="http://heig-cloud.github.io/">Home</a></li>
+                    <li><a href="/article/">Articles</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="http://www.heig-vd.ch">HEIG-VD website</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+    </nav>
+
+    
+	<div class="container">
+	    <div class="row">
+
+	        
+	        <div class="col-lg-8">
+
+	            
+	            <h2><a href="http://heig-cloud.github.io/article/2015-12-21%20ganglia/">Monitoring with Ganglia</a></h2>
+	            <p class="lead">
+	                by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+	            </p>
+	            <p><span class="glyphicon glyphicon-time"></span> Posted on Mon, Dec 21, 2015</p>
+
+	            <hr>
+	            
+	            
+
+<h2 id="ganglia:2def89ffd0aeab566d25881f452e1009">Ganglia</h2>
+
+<p>We already talked about the ELK stack which is very useful to centralize and access log files. But we still haven&rsquo;t found a way to monitor the physical nodes themselves (use of CPU, memory, disks, network, etc.). Well that&rsquo;s ganglia&rsquo;s job ;-)</p>
+
+<p>Ganglia is a free software that allows you to keep an eye on your cluster quite easily. This is the kind of information you can get:</p>
+
+<p><img src="/static/img/2015-12-21 ganglia/ganglia_sample.png" alt="Ganglia sample" /></p>
+
+<p>You can see here the use of resources, here we are seeing the load. There is a pic along the way, probably a job that was run at this moment.</p>
+
+<h3 id="how-does-ganglia-work:2def89ffd0aeab566d25881f452e1009">How does ganglia work</h3>
+
+<p>Well there are basically two things ganglia has:</p>
+
+<ul>
+<li>gmond</li>
+<li>gmetad</li>
+</ul>
+
+<p>Gmond is the service that collects the information on a host and sends it to the central server, who runs gmetad. Gmond is also the one to receive information (we usually disable this on agent nodes). Gmetad is the metrics service who runs on the ganglia server. Usually, the server also needs to be monitored, so it&rsquo;ll run gmond and gmetad at the same time.</p>
+
+<p>The process is quite simple, the daemons on the hosts send periodically their innformation to the server through the port 8649/UDP.</p>
+
+<p>There are many customisations, we can have various servers, use multicast to manage the connection between hosts and change the intervals but we&rsquo;ll keep a very basic configuration.</p>
+
+<h2 id="configure-server:2def89ffd0aeab566d25881f452e1009">Configure server</h2>
+
+<p>You need to edit the /etc/ganglia/gmetad.conf file and add the following line</p>
+
+<pre><code>$ sudo nano /etc/ganglia/gmetad.conf
+data_source &quot;cluster_name&quot; 60 {{ controller_host }}
+</code></pre>
+
+<p>If you&rsquo;ve read the article about Ansible, you know that {{ controller_host }} is a variable that represents the IP of the controller, which is also used as the ganglia server. You can also just type the IP if you are not using Ansible. As for the cluster_name value, you can put anything you like but you&rsquo;ll have to use it again when configuring the agents so don&rsquo;t forget it. Now for the gmond.conf file:</p>
+
+<pre><code>$ sudo nano /etc/ganglia/gmond.conf
+
+cluster { 
+  name = &quot;cluster_name&quot; # same name as above
+  owner = &quot;unspecified&quot; 
+  latlong = &quot;unspecified&quot; 
+  url = &quot;unspecified&quot; 
+} 
+
+/* Feel free to specify as many udp_send_channels as you like.  Gmond 
+   used to only support having a single channel */ 
+udp_send_channel { 
+  #mcast_join = 239.2.11.71 #comment this line
+  host = {{ controller_host }} # add the IP of your controller
+  port = 8649 
+  ttl = 1 
+} 
+
+/* You can specify as many udp_recv_channels as you like as well. */ 
+udp_recv_channel { 
+  #mcast_join = 239.2.11.71 # comment
+  port = 8649 # The port that will receive information
+  #bind = 239.2.11.71 # comment
+} 
+</code></pre>
+
+<p>And that&rsquo;s all, no need to change the rest. So basically what we did was:</p>
+
+<ul>
+<li>Tell the agent to send the info to the controller on port 8649</li>
+<li>To listen on UDP 8649 (information from the other hosts will arrive through here).</li>
+</ul>
+
+<p>That&rsquo;s all for the server.</p>
+
+<h3 id="apache:2def89ffd0aeab566d25881f452e1009">Apache</h3>
+
+<p>The last thing to do is to put this in a file in the enabled-websites of your webserver:</p>
+
+<pre><code>Alias /ganglia /usr/share/ganglia-webfrontend
+
+&lt;Directory &quot;/usr/share/ganglia-webfrontend&quot;&gt;
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Deny from none
+&lt;/Directory&gt;
+</code></pre>
+
+<h2 id="configure-agents:2def89ffd0aeab566d25881f452e1009">Configure agents</h2>
+
+<p>We still need to configure the other hosts, we will need to change the gmond.conf files again.</p>
+
+<pre><code>$ sudo nano /etc/ganglia/gmond.conf
+
+/* If a cluster attribute is specified, then all gmond hosts are wrapped inside 
+ * of a &lt;CLUSTER&gt; tag.  If you do not specify a cluster tag, then all &lt;HOSTS&gt; will 
+ * NOT be wrapped inside of a &lt;CLUSTER&gt; tag. */ 
+cluster { 
+  name = &quot;cluster_name&quot; # alwasy the same cluster_name
+  owner = &quot;unspecified&quot; 
+  latlong = &quot;unspecified&quot; 
+  url = &quot;unspecified&quot; 
+} 
+
+/* Feel free to specify as many udp_send_channels as you like.  Gmond 
+   used to only support having a single channel */ 
+udp_send_channel { 
+  #mcast_join = 239.2.11.71 # comment this
+  host = {{ controller_host }} # controller's IP
+  port = 8649 # port 8649 to send info
+  ttl = 1 
+} 
+
+# Comment this whole thing
+/*
+udp_recv_channel { 
+  mcast_join = 239.2.11.71 
+  port = 8649 
+  bind = 239.2.11.71 
+} 
+*/
+</code></pre>
+
+<p>Last step is to restart the services.</p>
+
+<p><strong>Controller</strong>:</p>
+
+<pre><code>$ sudo service gmetad restart
+$ sudo service ganglia-monitor restart
+$ sudo service apache2 restart
+</code></pre>
+
+<p><strong>Hosts</strong>:</p>
+
+<pre><code>$ sudo service ganglia-monitor restart
+</code></pre>
+
+<p><strong>Note:</strong> Reboot gmetad first and then reboot the ganglia-monitor service on the hosts. You must always start ganglia-monitor after gmetad, so if you need to reboot gmetad, also reboot ganglia-monitor on all hosts or they won&rsquo;t send their metrics.</p>
+
+<h2 id="accessing-the-webpage:2def89ffd0aeab566d25881f452e1009">Accessing the webpage</h2>
+
+<p>To access the monitoring interface, go to:</p>
+
+<pre><code>http://controller/ganglia
+
+# Replace controller by IP if not in your DNS or hosts file.
+</code></pre>
+
+<p>Here is another sample of the informations you can get. Here you see general informations, as memory, cpu, load and network for the entire cluster called iict_cloud.</p>
+
+<p><img src="/static/img/2015-12-21 ganglia/ganglia_sample2.png" alt="Ganglia sample" /></p>
+
+<p>And here we can see more information about one host, the controller, its CPU usages and specific information.</p>
+
+<p><img src="/static/img/2015-12-21 ganglia/ganglia_sample3.png" alt="Ganglia sample" /></p>
+
+<h2 id="conclusion:2def89ffd0aeab566d25881f452e1009">Conclusion</h2>
+
+<p>That&rsquo;s all for Ganglia, we won&rsquo;t cover how to use it as it&rsquo;s quite easy, you can also check the <a href="http://ganglia.sourceforge.net/">official website</a>.</p>
+
+	            <hr>
+	           <div id="disqus_thread"></div>
+				<script>
+				    
+
+				    
+
+
+
+				    (function() {  
+				        var d = document, s = d.createElement('script');
+				        
+				        s.src = '//heigcloud.disqus.com/embed.js';
+				        
+				        s.setAttribute('data-timestamp', +new Date());
+				        (d.head || d.body).appendChild(s);
+				    })();
+				</script>
+				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+				<script id="dsq-count-scr" src="//heigcloud.disqus.com/count.js" async></script>
+    
+    
+	        </div>
+
+
+
+
+            <div class="col-md-4">
+
+                
+                <div class="well">
+                    <h4>Blog Search</h4>
+                    <div class="input-group">
+                        <input type="text" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        </span>
+                    </div>
+                    
+                </div>
+
+                
+                <div class="well">
+                    <h4>Last posts</h4>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/2016-02-15%20cloud-foundry/">Cloud Foundry</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/2015-12-21%20ganglia/">Monitoring with Ganglia</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/2015-12-18%20ansible/">Orchestration with Ansible</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/2015-12-17%20ldap/">LDAP and multi-domain Keystone</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/2015-12-17%20swift/">Openstack Swift</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/2015-12-16%20elk/">ELK Stack</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/2015-12-16%20architecture/">Architecture of our OpenStack deployment</a></li>
+                                
+                              
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/2015-12-15%20openstack_deployment/">How to deploy OpenStack</a></li>
+                                
+                              
+                                
+                                  <li><a href="http://heig-cloud.github.io/article/2015-12-14%20private_cloud/">Creating your own private cloud</a></li>
+                                
+                              
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                            <li><strong><a href="/article/">See all articles</a></strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                
+                <div class="well">
+                    <h4>Social</h4>
+                    <div class="fb-page" data-href="https://www.facebook.com/HEIGVD/" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/HEIGVD/"><a href="https://www.facebook.com/HEIGVD/">HEIG-VD (Haute Ecole d&#039;Ingénierie et de Gestion du Canton de Vaud)</a></blockquote></div></div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                	<p><a href="#top">Go back to the top</a></p>
+                    <p>Copyright &copy; HEIG-VD, 2015. Content generated with <a href="http://gohugo.io/">Hugo</a>.</p>
+                </div>
+                
+            </div>
+            
+        </footer>
+
+    </div>
+    <script src="/static/js/jquery.js"></script>
+
+    
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41769233-6', 'auto');
+  ga('send', 'pageview');
+
+    </script>
+</body>
+</html>

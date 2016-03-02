@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kibana on HEIG-Cloud blog</title>
+    <link>http://heig-cloud.github.io/tags/kibana/</link>
+    <description>Recent content in Kibana on HEIG-Cloud blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 16 Dec 2015 17:11:39 +0100</lastBuildDate>
+    <atom:link href="http://heig-cloud.github.io/tags/kibana/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>ELK Stack</title>
+      <link>http://heig-cloud.github.io/article/2015-12-16%20elk/</link>
+      <pubDate>Wed, 16 Dec 2015 17:11:39 +0100</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-16%20elk/</guid>
+      <description>
+
+&lt;h2 id=&#34;what-is-elk:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;What is ELK?&lt;/h2&gt;
+
+&lt;p&gt;We are talking about Elasticsearch, Logstash and Kibana.&lt;/p&gt;
+
+&lt;h2 id=&#34;what-is-it:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;What is it?&lt;/h2&gt;
+
+&lt;p&gt;This is a very powerful combination of applications that allows you to centralize all of your logs, index them and consult them very easily and efficiently.&lt;/p&gt;
+
+&lt;p&gt;This stack is quite powerful but is not exactly easy to install. We won&amp;rsquo;t show you the whole process but there are a few points of interests that we will try to cover. Stick with us ;-)&lt;/p&gt;
+
+&lt;h3 id=&#34;the-stack:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;The Stack&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-16 elk/elkstack.png&#34; alt=&#34;ELK Stack&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;First of all, let&amp;rsquo;s see what these applications can do.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Elasticsearch&lt;/strong&gt;, is used to index the logs, parse them and apply filters to make efficient requests. This is the node of the stack.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Logstash&lt;/strong&gt;, is used to centralize the logs. In the stack, Logstash will collect all the logs and pass them to Elasticsearch. It makes use of logstash-forwarders (we&amp;rsquo;ll come back to this later on).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Kibana&lt;/strong&gt;
+Kibana is the tool used for visualizing the logs. It&amp;rsquo;s a web based interface that is quite easy to use and pretty powerful.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That&amp;rsquo;s it for the stack, of course, this is a very simple and naive way to describe it, but you don&amp;rsquo;t need to know much more than that.&lt;/p&gt;
+
+&lt;h3 id=&#34;why-use-it:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;Why use it&lt;/h3&gt;
+
+&lt;p&gt;As the name implies, OpenStack is a stack of components. It means that all of them can be managed separately. One of the big drawbacks is the fact that every component creates its own logs. Why is this a problem you may ask? Well, let&amp;rsquo;s say we have a problem somewhere, for instance, users can&amp;rsquo;t create new instances. If you are using Horizon as the dashboard, you probably know that the error messages are not always very self-explanatory. You will need to check every log file on every compute nodes (you could have a lot of them), the controller and who knows, maybe even the network node.&lt;/p&gt;
+
+&lt;p&gt;It would be nice if you could just see the messages that present the keyword error for example, right? Well guess what, you can :)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-16 elk/kibana_preview.png&#34; alt=&#34;Kibana preview&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We can use Kibana to search the logs by specifying the time and a filter. By adding this filter:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;message=error 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We make sure to only get the logs that contain the word error (which is a simple way to find easy errors). You can filter by host, time, type of the message, etc. There are so much possibilities and we are only scratching the surface there. This should have convinced you to try ELK for your installation.&lt;/p&gt;
+
+&lt;h2 id=&#34;how-do-i-install-it:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;How do I install it&lt;/h2&gt;
+
+&lt;p&gt;We&amp;rsquo;ve been following the tutorial on &lt;a href=&#34;https://www.digitalocean.com/community/tutorials/how-to-install-elasticsearch-logstash-and-kibana-elk-stack-on-ubuntu-14-04&#34;&gt;digitalocean&lt;/a&gt; for our own installation, it&amp;rsquo;s very well made and up to date. We will not provide a step-by-step installation in this post, but we may do it if there is a demand ;-)&lt;/p&gt;
+
+&lt;h2 id=&#34;what-to-be-careful-about:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;What to be careful about&lt;/h2&gt;
+
+&lt;p&gt;As always, the biggest problem we encountered is the fact that we have to modify a lot of different files, on different hosts, so it&amp;rsquo;s quite easy to make a mistake and not so easy to find it. As always, we&amp;rsquo;ve been using Ansible to install the ELK stack and it prevents us from committing a lot of stupid errors and mistakes. In this setup, we have:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The ELK server&lt;/li&gt;
+&lt;li&gt;The other servers (clients let&amp;rsquo;s say)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It means that there are only 2 differents setups. All the nodes except from the controller, which is also the ELK server, have the same configuration. That&amp;rsquo;s why it makes even more sense to automatize the process with Ansible.&lt;/p&gt;
+
+&lt;h3 id=&#34;logstash-conf:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;Logstash conf&lt;/h3&gt;
+
+&lt;p&gt;This is probably the biggest problem you&amp;rsquo;ll encounter while installing the stack. The conf file used by logstash is often &amp;ldquo;cut&amp;rdquo; in multiple parts. It means that you can have 3 or 5 different files to configure your logstash service. The truth is when logstash loads the conf, it takes all the files and just makes a new one by copying in succession the content. Example:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;File A&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content of file A
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;File B&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content of file B
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;File C&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content of file C
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the end, the conf file will be like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content of file A
+Content of file B
+Content of file C
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Well, why not? The problem is, if you have twice the same information on different files, let&amp;rsquo;s say a bind command. The following example is used to configure the input sources for logstash:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;02-input-filebeat.conf&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;input {
+  beats {
+    port =&amp;gt; 5044
+    type =&amp;gt; &amp;quot;logs&amp;quot;
+    ssl =&amp;gt; true
+    ssl_certificate =&amp;gt; &amp;quot;/etc/pki/tls/certs/logstash-forwarder.crt&amp;quot;
+    ssl_key =&amp;gt; &amp;quot;/etc/pki/tls/private/logstash-forwarder.key&amp;quot;
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, what happens if by any chance you have this file &lt;strong&gt;TWICE&lt;/strong&gt;. You may wonder why that would happend, well it does sometimes. If by any chance your OS makes a copy of this file (let&amp;rsquo;s say a backup for whatever the reason), you&amp;rsquo;ll have twice the same command. It becomes a problem with a line like this one:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;port =&amp;gt; 5044
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Basically, you will try to bind twice the same port, which will obviously end up with an error. So the morale of the story is:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;ALWAYS check in your /etc/logstash/conf.d/ directory that you don&amp;rsquo;t have twice the same file!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This has happened to a lot of people (us too) and can easily make you waste a few hours :(&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;The ELK Stack is a really good thing to have on your OpenStack cluster to be efficient and find errors that you probably wouldn&amp;rsquo;t find otherwise (or with a lot more effort).&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

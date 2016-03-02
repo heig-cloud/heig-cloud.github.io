@@ -8,43 +8,53 @@
   </url>
   
   <url>
-    <loc>http://heig-cloud.github.io/article/cloud-foundry/</loc>
+    <loc>http://heig-cloud.github.io/article/2016-02-15%20cloud-foundry/</loc>
     <lastmod>2016-02-15T14:58:22+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://heig-cloud.github.io/article/ganglia/</loc>
+    <loc>http://heig-cloud.github.io/article/2015-12-21%20ganglia/</loc>
     <lastmod>2015-12-21T13:19:07+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://heig-cloud.github.io/article/ansible/</loc>
+    <loc>http://heig-cloud.github.io/article/2015-12-18%20ansible/</loc>
     <lastmod>2015-12-18T14:40:53+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://heig-cloud.github.io/article/ldap/</loc>
+    <loc>http://heig-cloud.github.io/article/2015-12-17%20ldap/</loc>
     <lastmod>2015-12-17T16:47:45+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://heig-cloud.github.io/article/swift/</loc>
+    <loc>http://heig-cloud.github.io/article/2015-12-17%20swift/</loc>
     <lastmod>2015-12-17T14:01:53+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://heig-cloud.github.io/article/elk/</loc>
+    <loc>http://heig-cloud.github.io/article/2015-12-16%20elk/</loc>
     <lastmod>2015-12-16T17:11:39+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://heig-cloud.github.io/article/architecture/</loc>
+    <loc>http://heig-cloud.github.io/article/2015-12-16%20architecture/</loc>
     <lastmod>2015-12-16T16:59:49+01:00</lastmod>
   </url>
   
   <url>
     <loc>http://heig-cloud.github.io/about/</loc>
     <lastmod>2015-12-16T10:59:56+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://heig-cloud.github.io/article/2015-12-15%20openstack_deployment/</loc>
+    <lastmod>2015-12-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://heig-cloud.github.io/article/2015-12-14%20private_cloud/</loc>
+    <lastmod>2015-12-14T00:00:00+00:00</lastmod>
   </url>
   
 </urlset>

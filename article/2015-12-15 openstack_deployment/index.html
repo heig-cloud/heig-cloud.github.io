@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Articles</title>
+	<title>How to deploy OpenStack</title>
   	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -60,67 +60,100 @@
 	        <div class="col-lg-8">
 
 	            
-	            <h2><a href="http://heig-cloud.github.io/article/">Articles</a></h2>
-	            <h2>List of articles (from newest to oldest)</h2>
-					
-					<table class="table">
-					  <tr>
-					    <th class="">Name of the article</th>
-					    <th class="">Date</th>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2016-02-15%20cloud-foundry/">Cloud Foundry</a></strong></td>
-					    <td class="">Mon, Feb 15, 2016</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-21%20ganglia/">Monitoring with Ganglia</a></strong></td>
-					    <td class="">Mon, Dec 21, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-18%20ansible/">Orchestration with Ansible</a></strong></td>
-					    <td class="">Fri, Dec 18, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-17%20ldap/">LDAP and multi-domain Keystone</a></strong></td>
-					    <td class="">Thu, Dec 17, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-17%20swift/">Openstack Swift</a></strong></td>
-					    <td class="">Thu, Dec 17, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-16%20elk/">ELK Stack</a></strong></td>
-					    <td class="">Wed, Dec 16, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-16%20architecture/">Architecture of our OpenStack deployment</a></strong></td>
-					    <td class="">Wed, Dec 16, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-15%20openstack_deployment/">How to deploy OpenStack</a></strong></td>
-					    <td class="">Tue, Dec 15, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-14%20private_cloud/">Creating your own private cloud</a></strong></td>
-					    <td class="">Mon, Dec 14, 2015</td>
-					  </tr>
-					  
-					</table>
-				  
+	            <h2><a href="http://heig-cloud.github.io/article/2015-12-15%20openstack_deployment/">How to deploy OpenStack</a></h2>
+	            <p class="lead">
+	                by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+	            </p>
+	            <p><span class="glyphicon glyphicon-time"></span> Posted on Tue, Dec 15, 2015</p>
+
 	            <hr>
-	           
+	            
+	            
+
+<h2 id="how-to-deploy-openstack:6edb1a0cfe65e6967cfa8690bfb1a8f5">How to deploy OpenStack</h2>
+
+<p>Deploying OpenStack, or any cloud middleware for that matter, is no
+piece of cake. OpenStack consists of many many moving parts that need
+to be carefully configured to work correctly. (To give you an idea of
+the number of components and their interrelations we have reproduced
+below the diagram of the logical architecture from the
+<a href="http://docs.openstack.org/admin-guide-cloud/common/get_started_logical_architecture.html">official OpenStack documentation</a>.)
+On top of that each cloud deployment is different: different number of
+servers to deploy on, different network topologies, different
+integration points with existing sytesm, and so on. The complexity of
+the configuration far exceeds the capabilities of regular Linux
+package managers like APT and YUM.</p>
+
+<p><img src="/static/img/2015-12-15 openstack_deployment/openstack-arch-kilo-logical-v1.png" alt="OpenStack Kilo logical architecture" /></p>
+
+<p>So is it possible to tame this complexity? One has to decide between
+two main approaches to installing OpenStack:</p>
+
+<ul>
+<li><p>Install manually by following the 150+ page
+<a href="http://docs.openstack.org/kilo/install-guide/install/apt/content/">OpenStack Installation Guide</a>.</p></li>
+
+<li><p>Use a configuration management tool like Puppet, Chef or Ansible and
+use ready-made scripts to automate the installation.</p></li>
+</ul>
+
+<p>The manual install will be a lot of work. There is a non-negligible
+risk of making errors. The installation effort needs to be repated for
+every machine. Let&rsquo;s say you want to dedicate ten servers to the
+compute component that provides virtual machines. You would have to
+repeat ten times the installation of the compute component.</p>
+
+<p>The automated install reduces the chances of making errors as you are
+relying on scripts developed and tested by somebody else. Repeating
+the installation, once it is working, on nine more machines is a
+breeze. However a considerable manual effort is still needed to
+customize the deployment scripts to your particular situation. To be
+able to do that, and to be able to troubleshoot any installation
+problems that are likely to occur, you need to become familiar with
+the configuration management tool.</p>
+
+<p>So it worth learning a configuration management tool? We think in the
+case of OpenStack, the answer is yes.</p>
+
+<p>Among the most widely used configuration management tools
+<a href="http://ansible.com">Ansible</a> is the least complex one. It is
+relatively easy to learn. It is also easyer to deploy as the
+competition, as it does not need the setup of a central
+server. Instead configuration scripts are pushed from your local
+workstation to the machines that need to be configured.</p>
+
+<p>RackSpace, one of the bigger cloud service providers, has developed an
+OpenStack deployment solution based on Ansible that is now officialy
+part of the OpenStack project:
+<a href="https://github.com/openstack/openstack-ansible">openstack-ansible</a>. This
+is our starting base to create a private cloud at HEIG-VD. More on
+that in an upcoming blog post.</p>
+
+	            <hr>
+	           <div id="disqus_thread"></div>
+				<script>
+				    
+
+				    
+
+
+
+				    (function() {  
+				        var d = document, s = d.createElement('script');
+				        
+				        s.src = '//heigcloud.disqus.com/embed.js';
+				        
+				        s.setAttribute('data-timestamp', +new Date());
+				        (d.head || d.body).appendChild(s);
+				    })();
+				</script>
+				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+				<script id="dsq-count-scr" src="//heigcloud.disqus.com/count.js" async></script>
+    
+    
 	        </div>
 
-	        
+
 
 
             <div class="col-md-4">
@@ -205,7 +238,6 @@
 
             </div>
         </div>
-
 
         <footer>
             <div class="row">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Articles</title>
+	<title>Architecture of our OpenStack deployment</title>
   	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -60,67 +60,86 @@
 	        <div class="col-lg-8">
 
 	            
-	            <h2><a href="http://heig-cloud.github.io/article/">Articles</a></h2>
-	            <h2>List of articles (from newest to oldest)</h2>
-					
-					<table class="table">
-					  <tr>
-					    <th class="">Name of the article</th>
-					    <th class="">Date</th>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2016-02-15%20cloud-foundry/">Cloud Foundry</a></strong></td>
-					    <td class="">Mon, Feb 15, 2016</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-21%20ganglia/">Monitoring with Ganglia</a></strong></td>
-					    <td class="">Mon, Dec 21, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-18%20ansible/">Orchestration with Ansible</a></strong></td>
-					    <td class="">Fri, Dec 18, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-17%20ldap/">LDAP and multi-domain Keystone</a></strong></td>
-					    <td class="">Thu, Dec 17, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-17%20swift/">Openstack Swift</a></strong></td>
-					    <td class="">Thu, Dec 17, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-16%20elk/">ELK Stack</a></strong></td>
-					    <td class="">Wed, Dec 16, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-16%20architecture/">Architecture of our OpenStack deployment</a></strong></td>
-					    <td class="">Wed, Dec 16, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-15%20openstack_deployment/">How to deploy OpenStack</a></strong></td>
-					    <td class="">Tue, Dec 15, 2015</td>
-					  </tr>
-					  
-					  <tr>
-					    <td class=""><strong><a href="http://heig-cloud.github.io/article/2015-12-14%20private_cloud/">Creating your own private cloud</a></strong></td>
-					    <td class="">Mon, Dec 14, 2015</td>
-					  </tr>
-					  
-					</table>
-				  
+	            <h2><a href="http://heig-cloud.github.io/article/2015-12-16%20architecture/">Architecture of our OpenStack deployment</a></h2>
+	            <p class="lead">
+	                by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+	            </p>
+	            <p><span class="glyphicon glyphicon-time"></span> Posted on Wed, Dec 16, 2015</p>
+
 	            <hr>
-	           
+	            
+	            
+
+<h2 id="architecture-of-our-openstack-deployment:593496d0d6b736371eaf697b784e9afc">Architecture of our OpenStack deployment</h2>
+
+<p>This post is about the architecture of our OpenStack deployment at
+HEIG-VD. At maximum size our private cloud will run on 13 servers.</p>
+
+<p><img src="/static/img/2015-12-16 architecture/heig-cloud architecture.svg" alt="HEIG-Cloud deployment" /></p>
+
+<p>We chose a deployment that follows closely the standard installation
+guide. In total there are 13 servers with the following roles:</p>
+
+<ul>
+<li>One controller node</li>
+<li>One networking node</li>
+<li>Nine compute nodes</li>
+<li>Two storage nodes</li>
+</ul>
+
+<p>When a server has a certain role it hosts a certain combination of
+OpenStack components. Roughly speaking, the <em>controller node</em> hosts
+central components like the message broker that is used by the
+OpenStack components to communicate with each other, the database, the
+authentication and authorization components and the user interface.</p>
+
+<p>The <em>networking node</em> is responsible for attaching externally visible
+floating IP addresses to the virtual machines and provides virtual
+subnetworks and virtual routers.</p>
+
+<p>A <em>compute node</em> contains a hypervisor that enables the creation of
+many virtual machines on that server.</p>
+
+<p>A <em>storage node</em> provides its disk space in the form of virtual disks
+that can be attached to the virtual machines running in the compute
+nodes. To the guest OS in the VM they appear as any other disk and
+typically it will place a file system on them.</p>
+
+<p>We have also created three separate networks:</p>
+
+<ul>
+<li>Management network (red): accessible only from the intranet</li>
+<li>Instance tunnels network (green): connects the compute nodes with the networking node</li>
+<li>External network (blue): makes the virtual machines accessible from
+the Internet (through the networking node) as well as the user interface
+(running on the controller node).</li>
+</ul>
+
+	            <hr>
+	           <div id="disqus_thread"></div>
+				<script>
+				    
+
+				    
+
+
+
+				    (function() {  
+				        var d = document, s = d.createElement('script');
+				        
+				        s.src = '//heigcloud.disqus.com/embed.js';
+				        
+				        s.setAttribute('data-timestamp', +new Date());
+				        (d.head || d.body).appendChild(s);
+				    })();
+				</script>
+				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+				<script id="dsq-count-scr" src="//heigcloud.disqus.com/count.js" async></script>
+    
+    
 	        </div>
 
-	        
+
 
 
             <div class="col-md-4">
@@ -205,7 +224,6 @@
 
             </div>
         </div>
-
 
         <footer>
             <div class="row">
