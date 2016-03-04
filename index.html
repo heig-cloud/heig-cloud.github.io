@@ -52,88 +52,85 @@
         
     </nav>
 
-    
+
      
-    <div class="container">
-
-        <div class="row">
-
+<div class="container">
+  <div class="row">
+    
+    <div class="col-md-8">
+      <h1 class="page-header">
+        HEIG-Cloud blog
+        <small>Adventures with Cloud Computing</small>
+      </h1>
+      
+        
+          <h2><a href="/article/2016-02-15%20cloud-foundry/">Cloud Foundry</a></h2>
+          <p class="lead">
+	    by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+	  </p>
+          <p><span class="glyphicon glyphicon-time"></span> Posted on Mon, Feb 15, 2016</p>
+	  <hr>
+          <p>What is Cloud Foundry? Cloud Foundry is a PaaS provider. It is currently developped by many groups, mainly Pivotal but also Swisscom. A PaaS allows developpers to deploy web application very quickly and painlessly. How painless? Well, not much more than one command, maybe two or three depending on the needs and the difficulty of the application. Say a user wants to push a JS app that only writes &ldquo;Hello World&rdquo;, here is how he does it on Cloud Foundry: cf push app.js And that&rsquo;s all, really.</p>
+	  <hr>
+          <p><strong>Number of words:</strong> 1181, <strong>Time to read:</strong> 6 min.
+	    <hr>
+	
+      
+        
+          <h2><a href="/article/2015-12-21%20ganglia/">Monitoring with Ganglia</a></h2>
+          <p class="lead">
+	    by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+	  </p>
+          <p><span class="glyphicon glyphicon-time"></span> Posted on Mon, Dec 21, 2015</p>
+	  <hr>
+          <p>Ganglia We already talked about the ELK stack which is very useful to centralize and access log files. But we still haven&rsquo;t found a way to monitor the physical nodes themselves (use of CPU, memory, disks, network, etc.). Well that&rsquo;s ganglia&rsquo;s job ;-) Ganglia is a free software that allows you to keep an eye on your cluster quite easily. This is the kind of information you can get: You can see here the use of resources, here we are seeing the load.</p>
+	  <hr>
+          <p><strong>Number of words:</strong> 829, <strong>Time to read:</strong> 4 min.
+	    <hr>
+	
+      
+        
+          <h2><a href="/article/2015-12-18%20ansible/">Orchestration with Ansible</a></h2>
+          <p class="lead">
+	    by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+	  </p>
+          <p><span class="glyphicon glyphicon-time"></span> Posted on Fri, Dec 18, 2015</p>
+	  <hr>
+          <p>Orchestration tools First of all, what is an orchestration tool? Well, as the name implies, it&rsquo;s something that plays the rool of a chief conductor that is leading an orchestra. Its job is to manage the orchestra by giving orders and instructions. Different tools There are many orchestration tools that you can use and most of them are free. The famous ones are: Ansible (the one we use) Chef Puppet Salt Usually, these tools require you to install a &ldquo;supervisor&rdquo; on a certain host that will act as the orchestrator.</p>
+	  <hr>
+          <p><strong>Number of words:</strong> 1936, <strong>Time to read:</strong> 10 min.
+	    <hr>
+	
+      
+        
+          <h2><a href="/article/2015-12-17%20ldap/">LDAP and multi-domain Keystone</a></h2>
+          <p class="lead">
+	    by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+	  </p>
+          <p><span class="glyphicon glyphicon-time"></span> Posted on Thu, Dec 17, 2015</p>
+	  <hr>
+          <p>What is LDAP LDAP is a protocol used to create a directory, we often speak of LDAP directories. For those who are more familiar with Microsoft&rsquo;s world, you&rsquo;ve probably already heard about Active Directory. This is &ldquo;nothing more&rdquo; than a special implementation of LDAP made by Microsoft. Of course that&rsquo;s not true, but it&rsquo;s possible to get both to work together. It&rsquo;s not the aim of this post though ;-) (Even if we use Active Directory, or AD for short, and not another LDAP implementation).</p>
+	  <hr>
+          <p><strong>Number of words:</strong> 1787, <strong>Time to read:</strong> 9 min.
+	    <hr>
+	
+      
+        
+          <h2><a href="/article/2015-12-17%20swift/">Openstack Swift</a></h2>
+          <p class="lead">
+	    by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+	  </p>
+          <p><span class="glyphicon glyphicon-time"></span> Posted on Thu, Dec 17, 2015</p>
+	  <hr>
+          <p>What is OpenStack Swift Swift is OpenStack&rsquo;s implementation of an object storage. In cloud computing, we often refer to block and object storage. OpenStack provides two different components, each responsibe for one of these parts: Cinder: Block storage Swift: Object storage Note: We won&rsquo;t be covering Cinder in this article. Object storage VS Block storage What is the difference between these two types of storage? Well, the name probably says it all, one is on the block level, it means that you can install an operating system, have a filesystem and use it as you would use any physical drive you may have.</p>
+	  <hr>
+          <p><strong>Number of words:</strong> 845, <strong>Time to read:</strong> 4 min.
+	    <hr>
+	
+      
+    </div>
             
-            <div class="col-md-8">
 
-                <h1 class="page-header">
-                    HEIG-Cloud blog
-                    <small>Adventures with Cloud Computing</small>
-                </h1>
-              	  
-				    
-				    	<h2><a href="/article/2016-02-15%20cloud-foundry/">Cloud Foundry</a></h2>
-    	                <p class="lead">
-		                    by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
-		                </p>
-		                <p><span class="glyphicon glyphicon-time"></span> Posted on Mon, Feb 15, 2016</p>
-						<hr>
-						<p>What is Cloud Foundry? Cloud Foundry is a PaaS provider. It is currently developped by many groups, mainly Pivotal but also Swisscom. A PaaS allows developpers to deploy web application very quickly and painlessly. How painless? Well, not much more than one command, maybe two or three depending on the needs and the difficulty of the application. Say a user wants to push a JS app that only writes &ldquo;Hello World&rdquo;, here is how he does it on Cloud Foundry: cf push app.js And that&rsquo;s all, really.</p>
-						<hr>
-						<p><strong>Number of words:</strong> 1181, <strong>Time to read:</strong> 6 min.
-						<hr>
-				    
-				  
-				    
-				    	<h2><a href="/article/2015-12-21%20ganglia/">Monitoring with Ganglia</a></h2>
-    	                <p class="lead">
-		                    by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
-		                </p>
-		                <p><span class="glyphicon glyphicon-time"></span> Posted on Mon, Dec 21, 2015</p>
-						<hr>
-						<p>Ganglia We already talked about the ELK stack which is very useful to centralize and access log files. But we still haven&rsquo;t found a way to monitor the physical nodes themselves (use of CPU, memory, disks, network, etc.). Well that&rsquo;s ganglia&rsquo;s job ;-) Ganglia is a free software that allows you to keep an eye on your cluster quite easily. This is the kind of information you can get: You can see here the use of resources, here we are seeing the load.</p>
-						<hr>
-						<p><strong>Number of words:</strong> 829, <strong>Time to read:</strong> 4 min.
-						<hr>
-				    
-				  
-				    
-				    	<h2><a href="/article/2015-12-18%20ansible/">Orchestration with Ansible</a></h2>
-    	                <p class="lead">
-		                    by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
-		                </p>
-		                <p><span class="glyphicon glyphicon-time"></span> Posted on Fri, Dec 18, 2015</p>
-						<hr>
-						<p>Orchestration tools First of all, what is an orchestration tool? Well, as the name implies, it&rsquo;s something that plays the rool of a chief conductor that is leading an orchestra. Its job is to manage the orchestra by giving orders and instructions. Different tools There are many orchestration tools that you can use and most of them are free. The famous ones are: Ansible (the one we use) Chef Puppet Salt Usually, these tools require you to install a &ldquo;supervisor&rdquo; on a certain host that will act as the orchestrator.</p>
-						<hr>
-						<p><strong>Number of words:</strong> 1936, <strong>Time to read:</strong> 10 min.
-						<hr>
-				    
-				  
-				    
-				    	<h2><a href="/article/2015-12-17%20ldap/">LDAP and multi-domain Keystone</a></h2>
-    	                <p class="lead">
-		                    by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
-		                </p>
-		                <p><span class="glyphicon glyphicon-time"></span> Posted on Thu, Dec 17, 2015</p>
-						<hr>
-						<p>What is LDAP LDAP is a protocole used to create a directory, we often speak of LDAP directories. For those who are more familiar with Microsoft&rsquo;s world, you&rsquo;ve probably already heard about Active Directory. This is &ldquo;nothing more&rdquo; than a special implementation of LDAP made by Microsoft. Of course that&rsquo;s not true, but it&rsquo;s possible to get both to work together. It&rsquo;s not the aim of this post though ;-) (Even if we use Active Directory, or AD for short, and not another LDAP implementation).</p>
-						<hr>
-						<p><strong>Number of words:</strong> 1787, <strong>Time to read:</strong> 9 min.
-						<hr>
-				    
-				  
-				    
-				    	<h2><a href="/article/2015-12-17%20swift/">Openstack Swift</a></h2>
-    	                <p class="lead">
-		                    by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
-		                </p>
-		                <p><span class="glyphicon glyphicon-time"></span> Posted on Thu, Dec 17, 2015</p>
-						<hr>
-						<p>What is OpenStack Swift Swift is OpenStack&rsquo;s implementation of an object storage. In cloud computing, we often refer to block and object storage. OpenStack provides two different components, each responsibe for one of these parts: Cinder: Block storage Swift: Object storage Note: We won&rsquo;t be covering Cinder in this article. Object storage VS Block storage What is the difference between these two types of storage? Well, the name probably says it all, one is on the block level, it means that you can install an operating system, have a filesystem and use it as you would use any physical drive you may have.</p>
-						<hr>
-						<p><strong>Number of words:</strong> 845, <strong>Time to read:</strong> 4 min.
-						<hr>
-				    
-				  
-            </div>
-            
-            
 
 
             <div class="col-md-4">
@@ -218,7 +215,6 @@
 
             </div>
         </div>
-
 
         <footer>
             <div class="row">

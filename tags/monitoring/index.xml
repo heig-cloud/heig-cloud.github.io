@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Monitoring on HEIG-Cloud blog</title>
+    <link>http://heig-cloud.github.io/tags/monitoring/</link>
+    <description>Recent content in Monitoring on HEIG-Cloud blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 21 Dec 2015 13:19:07 +0100</lastBuildDate>
+    <atom:link href="http://heig-cloud.github.io/tags/monitoring/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Monitoring with Ganglia</title>
+      <link>http://heig-cloud.github.io/article/2015-12-21%20ganglia/</link>
+      <pubDate>Mon, 21 Dec 2015 13:19:07 +0100</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-21%20ganglia/</guid>
+      <description>
+
+&lt;h2 id=&#34;ganglia:2def89ffd0aeab566d25881f452e1009&#34;&gt;Ganglia&lt;/h2&gt;
+
+&lt;p&gt;We already talked about the ELK stack which is very useful to centralize and access log files. But we still haven&amp;rsquo;t found a way to monitor the physical nodes themselves (use of CPU, memory, disks, network, etc.). Well that&amp;rsquo;s ganglia&amp;rsquo;s job ;-)&lt;/p&gt;
+
+&lt;p&gt;Ganglia is a free software that allows you to keep an eye on your cluster quite easily. This is the kind of information you can get:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-21 ganglia/ganglia_sample.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You can see here the use of resources, here we are seeing the load. There is a pic along the way, probably a job that was run at this moment.&lt;/p&gt;
+
+&lt;h3 id=&#34;how-does-ganglia-work:2def89ffd0aeab566d25881f452e1009&#34;&gt;How does ganglia work&lt;/h3&gt;
+
+&lt;p&gt;Well there are basically two things ganglia has:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;gmond&lt;/li&gt;
+&lt;li&gt;gmetad&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Gmond is the service that collects the information on a host and sends it to the central server, who runs gmetad. Gmond is also the one to receive information (we usually disable this on agent nodes). Gmetad is the metrics service who runs on the ganglia server. Usually, the server also needs to be monitored, so it&amp;rsquo;ll run gmond and gmetad at the same time.&lt;/p&gt;
+
+&lt;p&gt;The process is quite simple, the daemons on the hosts send periodically their innformation to the server through the port 8649/UDP.&lt;/p&gt;
+
+&lt;p&gt;There are many customisations, we can have various servers, use multicast to manage the connection between hosts and change the intervals but we&amp;rsquo;ll keep a very basic configuration.&lt;/p&gt;
+
+&lt;h2 id=&#34;configure-server:2def89ffd0aeab566d25881f452e1009&#34;&gt;Configure server&lt;/h2&gt;
+
+&lt;p&gt;You need to edit the /etc/ganglia/gmetad.conf file and add the following line&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/ganglia/gmetad.conf
+data_source &amp;quot;cluster_name&amp;quot; 60 {{ controller_host }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you&amp;rsquo;ve read the article about Ansible, you know that {{ controller_host }} is a variable that represents the IP of the controller, which is also used as the ganglia server. You can also just type the IP if you are not using Ansible. As for the cluster_name value, you can put anything you like but you&amp;rsquo;ll have to use it again when configuring the agents so don&amp;rsquo;t forget it. Now for the gmond.conf file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/ganglia/gmond.conf
+
+cluster { 
+  name = &amp;quot;cluster_name&amp;quot; # same name as above
+  owner = &amp;quot;unspecified&amp;quot; 
+  latlong = &amp;quot;unspecified&amp;quot; 
+  url = &amp;quot;unspecified&amp;quot; 
+} 
+
+/* Feel free to specify as many udp_send_channels as you like.  Gmond 
+   used to only support having a single channel */ 
+udp_send_channel { 
+  #mcast_join = 239.2.11.71 #comment this line
+  host = {{ controller_host }} # add the IP of your controller
+  port = 8649 
+  ttl = 1 
+} 
+
+/* You can specify as many udp_recv_channels as you like as well. */ 
+udp_recv_channel { 
+  #mcast_join = 239.2.11.71 # comment
+  port = 8649 # The port that will receive information
+  #bind = 239.2.11.71 # comment
+} 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And that&amp;rsquo;s all, no need to change the rest. So basically what we did was:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Tell the agent to send the info to the controller on port 8649&lt;/li&gt;
+&lt;li&gt;To listen on UDP 8649 (information from the other hosts will arrive through here).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That&amp;rsquo;s all for the server.&lt;/p&gt;
+
+&lt;h3 id=&#34;apache:2def89ffd0aeab566d25881f452e1009&#34;&gt;Apache&lt;/h3&gt;
+
+&lt;p&gt;The last thing to do is to put this in a file in the enabled-websites of your webserver:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Alias /ganglia /usr/share/ganglia-webfrontend
+
+&amp;lt;Directory &amp;quot;/usr/share/ganglia-webfrontend&amp;quot;&amp;gt;
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Deny from none
+&amp;lt;/Directory&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;configure-agents:2def89ffd0aeab566d25881f452e1009&#34;&gt;Configure agents&lt;/h2&gt;
+
+&lt;p&gt;We still need to configure the other hosts, we will need to change the gmond.conf files again.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/ganglia/gmond.conf
+
+/* If a cluster attribute is specified, then all gmond hosts are wrapped inside 
+ * of a &amp;lt;CLUSTER&amp;gt; tag.  If you do not specify a cluster tag, then all &amp;lt;HOSTS&amp;gt; will 
+ * NOT be wrapped inside of a &amp;lt;CLUSTER&amp;gt; tag. */ 
+cluster { 
+  name = &amp;quot;cluster_name&amp;quot; # alwasy the same cluster_name
+  owner = &amp;quot;unspecified&amp;quot; 
+  latlong = &amp;quot;unspecified&amp;quot; 
+  url = &amp;quot;unspecified&amp;quot; 
+} 
+
+/* Feel free to specify as many udp_send_channels as you like.  Gmond 
+   used to only support having a single channel */ 
+udp_send_channel { 
+  #mcast_join = 239.2.11.71 # comment this
+  host = {{ controller_host }} # controller&#39;s IP
+  port = 8649 # port 8649 to send info
+  ttl = 1 
+} 
+
+# Comment this whole thing
+/*
+udp_recv_channel { 
+  mcast_join = 239.2.11.71 
+  port = 8649 
+  bind = 239.2.11.71 
+} 
+*/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Last step is to restart the services.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Controller&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo service gmetad restart
+$ sudo service ganglia-monitor restart
+$ sudo service apache2 restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Hosts&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo service ganglia-monitor restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Reboot gmetad first and then reboot the ganglia-monitor service on the hosts. You must always start ganglia-monitor after gmetad, so if you need to reboot gmetad, also reboot ganglia-monitor on all hosts or they won&amp;rsquo;t send their metrics.&lt;/p&gt;
+
+&lt;h2 id=&#34;accessing-the-webpage:2def89ffd0aeab566d25881f452e1009&#34;&gt;Accessing the webpage&lt;/h2&gt;
+
+&lt;p&gt;To access the monitoring interface, go to:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;http://controller/ganglia
+
+# Replace controller by IP if not in your DNS or hosts file.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here is another sample of the informations you can get. Here you see general informations, as memory, cpu, load and network for the entire cluster called iict_cloud.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-21 ganglia/ganglia_sample2.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And here we can see more information about one host, the controller, its CPU usages and specific information.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-21 ganglia/ganglia_sample3.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion:2def89ffd0aeab566d25881f452e1009&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;That&amp;rsquo;s all for Ganglia, we won&amp;rsquo;t cover how to use it as it&amp;rsquo;s quite easy, you can also check the &lt;a href=&#34;http://ganglia.sourceforge.net/&#34;&gt;official website&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ELK Stack</title>
+      <link>http://heig-cloud.github.io/article/2015-12-16%20elk/</link>
+      <pubDate>Wed, 16 Dec 2015 17:11:39 +0100</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-16%20elk/</guid>
+      <description>
+
+&lt;h2 id=&#34;what-is-elk:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;What is ELK?&lt;/h2&gt;
+
+&lt;p&gt;We are talking about Elasticsearch, Logstash and Kibana.&lt;/p&gt;
+
+&lt;h2 id=&#34;what-is-it:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;What is it?&lt;/h2&gt;
+
+&lt;p&gt;This is a very powerful combination of applications that allows you to centralize all of your logs, index them and consult them very easily and efficiently.&lt;/p&gt;
+
+&lt;p&gt;This stack is quite powerful but is not exactly easy to install. We won&amp;rsquo;t show you the whole process but there are a few points of interests that we will try to cover. Stick with us ;-)&lt;/p&gt;
+
+&lt;h3 id=&#34;the-stack:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;The Stack&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-16 elk/elkstack.png&#34; alt=&#34;ELK Stack&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;First of all, let&amp;rsquo;s see what these applications can do.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Elasticsearch&lt;/strong&gt;, is used to index the logs, parse them and apply filters to make efficient requests. This is the node of the stack.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Logstash&lt;/strong&gt;, is used to centralize the logs. In the stack, Logstash will collect all the logs and pass them to Elasticsearch. It makes use of logstash-forwarders (we&amp;rsquo;ll come back to this later on).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Kibana&lt;/strong&gt;
+Kibana is the tool used for visualizing the logs. It&amp;rsquo;s a web based interface that is quite easy to use and pretty powerful.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That&amp;rsquo;s it for the stack, of course, this is a very simple and naive way to describe it, but you don&amp;rsquo;t need to know much more than that.&lt;/p&gt;
+
+&lt;h3 id=&#34;why-use-it:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;Why use it&lt;/h3&gt;
+
+&lt;p&gt;As the name implies, OpenStack is a stack of components. It means that all of them can be managed separately. One of the big drawbacks is the fact that every component creates its own logs. Why is this a problem you may ask? Well, let&amp;rsquo;s say we have a problem somewhere, for instance, users can&amp;rsquo;t create new instances. If you are using Horizon as the dashboard, you probably know that the error messages are not always very self-explanatory. You will need to check every log file on every compute nodes (you could have a lot of them), the controller and who knows, maybe even the network node.&lt;/p&gt;
+
+&lt;p&gt;It would be nice if you could just see the messages that present the keyword error for example, right? Well guess what, you can :)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-16 elk/kibana_preview.png&#34; alt=&#34;Kibana preview&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We can use Kibana to search the logs by specifying the time and a filter. By adding this filter:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;message=error 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We make sure to only get the logs that contain the word error (which is a simple way to find easy errors). You can filter by host, time, type of the message, etc. There are so much possibilities and we are only scratching the surface there. This should have convinced you to try ELK for your installation.&lt;/p&gt;
+
+&lt;h2 id=&#34;how-do-i-install-it:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;How do I install it&lt;/h2&gt;
+
+&lt;p&gt;We&amp;rsquo;ve been following the tutorial on &lt;a href=&#34;https://www.digitalocean.com/community/tutorials/how-to-install-elasticsearch-logstash-and-kibana-elk-stack-on-ubuntu-14-04&#34;&gt;digitalocean&lt;/a&gt; for our own installation, it&amp;rsquo;s very well made and up to date. We will not provide a step-by-step installation in this post, but we may do it if there is a demand ;-)&lt;/p&gt;
+
+&lt;h2 id=&#34;what-to-be-careful-about:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;What to be careful about&lt;/h2&gt;
+
+&lt;p&gt;As always, the biggest problem we encountered is the fact that we have to modify a lot of different files, on different hosts, so it&amp;rsquo;s quite easy to make a mistake and not so easy to find it. As always, we&amp;rsquo;ve been using Ansible to install the ELK stack and it prevents us from committing a lot of stupid errors and mistakes. In this setup, we have:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The ELK server&lt;/li&gt;
+&lt;li&gt;The other servers (clients let&amp;rsquo;s say)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It means that there are only 2 differents setups. All the nodes except from the controller, which is also the ELK server, have the same configuration. That&amp;rsquo;s why it makes even more sense to automatize the process with Ansible.&lt;/p&gt;
+
+&lt;h3 id=&#34;logstash-conf:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;Logstash conf&lt;/h3&gt;
+
+&lt;p&gt;This is probably the biggest problem you&amp;rsquo;ll encounter while installing the stack. The conf file used by logstash is often &amp;ldquo;cut&amp;rdquo; in multiple parts. It means that you can have 3 or 5 different files to configure your logstash service. The truth is when logstash loads the conf, it takes all the files and just makes a new one by copying in succession the content. Example:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;File A&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content of file A
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;File B&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content of file B
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;File C&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content of file C
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the end, the conf file will be like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content of file A
+Content of file B
+Content of file C
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Well, why not? The problem is, if you have twice the same information on different files, let&amp;rsquo;s say a bind command. The following example is used to configure the input sources for logstash:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;02-input-filebeat.conf&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;input {
+  beats {
+    port =&amp;gt; 5044
+    type =&amp;gt; &amp;quot;logs&amp;quot;
+    ssl =&amp;gt; true
+    ssl_certificate =&amp;gt; &amp;quot;/etc/pki/tls/certs/logstash-forwarder.crt&amp;quot;
+    ssl_key =&amp;gt; &amp;quot;/etc/pki/tls/private/logstash-forwarder.key&amp;quot;
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, what happens if by any chance you have this file &lt;strong&gt;TWICE&lt;/strong&gt;. You may wonder why that would happend, well it does sometimes. If by any chance your OS makes a copy of this file (let&amp;rsquo;s say a backup for whatever the reason), you&amp;rsquo;ll have twice the same command. It becomes a problem with a line like this one:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;port =&amp;gt; 5044
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Basically, you will try to bind twice the same port, which will obviously end up with an error. So the morale of the story is:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;ALWAYS check in your /etc/logstash/conf.d/ directory that you don&amp;rsquo;t have twice the same file!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This has happened to a lot of people (us too) and can easily make you waste a few hours :(&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion:8fdbdfcdc500108f8c1a221dd0c22c93&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;The ELK Stack is a really good thing to have on your OpenStack cluster to be efficient and find errors that you probably wouldn&amp;rsquo;t find otherwise (or with a lot more effort).&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

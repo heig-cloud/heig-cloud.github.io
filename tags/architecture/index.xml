@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Architecture on HEIG-Cloud blog</title>
+    <link>http://heig-cloud.github.io/tags/architecture/</link>
+    <description>Recent content in Architecture on HEIG-Cloud blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 16 Dec 2015 16:59:49 +0100</lastBuildDate>
+    <atom:link href="http://heig-cloud.github.io/tags/architecture/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Architecture of our OpenStack deployment</title>
+      <link>http://heig-cloud.github.io/article/2015-12-16%20architecture/</link>
+      <pubDate>Wed, 16 Dec 2015 16:59:49 +0100</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-16%20architecture/</guid>
+      <description>
+
+&lt;h2 id=&#34;architecture-of-our-openstack-deployment:593496d0d6b736371eaf697b784e9afc&#34;&gt;Architecture of our OpenStack deployment&lt;/h2&gt;
+
+&lt;p&gt;This post is about the architecture of our OpenStack deployment at
+HEIG-VD. At maximum size our private cloud will run on 13 servers.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-16 architecture/heig-cloud architecture.svg&#34; alt=&#34;HEIG-Cloud deployment&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We chose a deployment that follows closely the standard installation
+guide. In total there are 13 servers with the following roles:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;One controller node&lt;/li&gt;
+&lt;li&gt;One networking node&lt;/li&gt;
+&lt;li&gt;Nine compute nodes&lt;/li&gt;
+&lt;li&gt;Two storage nodes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When a server has a certain role it hosts a certain combination of
+OpenStack components. Roughly speaking, the &lt;em&gt;controller node&lt;/em&gt; hosts
+central components like the message broker that is used by the
+OpenStack components to communicate with each other, the database, the
+authentication and authorization components and the user interface.&lt;/p&gt;
+
+&lt;p&gt;The &lt;em&gt;networking node&lt;/em&gt; is responsible for attaching externally visible
+floating IP addresses to the virtual machines and provides virtual
+subnetworks and virtual routers.&lt;/p&gt;
+
+&lt;p&gt;A &lt;em&gt;compute node&lt;/em&gt; contains a hypervisor that enables the creation of
+many virtual machines on that server.&lt;/p&gt;
+
+&lt;p&gt;A &lt;em&gt;storage node&lt;/em&gt; provides its disk space in the form of virtual disks
+that can be attached to the virtual machines running in the compute
+nodes. To the guest OS in the VM they appear as any other disk and
+typically it will place a file system on them.&lt;/p&gt;
+
+&lt;p&gt;We have also created three separate networks:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Management network (red): accessible only from the intranet&lt;/li&gt;
+&lt;li&gt;Instance tunnels network (green): connects the compute nodes with the networking node&lt;/li&gt;
+&lt;li&gt;External network (blue): makes the virtual machines accessible from
+the Internet (through the networking node) as well as the user interface
+(running on the controller node).&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

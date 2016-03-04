@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ldap on HEIG-Cloud blog</title>
+    <link>http://heig-cloud.github.io/tags/ldap/</link>
+    <description>Recent content in Ldap on HEIG-Cloud blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 17 Dec 2015 16:47:45 +0100</lastBuildDate>
+    <atom:link href="http://heig-cloud.github.io/tags/ldap/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>LDAP and multi-domain Keystone</title>
+      <link>http://heig-cloud.github.io/article/2015-12-17%20ldap/</link>
+      <pubDate>Thu, 17 Dec 2015 16:47:45 +0100</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-17%20ldap/</guid>
+      <description>
+
+&lt;h2 id=&#34;what-is-ldap:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;What is LDAP&lt;/h2&gt;
+
+&lt;p&gt;LDAP is a protocol used to create a directory, we often speak of LDAP directories. For those who are more familiar with Microsoft&amp;rsquo;s world, you&amp;rsquo;ve probably already heard about Active Directory. This is &amp;ldquo;nothing more&amp;rdquo; than a special implementation of LDAP made by Microsoft. Of course that&amp;rsquo;s not true, but it&amp;rsquo;s possible to get both to work together. It&amp;rsquo;s not the aim of this post though ;-) (Even if we use Active Directory, or AD for short, and not another LDAP implementation).&lt;/p&gt;
+
+&lt;h3 id=&#34;why-do-i-need-a-directory:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Why do I need a directory&lt;/h3&gt;
+
+&lt;p&gt;Well, why do we all have an annuary on our celle phones for instance? Because it&amp;rsquo;s not easy to remember and manage all the contacts we have. It&amp;rsquo;s also possible to groupe people (familiy, friends, job, ennemies?). Well LDAP servers are here to provide that same kind of service but for an institution.&lt;/p&gt;
+
+&lt;h4 id=&#34;what-can-i-store-in-a-directory:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;What can I store in a directory&lt;/h4&gt;
+
+&lt;p&gt;Well, pretty much everything to be honest. Usually we&amp;rsquo;ll find:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;People&lt;/li&gt;
+&lt;li&gt;Groups&lt;/li&gt;
+&lt;li&gt;Personnal computers&lt;/li&gt;
+&lt;li&gt;Servers&lt;/li&gt;
+&lt;li&gt;Rooms?&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So yes, it&amp;rsquo;s possible to store in a lot of information.&lt;/p&gt;
+
+&lt;h2 id=&#34;ldap-and-keystone:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;LDAP and Keystone&lt;/h2&gt;
+
+&lt;p&gt;So, why are we talking about LDAP, AD and all that on this blog? Quite simple, we&amp;rsquo;ve added a &lt;strong&gt;domain&lt;/strong&gt; that makes use of AD to authentificate users.&lt;/p&gt;
+
+&lt;h3 id=&#34;why-do-that:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Why do that&lt;/h3&gt;
+
+&lt;p&gt;First, let&amp;rsquo;s see what Keystone does before we can answer that question. Keystone is one of the main parts of the OpenStack project. It has two main jobs:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;To &lt;strong&gt;authentificate&lt;/strong&gt; users&lt;/li&gt;
+&lt;li&gt;To &lt;strong&gt;authorize&lt;/strong&gt; users&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Both these points may sound like they are the same but they are not. The first part is authentification (&lt;strong&gt;warning:&lt;/strong&gt; this will be very brief, naive and incomplete, but as always, it should be enough, you can always find more information about this on the internet). To explain this, let&amp;rsquo;s make an easy scenario. We have two people and a door. One of them is a guard whose name is Keystone. he is posted in front of the door leading to the wonderful world of OpenStack. The other one wants to go through, that&amp;rsquo;s Bob, a simple user.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/keystone1.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In this case, Keystone is responsible for authentificating and authorizing the users of the door. Keystone knows Bob, because they are buddies, so he lets him through.&lt;/p&gt;
+
+&lt;p&gt;Now let&amp;rsquo;s say that Carl wants to go through, Keystone does not know him.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/keystone2.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The thing is, Carl can authentificate himslef differently. If keystone accepts authentification from that other medium (let&amp;rsquo;s say a LDAP server for example), it can work.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/keystone3.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So here, Carl was granted the authorization by Keystone after LDAP vouched for him (authentification part).&lt;/p&gt;
+
+&lt;p&gt;So in the end, it&amp;rsquo;s possible to have 2 different kind of systems:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Keystone authentificates and authorizes an user.&lt;/li&gt;
+&lt;li&gt;A service authentificate an user and Keystone authorizes him.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;No matter the situation, Keystone has the final saying as to the permissions given to the users but will recognize the identity of the users if given by a trusted source (LDAP, AD, or other).&lt;/p&gt;
+
+&lt;h2 id=&#34;domains:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Domains&lt;/h2&gt;
+
+&lt;p&gt;In Keystone, it&amp;rsquo;s possible to define domains. Domains contain users, projects, groups, etc. The cool thing about them is the fact that it&amp;rsquo;s possible to have different sources of users for each domain. For example, we have two domains in our setup:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;default&lt;/strong&gt; domain, that contains the OS services&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;heig-vd&lt;/strong&gt; domain, that links to our AD, used for authentification of our users.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It allows us to give access to our cloud to all the users already managed in the AD without having to manage them ourselves. The other cool thing is, Keystone is still responsible of authorizing the users, so once a user is authentificated with LDAP/AD, he will follow keystone&amp;rsquo;s instructions. By default, a user has &amp;ldquo;user&amp;rdquo; permissions, which basically allows him to create instances. He does not have access to the management interface and can only do limited operations. That&amp;rsquo;s why we have a multi-domain setup.&lt;/p&gt;
+
+&lt;h3 id=&#34;multi-domain:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Multi-domain&lt;/h3&gt;
+
+&lt;p&gt;The possibility of having multiple domains came with the v3 of the Keystone API. By default, there is only one domain called &amp;ldquo;default&amp;rdquo;. It contains the admin user and the services (glance, nova, neutron, etc.). The cloud admin can then add some projects, users or groups to this domain. It means that the admin &lt;em&gt;needs to add the users and manage them&lt;/em&gt;. That&amp;rsquo;s not exactly nice. That&amp;rsquo;s why it&amp;rsquo;s now possible to have multiple domains. We already explained earlier that we have 2 domains earlier, the truth is we can separate the users from the services and we also don&amp;rsquo;t need to manually add the users to the authentification pool. All we have to do is give the users the &lt;strong&gt;right permissions.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The following image shows you what it&amp;rsquo;s possible to achieve with multi-domain Keystone:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/multidomain.png&#34; alt=&#34;Multi-domain Keystone&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So what do we have?&lt;/p&gt;
+
+&lt;h4 id=&#34;domain-1:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Domain 1&lt;/h4&gt;
+
+&lt;p&gt;This domain contains 1 project. There is one group, called group 1 that has rights on this project. There are also 2 users who are presently not linked to any project.&lt;/p&gt;
+
+&lt;h4 id=&#34;domain-2:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Domain 2&lt;/h4&gt;
+
+&lt;p&gt;This domains contains 2 projects. Each project has a group associated.&lt;/p&gt;
+
+&lt;h4 id=&#34;so:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;So?&lt;/h4&gt;
+
+&lt;p&gt;What we wanted to show here is, it&amp;rsquo;s possible to manage users by groups or individually. You can say, all the people in this group can work on this project or for instance chose to associate group 1 to the proj 1 but also authorize Carl to work on it.&lt;/p&gt;
+
+&lt;h3 id=&#34;groups-roles:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Groups != roles&lt;/h3&gt;
+
+&lt;p&gt;When we talk about groups and users, we are talking about authentification accounts that you&amp;rsquo;ll find on your AD or LDAP server. However, Roles are managed by Keystone. Usually there are 2 roles (you can obviously create more but you&amp;rsquo;ll need to change the policy.json file):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;admin, which is pretty much self-explanatory&lt;/li&gt;
+&lt;li&gt;user (sometimes _member_), no administration rights.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Be careful, the old policy file does not manage domains, it means that someone who is an admin can manage &lt;strong&gt;all domains&lt;/strong&gt;. To prevent that, you need to update the policies, you can find it &lt;a href=&#34;https://github.com/openstack/keystone/blob/master/etc/policy.v3cloudsample.json&#34;&gt;here&lt;/a&gt;. Depending on your configuration, if you only plan to have a domain for users working with LDAP and one admin to manage all of that, the old policy file can be acceptable.&lt;/p&gt;
+
+&lt;h2 id=&#34;enable-multi-domain-keystone:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Enable multi-domain Keystone&lt;/h2&gt;
+
+&lt;p&gt;There are only a few operations you need to do to enable multi-domain Keystone:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/keystone/keystone.conf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and add the following lines:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;domain_specific_drivers_enabled = True&lt;/p&gt;
+
+&lt;p&gt;domain_config_dir = /etc/keystone/domains&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;It will tell keystone to look in the /etc/keystone/domains/ directory for domain-specific conf files. Now you can also create this directory&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo mkdir /etc/keystone/domains
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next step is to create the conf file for your domain. Name it like:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;keystone.domain_name.conf&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In our case it&amp;rsquo;s
+&amp;gt; keystone.heig-vd.conf&lt;/p&gt;
+
+&lt;p&gt;The content of this file is the configuration of your LDAP server. It&amp;rsquo;s a good idea to create an user that has read-only rights on the LDAP server that you&amp;rsquo;ll use for your authentification process. To create this file, you can use &lt;a href=&#34;https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Cloud_Administrator_Guide/configuring-keystone-for-ldap-backend.html&#34;&gt;this link&lt;/a&gt;, it provides some good information or try to complete the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[identity]
+driver = keystone.identity.backends.ldap.Identity
+
+[ldap]
+url = ldap://localhost
+suffix = DC=mysite,DC=com
+query_scope = sub # Means that you want to check sub-trees
+user = CN=openstackuser,OU=users,DC=mysite,DC=com
+password = pa$$word
+use_dumb_member = False
+
+user_tree_dn = OU=users,dc=mysite,dc=com
+
+user_objectclass = person
+
+user_id_attribute = cn
+#user_id_attribute = uidNumber
+user_name_attribute = sAMAccountName
+user_mail_attribute = mail
+user_pass_attribute = password
+user_enabled_attribute = userAccountControl
+
+group_tree_dn = OU=groups,dc=mysite,dc=com
+group_objectclass = organizationalUnit 
+group_id_attribute = name
+group_name_attribute = name
+#group_member_attribute = member
+#group_desc_attribute = description
+
+user_allow_create = false
+user_allow_update = false
+user_allow_delete = false
+project_allow_create = false
+project_allow_update = false
+project_allow_delete = false
+role_allow_create = false
+role_allow_update = false
+role_allow_delete = false
+group_allow_create = false
+group_allow_update = false
+group_allow_delete = false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This configuration should work for Active Directory. It&amp;rsquo;s also possible to not use an user if you LDAP directory is open (which is not really good but well&amp;hellip;).&lt;/p&gt;
+
+&lt;p&gt;The last step is to enable multi-domain login on horizon, it will add a &amp;ldquo;domain&amp;rdquo; line that you&amp;rsquo;ll have to fill when logging on the dashboard.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/login_domain.png&#34; alt=&#34;Multi-domain Keystone&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The line to change is here:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/openstack-dashboard/local_settings.py
+# Overrides for OpenStack API versions. Use this setting to force the
+# OpenStack dashboard to use a specific API version for a given service API.
+# Versions specified here should be integers or floats, not strings.
+# NOTE: The version should be formatted as it appears in the URL for the
+# service API. For example, The identity service APIs have inconsistent
+# use of the decimal point, so valid options would be 2.0 or 3.
+OPENSTACK_API_VERSIONS = {
+    &amp;quot;data-processing&amp;quot;: 1.1,
+    &amp;quot;identity&amp;quot;: 3,
+    &amp;quot;volume&amp;quot;: 2,
+}
+
+# Set this to True if running on multi-domain model. When this is enabled, it
+# will require user to enter the Domain name in addition to username for login.
+OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here the important things are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;identity: 3 # It tells horizon to use the V3 of Keystone
+
+OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True #This one is pretty easy to understand ;-)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There is an other thing to change in this file (and that made us waste a lot of time so you&amp;rsquo;ll thank us one day), here it is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# We recommend you use memcached for development; otherwise after every reload
+# of the django development server, you will have to login again. To use
+# memcached set CACHES to something like
+SESSION_ENGINE = &#39;django.contrib.sessions.backends.cache&#39;
+CACHES = {
+    &#39;default&#39;: {
+        &#39;BACKEND&#39;: &#39;django.core.cache.backends.memcached.MemcachedCache&#39;,
+        &#39;LOCATION&#39;: &#39;127.0.0.1:11211&#39;,
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;What is that? This is where the sessions are stored. By default, they are not stored on memcached. What is the problem? There is a size limit! It works fine without multi-domain but once you enable it, you can have some problems that are very curious. In our case, before we changed the sessions engine, we could not switch between projects. Let&amp;rsquo;s say user A has access to the projects P1 and P2, he could not change from one to the other. This was &lt;em&gt;not easy&lt;/em&gt; to find, so we are writing it down hoping it will help some people :)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; obvioulsy, we presume that you have memcached installed, which should be the case if you followed the official installation guide for OS Kilo.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Enabling a LDAP-backend for authentification is not hard on OpenStack, the problems you may encounter are the creation of the config file for your domain, the fact that you may be using the V2 of Keystone (which does not know about domains at all), the sessions engine not configured on memcached and that&amp;rsquo;s pretty much all. If you followed the guide, it already makes you work with the V3 when it&amp;rsquo;s possible.&lt;/p&gt;
+
+&lt;p&gt;Also, note that when you use the CLI or the API, you also need to specifiy the region, the id of the project&amp;rsquo;s domain and the id of the user&amp;rsquo;s domain (in addition to all the other options that were already asked by the v2 of Keystone, like the username, password, project, etc.).&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -52,27 +52,41 @@
         
     </nav>
 
+
+<div class="container">
+  <div class="row">
+
     
-	<div class="container">
-	    <div class="row">
+    <div class="col-lg-8">
 
-	        
-	        <div class="col-lg-8">
+      
+      <h2><a href="http://heig-cloud.github.io/article/2015-12-17%20ldap/">LDAP and multi-domain Keystone</a></h2>
+      <p class="lead">
+	by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+      </p>
+      Tags: 
+      <ul id="tags">
+        
+          <li><a href="/tags/openstack">OpenStack</a> </li>
+        
+          <li><a href="/tags/keystone">Keystone</a> </li>
+        
+          <li><a href="/tags/ldap">LDAP</a> </li>
+        
+          <li><a href="/tags/identity-management">Identity Management</a> </li>
+        
+          <li><a href="/tags/identity-federation">Identity Federation</a> </li>
+        
+      </ul>
+      <p><span class="glyphicon glyphicon-time"></span> Posted on Thu, Dec 17, 2015</p>
 
-	            
-	            <h2><a href="http://heig-cloud.github.io/article/2015-12-17%20ldap/">LDAP and multi-domain Keystone</a></h2>
-	            <p class="lead">
-	                by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
-	            </p>
-	            <p><span class="glyphicon glyphicon-time"></span> Posted on Thu, Dec 17, 2015</p>
-
-	            <hr>
-	            
-	            
+      <hr>
+      
+      
 
 <h2 id="what-is-ldap:c220c0d92879b41605b247e5a0b4f1bb">What is LDAP</h2>
 
-<p>LDAP is a protocole used to create a directory, we often speak of LDAP directories. For those who are more familiar with Microsoft&rsquo;s world, you&rsquo;ve probably already heard about Active Directory. This is &ldquo;nothing more&rdquo; than a special implementation of LDAP made by Microsoft. Of course that&rsquo;s not true, but it&rsquo;s possible to get both to work together. It&rsquo;s not the aim of this post though ;-) (Even if we use Active Directory, or AD for short, and not another LDAP implementation).</p>
+<p>LDAP is a protocol used to create a directory, we often speak of LDAP directories. For those who are more familiar with Microsoft&rsquo;s world, you&rsquo;ve probably already heard about Active Directory. This is &ldquo;nothing more&rdquo; than a special implementation of LDAP made by Microsoft. Of course that&rsquo;s not true, but it&rsquo;s possible to get both to work together. It&rsquo;s not the aim of this post though ;-) (Even if we use Active Directory, or AD for short, and not another LDAP implementation).</p>
 
 <h3 id="why-do-i-need-a-directory:c220c0d92879b41605b247e5a0b4f1bb">Why do I need a directory</h3>
 
@@ -306,29 +320,27 @@ CACHES = {
 
 <p>Also, note that when you use the CLI or the API, you also need to specifiy the region, the id of the project&rsquo;s domain and the id of the user&rsquo;s domain (in addition to all the other options that were already asked by the v2 of Keystone, like the username, password, project, etc.).</p>
 
-	            <hr>
-	           <div id="disqus_thread"></div>
-				<script>
-				    
+      <hr>
+      <div id="disqus_thread"></div>
+      <script>
+	
 
-				    
+	
 
 
 
-				    (function() {  
-				        var d = document, s = d.createElement('script');
+	(function() {  
+	  var d = document, s = d.createElement('script');
 				        
-				        s.src = '//heigcloud.disqus.com/embed.js';
+	  s.src = '//heigcloud.disqus.com/embed.js';
 				        
-				        s.setAttribute('data-timestamp', +new Date());
-				        (d.head || d.body).appendChild(s);
-				    })();
-				</script>
-				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-				<script id="dsq-count-scr" src="//heigcloud.disqus.com/count.js" async></script>
-    
-    
-	        </div>
+	  s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	})();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+      <script id="dsq-count-scr" src="//heigcloud.disqus.com/count.js" async></script>
+    </div>
 
 
 
@@ -473,3 +485,4 @@ CACHES = {
     </script>
 </body>
 </html>
+

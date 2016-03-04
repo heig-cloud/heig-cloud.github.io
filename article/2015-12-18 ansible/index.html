@@ -52,23 +52,33 @@
         
     </nav>
 
+
+<div class="container">
+  <div class="row">
+
     
-	<div class="container">
-	    <div class="row">
+    <div class="col-lg-8">
 
-	        
-	        <div class="col-lg-8">
+      
+      <h2><a href="http://heig-cloud.github.io/article/2015-12-18%20ansible/">Orchestration with Ansible</a></h2>
+      <p class="lead">
+	by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
+      </p>
+      Tags: 
+      <ul id="tags">
+        
+          <li><a href="/tags/ansible">Ansible</a> </li>
+        
+          <li><a href="/tags/configuration-management">Configuration Management</a> </li>
+        
+          <li><a href="/tags/orchestration">Orchestration</a> </li>
+        
+      </ul>
+      <p><span class="glyphicon glyphicon-time"></span> Posted on Fri, Dec 18, 2015</p>
 
-	            
-	            <h2><a href="http://heig-cloud.github.io/article/2015-12-18%20ansible/">Orchestration with Ansible</a></h2>
-	            <p class="lead">
-	                by <a href="http://heig-cloud.github.io/">HEIG-Cloud</a>
-	            </p>
-	            <p><span class="glyphicon glyphicon-time"></span> Posted on Fri, Dec 18, 2015</p>
-
-	            <hr>
-	            
-	            
+      <hr>
+      
+      
 
 <h2 id="orchestration-tools:1a9d0df1dffc119b10ddd86cf39ae2c9">Orchestration tools</h2>
 
@@ -406,29 +416,27 @@ $ cat services/mysql/main.yaml
 
 <p>Ansible is a very powerful tool that is quite easy to use. The official documentation is complete and there are a lot of examples on the web. Also, it is important to always think about idempotency, because you can also use shell commands with ansible, sometimes you don&rsquo;t have a choice. If you have to, make sure it won&rsquo;t act redundantly (like adding the same line many times in a file instead of just once).</p>
 
-	            <hr>
-	           <div id="disqus_thread"></div>
-				<script>
-				    
+      <hr>
+      <div id="disqus_thread"></div>
+      <script>
+	
 
-				    
+	
 
 
 
-				    (function() {  
-				        var d = document, s = d.createElement('script');
+	(function() {  
+	  var d = document, s = d.createElement('script');
 				        
-				        s.src = '//heigcloud.disqus.com/embed.js';
+	  s.src = '//heigcloud.disqus.com/embed.js';
 				        
-				        s.setAttribute('data-timestamp', +new Date());
-				        (d.head || d.body).appendChild(s);
-				    })();
-				</script>
-				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-				<script id="dsq-count-scr" src="//heigcloud.disqus.com/count.js" async></script>
-    
-    
-	        </div>
+	  s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	})();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+      <script id="dsq-count-scr" src="//heigcloud.disqus.com/count.js" async></script>
+    </div>
 
 
 
@@ -573,3 +581,4 @@ $ cat services/mysql/main.yaml
     </script>
 </body>
 </html>
+

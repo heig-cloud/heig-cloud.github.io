@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Public Cloud on HEIG-Cloud blog</title>
-    <link>http://heig-cloud.github.io/tags/public-cloud/</link>
-    <description>Recent content in Public Cloud on HEIG-Cloud blog</description>
+    <title>Paas on HEIG-Cloud blog</title>
+    <link>http://heig-cloud.github.io/tags/paas/</link>
+    <description>Recent content in Paas on HEIG-Cloud blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 15 Feb 2016 14:58:22 +0100</lastBuildDate>
-    <atom:link href="http://heig-cloud.github.io/tags/public-cloud/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://heig-cloud.github.io/tags/paas/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Cloud Foundry</title>
@@ -239,60 +239,6 @@ cloud_provider:
 &lt;p&gt;The following image shows a basical deployment of CF: &lt;a href=&#34;https://bosh.io/docs/init-openstack.html&#34;&gt;bootstrap the environment on OpenStack&lt;/a&gt;. There are different guides depending on your IaaS (AWS, OpenStack vSphere, etc.)&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2016-02-15 cloud_foundry/cf_architecture.png&#34; alt=&#34;CF Architecture&#34; /&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Creating your own private cloud</title>
-      <link>http://heig-cloud.github.io/article/2015-12-14%20private_cloud/</link>
-      <pubDate>Mon, 14 Dec 2015 00:00:00 +0000</pubDate>
-      
-      <guid>http://heig-cloud.github.io/article/2015-12-14%20private_cloud/</guid>
-      <description>
-
-&lt;h2 id=&#34;creating-your-own-private-cloud:365f7f745395937a012ca0f9a668a231&#34;&gt;Creating your own private cloud&lt;/h2&gt;
-
-&lt;p&gt;One of the reasons why Cloud Computing has been such a success is that
-it &lt;em&gt;automates&lt;/em&gt; many tasks that previously had to be done manually by
-system administrators. Take the provisioning of a server to run a web
-application. Traditionally this takes several weeks (ordering,
-delivering, installing, configuring, &amp;hellip;) while a virtual machine in
-the cloud is provisioned with a few clicks and available in two
-minutes. This automation, coupled with economies of scale through
-immense data centers, is what allows companies like Amazon or
-Microsoft to offer cloud services at very low cost. Much cheaper than
-what a typical company pays to run its own traditional IT
-infrastructure.&lt;/p&gt;
-
-&lt;p&gt;Now there are many companies that shy away from public cloud offerings
-like AWS and Azure because the data they work with is sensitive. Think
-of banks, anybody providing health services like hospitals, or even
-schools that need to keep personal data which is protected by privacy
-laws. Sometimes using public cloud services has to be ruled out
-because there are not enough assurances that the data will be kept
-safe. In these cases one can still reap the benefits of cloud
-automation by running a &lt;em&gt;private cloud&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;To run a private cloud one needs the servers and the cloud
-software. For the latter, there basically two options: commercial
-software or Open Source
-software. &lt;a href=&#34;https://www.vmware.com/cloud-computing/overview&#34;&gt;VMware&lt;/a&gt;
-dominates the commercial cloud segment. Its software is seen as very
-solid, well documented, but also quite pricey. In the Open Source
-segment two projects dominate: &lt;a href=&#34;https://www.openstack.org&#34;&gt;OpenStack&lt;/a&gt;
-and &lt;a href=&#34;https://cloudstack.apache.org&#34;&gt;Apache CloudStack&lt;/a&gt;. OpenStack is
-very widely used, offers a wide range of functionalities, but has a
-(deserved)
-&lt;a href=&#34;https://ask.openstack.org/en/question/58965/have-you-ever-experienced-anything-worse-than-openstack/&#34;&gt;reputation to be difficult to install and run&lt;/a&gt;. CloudStack
-is
-&lt;a href=&#34;https://www.getfilecloud.com/blog/2014/02/a-game-of-stacks-openstack-vs-cloudstack/#.VtWc58e75OM&#34;&gt;easier to use&lt;/a&gt;,
-but focuses on the core IaaS services: compute, storage and
-networking. OpenStack&amp;rsquo;s scope is broader and it offers more
-flexibility. Uptake of CloudStack is less than OpenStack&amp;rsquo;s.&lt;/p&gt;
-
-&lt;p&gt;We at HEIG-VD have deployed a private cloud for research and teaching
-based on OpenStack. In upcoming blog postings we will talk about our
-experiences, good and bad, with OpenStack.&lt;/p&gt;
 </description>
     </item>
     

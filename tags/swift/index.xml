@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Swift on HEIG-Cloud blog</title>
+    <link>http://heig-cloud.github.io/tags/swift/</link>
+    <description>Recent content in Swift on HEIG-Cloud blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 17 Dec 2015 14:01:53 +0100</lastBuildDate>
+    <atom:link href="http://heig-cloud.github.io/tags/swift/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Openstack Swift</title>
+      <link>http://heig-cloud.github.io/article/2015-12-17%20swift/</link>
+      <pubDate>Thu, 17 Dec 2015 14:01:53 +0100</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-17%20swift/</guid>
+      <description>
+
+&lt;h2 id=&#34;what-is-openstack-swift:8c7538e959991150e91a688eedefb8d1&#34;&gt;What is OpenStack Swift&lt;/h2&gt;
+
+&lt;p&gt;Swift is OpenStack&amp;rsquo;s implementation of an object storage. In cloud computing, we often refer to block and object storage. OpenStack provides two different components, each responsibe for one of these parts:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cinder:&lt;/strong&gt; Block storage&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Swift:&lt;/strong&gt; Object storage&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; We won&amp;rsquo;t be covering Cinder in this article.&lt;/p&gt;
+
+&lt;h2 id=&#34;object-storage-vs-block-storage:8c7538e959991150e91a688eedefb8d1&#34;&gt;Object storage VS Block storage&lt;/h2&gt;
+
+&lt;p&gt;What is the difference between these two types of storage? Well, the name probably says it all, one is on the block level, it means that you can install an operating system, have a filesystem and use it as you would use any physical drive you may have.&lt;/p&gt;
+
+&lt;p&gt;The other one is about objects, it means you can store data (images, music, videos, archives, all kind of data). So you guessed right, the title is misleading with the &amp;ldquo;VS&amp;rdquo;, because they don&amp;rsquo;t provide the same kind of service.&lt;/p&gt;
+
+&lt;h2 id=&#34;more-about-swift:8c7538e959991150e91a688eedefb8d1&#34;&gt;More about Swift&lt;/h2&gt;
+
+&lt;p&gt;Here are a few cool things about Swift:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The project is considered &amp;ldquo;mature&amp;rdquo; by the community.&lt;/li&gt;
+&lt;li&gt;Quite easy to use.&lt;/li&gt;
+&lt;li&gt;Manages the repplication of your objects (3 copys by default)&lt;/li&gt;
+&lt;li&gt;Works well with OpenStack (integrated in the dashboard)&lt;/li&gt;
+&lt;li&gt;So on&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;how-do-i-access-data:8c7538e959991150e91a688eedefb8d1&#34;&gt;How do I access data&lt;/h3&gt;
+
+&lt;p&gt;Swift, like all the components of the stack uses a REST API to communicate. It&amp;rsquo;s also true for the user. It&amp;rsquo;s possible to interact with swift in 3 separate ways:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;CLI:&lt;/strong&gt; using the CLI (Command-Line Interface). To do so, you need to install the python client that provides the command. Usually, the openstack clients packages are named like this: python-*name*client, which in the case of swift is:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;python-swiftclient&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To use it, you only need to install the following packages:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo apt-get install python-swiftclient python-keystoneclient
+
+
+OR
+
+
+$ sudo pip install python-swiftclient python-keystoneclient
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that we also install the keystone client because by default swift will use keystone for authentification. It&amp;rsquo;s possible to change this, swift has its own auth methods but that would only add some needless complications so we&amp;rsquo;ll stick with keystone.&lt;/p&gt;
+
+&lt;p&gt;Here are a few examples of what you can do with the cli (you need to source an openrc.sh script first or use the env vars):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ swift -V 3 upload container-name file
+$ swift -V 3 download container-name file
+$ swift -V 3 post container-name 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, in order:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Uploads a file (or a directory) on the given container&lt;/li&gt;
+&lt;li&gt;Downloads a file (or a directory) from the given container&lt;/li&gt;
+&lt;li&gt;Creates a new container with the given name (if does not exist)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Python API&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You can also work on your own version of the python client, we don&amp;rsquo;t do that so this is just for reference. More info can be found &lt;a href=&#34;http://docs.openstack.org/developer/python-swiftclient/swiftclient.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;REST API&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Usually, the cli python clients do nothing more than provide you with friendly commands you can use on your terminal. All these commands exist with the REST API as well (the basic rule is, you should be able to do the same things with the CLI and the REST API). As for Swift, we never really had to work with the API, but once again, you can check it &lt;a href=&#34;http://developer.openstack.org/api-ref-objectstorage-v1.html&#34;&gt;here&lt;/a&gt; for reference.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;what-can-i-do-with-an-object-storage:8c7538e959991150e91a688eedefb8d1&#34;&gt;What can I do with an object storage&lt;/h3&gt;
+
+&lt;p&gt;A fair question indeed. You can either use it for storage, which would probably be the primary option but there are other things one can do with an object store. This image will give you a good hint:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 swift/hadoop_spark_scala.png&#34; alt=&#34;Hadoop, Spark and Scala&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you have ever worked with Hadoop or Spark, chances are pretty good that you are familiar with HDFS. If not, HDFS is simply a shared filesystem used by the hadoop workers to share data (read and write). Hadoop needs HDFS and Spark may use it as well but is not entirely dependant. It should be possible (as we read on Spark&amp;rsquo;s website) to replace HDFS by Swift. Why would we do that though? Well, first reason, we already have a working swift cluster. An other reason is, to use HDFS we need to install it on all the workers, meaning if we want to have a &amp;ldquo;virtual&amp;rdquo; cluster, we still need to give our instances a lot of &lt;strong&gt;block storage&lt;/strong&gt;. Also, deleting the instances will delete the HDFS cluster, which won&amp;rsquo;t be the case with Swift.&lt;/p&gt;
+
+&lt;p&gt;We are still working on this but the big part of the work is to adapt our codes to work with swift (login, access, etc). We have high expectations regarding this so we&amp;rsquo;ll keep working on it until it works :)&lt;/p&gt;
+
+&lt;h2 id=&#34;problems-with-swift:8c7538e959991150e91a688eedefb8d1&#34;&gt;Problems with Swift&lt;/h2&gt;
+
+&lt;p&gt;We&amp;rsquo;ve had a few problems while installing Swift. First, swift does not create logs files, it uses syslog for logging. It means that you need to consult this file to see what&amp;rsquo;s up:
+&amp;gt; /var/log/syslog&lt;/p&gt;
+
+&lt;p&gt;Is this really a problem? No but it&amp;rsquo;s worth knowing :)&lt;/p&gt;
+
+&lt;p&gt;Also, Swift makes a loooooot of logs, because it&amp;rsquo;s very verbose. Once again, having an ELK Stack is very useful :P (you can check our post about it if you are interested).&lt;/p&gt;
+
+&lt;p&gt;The installation in itself is pretty straightforward, once the conf files are downloaded, change them accordingly, create the rings, distribute them accross your swift-storage nodes and check if everything works fine.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

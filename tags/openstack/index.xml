@@ -6,8 +6,528 @@
     <description>Recent content in Openstack on HEIG-Cloud blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 16 Dec 2015 16:59:49 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 21 Dec 2015 13:19:07 +0100</lastBuildDate>
     <atom:link href="http://heig-cloud.github.io/tags/openstack/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Monitoring with Ganglia</title>
+      <link>http://heig-cloud.github.io/article/2015-12-21%20ganglia/</link>
+      <pubDate>Mon, 21 Dec 2015 13:19:07 +0100</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-21%20ganglia/</guid>
+      <description>
+
+&lt;h2 id=&#34;ganglia:2def89ffd0aeab566d25881f452e1009&#34;&gt;Ganglia&lt;/h2&gt;
+
+&lt;p&gt;We already talked about the ELK stack which is very useful to centralize and access log files. But we still haven&amp;rsquo;t found a way to monitor the physical nodes themselves (use of CPU, memory, disks, network, etc.). Well that&amp;rsquo;s ganglia&amp;rsquo;s job ;-)&lt;/p&gt;
+
+&lt;p&gt;Ganglia is a free software that allows you to keep an eye on your cluster quite easily. This is the kind of information you can get:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-21 ganglia/ganglia_sample.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You can see here the use of resources, here we are seeing the load. There is a pic along the way, probably a job that was run at this moment.&lt;/p&gt;
+
+&lt;h3 id=&#34;how-does-ganglia-work:2def89ffd0aeab566d25881f452e1009&#34;&gt;How does ganglia work&lt;/h3&gt;
+
+&lt;p&gt;Well there are basically two things ganglia has:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;gmond&lt;/li&gt;
+&lt;li&gt;gmetad&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Gmond is the service that collects the information on a host and sends it to the central server, who runs gmetad. Gmond is also the one to receive information (we usually disable this on agent nodes). Gmetad is the metrics service who runs on the ganglia server. Usually, the server also needs to be monitored, so it&amp;rsquo;ll run gmond and gmetad at the same time.&lt;/p&gt;
+
+&lt;p&gt;The process is quite simple, the daemons on the hosts send periodically their innformation to the server through the port 8649/UDP.&lt;/p&gt;
+
+&lt;p&gt;There are many customisations, we can have various servers, use multicast to manage the connection between hosts and change the intervals but we&amp;rsquo;ll keep a very basic configuration.&lt;/p&gt;
+
+&lt;h2 id=&#34;configure-server:2def89ffd0aeab566d25881f452e1009&#34;&gt;Configure server&lt;/h2&gt;
+
+&lt;p&gt;You need to edit the /etc/ganglia/gmetad.conf file and add the following line&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/ganglia/gmetad.conf
+data_source &amp;quot;cluster_name&amp;quot; 60 {{ controller_host }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you&amp;rsquo;ve read the article about Ansible, you know that {{ controller_host }} is a variable that represents the IP of the controller, which is also used as the ganglia server. You can also just type the IP if you are not using Ansible. As for the cluster_name value, you can put anything you like but you&amp;rsquo;ll have to use it again when configuring the agents so don&amp;rsquo;t forget it. Now for the gmond.conf file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/ganglia/gmond.conf
+
+cluster { 
+  name = &amp;quot;cluster_name&amp;quot; # same name as above
+  owner = &amp;quot;unspecified&amp;quot; 
+  latlong = &amp;quot;unspecified&amp;quot; 
+  url = &amp;quot;unspecified&amp;quot; 
+} 
+
+/* Feel free to specify as many udp_send_channels as you like.  Gmond 
+   used to only support having a single channel */ 
+udp_send_channel { 
+  #mcast_join = 239.2.11.71 #comment this line
+  host = {{ controller_host }} # add the IP of your controller
+  port = 8649 
+  ttl = 1 
+} 
+
+/* You can specify as many udp_recv_channels as you like as well. */ 
+udp_recv_channel { 
+  #mcast_join = 239.2.11.71 # comment
+  port = 8649 # The port that will receive information
+  #bind = 239.2.11.71 # comment
+} 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And that&amp;rsquo;s all, no need to change the rest. So basically what we did was:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Tell the agent to send the info to the controller on port 8649&lt;/li&gt;
+&lt;li&gt;To listen on UDP 8649 (information from the other hosts will arrive through here).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That&amp;rsquo;s all for the server.&lt;/p&gt;
+
+&lt;h3 id=&#34;apache:2def89ffd0aeab566d25881f452e1009&#34;&gt;Apache&lt;/h3&gt;
+
+&lt;p&gt;The last thing to do is to put this in a file in the enabled-websites of your webserver:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Alias /ganglia /usr/share/ganglia-webfrontend
+
+&amp;lt;Directory &amp;quot;/usr/share/ganglia-webfrontend&amp;quot;&amp;gt;
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Deny from none
+&amp;lt;/Directory&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;configure-agents:2def89ffd0aeab566d25881f452e1009&#34;&gt;Configure agents&lt;/h2&gt;
+
+&lt;p&gt;We still need to configure the other hosts, we will need to change the gmond.conf files again.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/ganglia/gmond.conf
+
+/* If a cluster attribute is specified, then all gmond hosts are wrapped inside 
+ * of a &amp;lt;CLUSTER&amp;gt; tag.  If you do not specify a cluster tag, then all &amp;lt;HOSTS&amp;gt; will 
+ * NOT be wrapped inside of a &amp;lt;CLUSTER&amp;gt; tag. */ 
+cluster { 
+  name = &amp;quot;cluster_name&amp;quot; # alwasy the same cluster_name
+  owner = &amp;quot;unspecified&amp;quot; 
+  latlong = &amp;quot;unspecified&amp;quot; 
+  url = &amp;quot;unspecified&amp;quot; 
+} 
+
+/* Feel free to specify as many udp_send_channels as you like.  Gmond 
+   used to only support having a single channel */ 
+udp_send_channel { 
+  #mcast_join = 239.2.11.71 # comment this
+  host = {{ controller_host }} # controller&#39;s IP
+  port = 8649 # port 8649 to send info
+  ttl = 1 
+} 
+
+# Comment this whole thing
+/*
+udp_recv_channel { 
+  mcast_join = 239.2.11.71 
+  port = 8649 
+  bind = 239.2.11.71 
+} 
+*/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Last step is to restart the services.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Controller&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo service gmetad restart
+$ sudo service ganglia-monitor restart
+$ sudo service apache2 restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Hosts&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo service ganglia-monitor restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Reboot gmetad first and then reboot the ganglia-monitor service on the hosts. You must always start ganglia-monitor after gmetad, so if you need to reboot gmetad, also reboot ganglia-monitor on all hosts or they won&amp;rsquo;t send their metrics.&lt;/p&gt;
+
+&lt;h2 id=&#34;accessing-the-webpage:2def89ffd0aeab566d25881f452e1009&#34;&gt;Accessing the webpage&lt;/h2&gt;
+
+&lt;p&gt;To access the monitoring interface, go to:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;http://controller/ganglia
+
+# Replace controller by IP if not in your DNS or hosts file.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here is another sample of the informations you can get. Here you see general informations, as memory, cpu, load and network for the entire cluster called iict_cloud.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-21 ganglia/ganglia_sample2.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And here we can see more information about one host, the controller, its CPU usages and specific information.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-21 ganglia/ganglia_sample3.png&#34; alt=&#34;Ganglia sample&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion:2def89ffd0aeab566d25881f452e1009&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;That&amp;rsquo;s all for Ganglia, we won&amp;rsquo;t cover how to use it as it&amp;rsquo;s quite easy, you can also check the &lt;a href=&#34;http://ganglia.sourceforge.net/&#34;&gt;official website&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>LDAP and multi-domain Keystone</title>
+      <link>http://heig-cloud.github.io/article/2015-12-17%20ldap/</link>
+      <pubDate>Thu, 17 Dec 2015 16:47:45 +0100</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-17%20ldap/</guid>
+      <description>
+
+&lt;h2 id=&#34;what-is-ldap:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;What is LDAP&lt;/h2&gt;
+
+&lt;p&gt;LDAP is a protocol used to create a directory, we often speak of LDAP directories. For those who are more familiar with Microsoft&amp;rsquo;s world, you&amp;rsquo;ve probably already heard about Active Directory. This is &amp;ldquo;nothing more&amp;rdquo; than a special implementation of LDAP made by Microsoft. Of course that&amp;rsquo;s not true, but it&amp;rsquo;s possible to get both to work together. It&amp;rsquo;s not the aim of this post though ;-) (Even if we use Active Directory, or AD for short, and not another LDAP implementation).&lt;/p&gt;
+
+&lt;h3 id=&#34;why-do-i-need-a-directory:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Why do I need a directory&lt;/h3&gt;
+
+&lt;p&gt;Well, why do we all have an annuary on our celle phones for instance? Because it&amp;rsquo;s not easy to remember and manage all the contacts we have. It&amp;rsquo;s also possible to groupe people (familiy, friends, job, ennemies?). Well LDAP servers are here to provide that same kind of service but for an institution.&lt;/p&gt;
+
+&lt;h4 id=&#34;what-can-i-store-in-a-directory:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;What can I store in a directory&lt;/h4&gt;
+
+&lt;p&gt;Well, pretty much everything to be honest. Usually we&amp;rsquo;ll find:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;People&lt;/li&gt;
+&lt;li&gt;Groups&lt;/li&gt;
+&lt;li&gt;Personnal computers&lt;/li&gt;
+&lt;li&gt;Servers&lt;/li&gt;
+&lt;li&gt;Rooms?&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So yes, it&amp;rsquo;s possible to store in a lot of information.&lt;/p&gt;
+
+&lt;h2 id=&#34;ldap-and-keystone:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;LDAP and Keystone&lt;/h2&gt;
+
+&lt;p&gt;So, why are we talking about LDAP, AD and all that on this blog? Quite simple, we&amp;rsquo;ve added a &lt;strong&gt;domain&lt;/strong&gt; that makes use of AD to authentificate users.&lt;/p&gt;
+
+&lt;h3 id=&#34;why-do-that:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Why do that&lt;/h3&gt;
+
+&lt;p&gt;First, let&amp;rsquo;s see what Keystone does before we can answer that question. Keystone is one of the main parts of the OpenStack project. It has two main jobs:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;To &lt;strong&gt;authentificate&lt;/strong&gt; users&lt;/li&gt;
+&lt;li&gt;To &lt;strong&gt;authorize&lt;/strong&gt; users&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Both these points may sound like they are the same but they are not. The first part is authentification (&lt;strong&gt;warning:&lt;/strong&gt; this will be very brief, naive and incomplete, but as always, it should be enough, you can always find more information about this on the internet). To explain this, let&amp;rsquo;s make an easy scenario. We have two people and a door. One of them is a guard whose name is Keystone. he is posted in front of the door leading to the wonderful world of OpenStack. The other one wants to go through, that&amp;rsquo;s Bob, a simple user.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/keystone1.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In this case, Keystone is responsible for authentificating and authorizing the users of the door. Keystone knows Bob, because they are buddies, so he lets him through.&lt;/p&gt;
+
+&lt;p&gt;Now let&amp;rsquo;s say that Carl wants to go through, Keystone does not know him.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/keystone2.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The thing is, Carl can authentificate himslef differently. If keystone accepts authentification from that other medium (let&amp;rsquo;s say a LDAP server for example), it can work.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/keystone3.png&#34; alt=&#34;Bob and Keystone&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So here, Carl was granted the authorization by Keystone after LDAP vouched for him (authentification part).&lt;/p&gt;
+
+&lt;p&gt;So in the end, it&amp;rsquo;s possible to have 2 different kind of systems:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Keystone authentificates and authorizes an user.&lt;/li&gt;
+&lt;li&gt;A service authentificate an user and Keystone authorizes him.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;No matter the situation, Keystone has the final saying as to the permissions given to the users but will recognize the identity of the users if given by a trusted source (LDAP, AD, or other).&lt;/p&gt;
+
+&lt;h2 id=&#34;domains:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Domains&lt;/h2&gt;
+
+&lt;p&gt;In Keystone, it&amp;rsquo;s possible to define domains. Domains contain users, projects, groups, etc. The cool thing about them is the fact that it&amp;rsquo;s possible to have different sources of users for each domain. For example, we have two domains in our setup:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;default&lt;/strong&gt; domain, that contains the OS services&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;heig-vd&lt;/strong&gt; domain, that links to our AD, used for authentification of our users.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It allows us to give access to our cloud to all the users already managed in the AD without having to manage them ourselves. The other cool thing is, Keystone is still responsible of authorizing the users, so once a user is authentificated with LDAP/AD, he will follow keystone&amp;rsquo;s instructions. By default, a user has &amp;ldquo;user&amp;rdquo; permissions, which basically allows him to create instances. He does not have access to the management interface and can only do limited operations. That&amp;rsquo;s why we have a multi-domain setup.&lt;/p&gt;
+
+&lt;h3 id=&#34;multi-domain:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Multi-domain&lt;/h3&gt;
+
+&lt;p&gt;The possibility of having multiple domains came with the v3 of the Keystone API. By default, there is only one domain called &amp;ldquo;default&amp;rdquo;. It contains the admin user and the services (glance, nova, neutron, etc.). The cloud admin can then add some projects, users or groups to this domain. It means that the admin &lt;em&gt;needs to add the users and manage them&lt;/em&gt;. That&amp;rsquo;s not exactly nice. That&amp;rsquo;s why it&amp;rsquo;s now possible to have multiple domains. We already explained earlier that we have 2 domains earlier, the truth is we can separate the users from the services and we also don&amp;rsquo;t need to manually add the users to the authentification pool. All we have to do is give the users the &lt;strong&gt;right permissions.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The following image shows you what it&amp;rsquo;s possible to achieve with multi-domain Keystone:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/multidomain.png&#34; alt=&#34;Multi-domain Keystone&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So what do we have?&lt;/p&gt;
+
+&lt;h4 id=&#34;domain-1:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Domain 1&lt;/h4&gt;
+
+&lt;p&gt;This domain contains 1 project. There is one group, called group 1 that has rights on this project. There are also 2 users who are presently not linked to any project.&lt;/p&gt;
+
+&lt;h4 id=&#34;domain-2:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Domain 2&lt;/h4&gt;
+
+&lt;p&gt;This domains contains 2 projects. Each project has a group associated.&lt;/p&gt;
+
+&lt;h4 id=&#34;so:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;So?&lt;/h4&gt;
+
+&lt;p&gt;What we wanted to show here is, it&amp;rsquo;s possible to manage users by groups or individually. You can say, all the people in this group can work on this project or for instance chose to associate group 1 to the proj 1 but also authorize Carl to work on it.&lt;/p&gt;
+
+&lt;h3 id=&#34;groups-roles:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Groups != roles&lt;/h3&gt;
+
+&lt;p&gt;When we talk about groups and users, we are talking about authentification accounts that you&amp;rsquo;ll find on your AD or LDAP server. However, Roles are managed by Keystone. Usually there are 2 roles (you can obviously create more but you&amp;rsquo;ll need to change the policy.json file):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;admin, which is pretty much self-explanatory&lt;/li&gt;
+&lt;li&gt;user (sometimes _member_), no administration rights.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Be careful, the old policy file does not manage domains, it means that someone who is an admin can manage &lt;strong&gt;all domains&lt;/strong&gt;. To prevent that, you need to update the policies, you can find it &lt;a href=&#34;https://github.com/openstack/keystone/blob/master/etc/policy.v3cloudsample.json&#34;&gt;here&lt;/a&gt;. Depending on your configuration, if you only plan to have a domain for users working with LDAP and one admin to manage all of that, the old policy file can be acceptable.&lt;/p&gt;
+
+&lt;h2 id=&#34;enable-multi-domain-keystone:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Enable multi-domain Keystone&lt;/h2&gt;
+
+&lt;p&gt;There are only a few operations you need to do to enable multi-domain Keystone:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/keystone/keystone.conf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and add the following lines:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;domain_specific_drivers_enabled = True&lt;/p&gt;
+
+&lt;p&gt;domain_config_dir = /etc/keystone/domains&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;It will tell keystone to look in the /etc/keystone/domains/ directory for domain-specific conf files. Now you can also create this directory&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo mkdir /etc/keystone/domains
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next step is to create the conf file for your domain. Name it like:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;keystone.domain_name.conf&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In our case it&amp;rsquo;s
+&amp;gt; keystone.heig-vd.conf&lt;/p&gt;
+
+&lt;p&gt;The content of this file is the configuration of your LDAP server. It&amp;rsquo;s a good idea to create an user that has read-only rights on the LDAP server that you&amp;rsquo;ll use for your authentification process. To create this file, you can use &lt;a href=&#34;https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/5/html/Cloud_Administrator_Guide/configuring-keystone-for-ldap-backend.html&#34;&gt;this link&lt;/a&gt;, it provides some good information or try to complete the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[identity]
+driver = keystone.identity.backends.ldap.Identity
+
+[ldap]
+url = ldap://localhost
+suffix = DC=mysite,DC=com
+query_scope = sub # Means that you want to check sub-trees
+user = CN=openstackuser,OU=users,DC=mysite,DC=com
+password = pa$$word
+use_dumb_member = False
+
+user_tree_dn = OU=users,dc=mysite,dc=com
+
+user_objectclass = person
+
+user_id_attribute = cn
+#user_id_attribute = uidNumber
+user_name_attribute = sAMAccountName
+user_mail_attribute = mail
+user_pass_attribute = password
+user_enabled_attribute = userAccountControl
+
+group_tree_dn = OU=groups,dc=mysite,dc=com
+group_objectclass = organizationalUnit 
+group_id_attribute = name
+group_name_attribute = name
+#group_member_attribute = member
+#group_desc_attribute = description
+
+user_allow_create = false
+user_allow_update = false
+user_allow_delete = false
+project_allow_create = false
+project_allow_update = false
+project_allow_delete = false
+role_allow_create = false
+role_allow_update = false
+role_allow_delete = false
+group_allow_create = false
+group_allow_update = false
+group_allow_delete = false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This configuration should work for Active Directory. It&amp;rsquo;s also possible to not use an user if you LDAP directory is open (which is not really good but well&amp;hellip;).&lt;/p&gt;
+
+&lt;p&gt;The last step is to enable multi-domain login on horizon, it will add a &amp;ldquo;domain&amp;rdquo; line that you&amp;rsquo;ll have to fill when logging on the dashboard.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 ldap/login_domain.png&#34; alt=&#34;Multi-domain Keystone&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The line to change is here:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/openstack-dashboard/local_settings.py
+# Overrides for OpenStack API versions. Use this setting to force the
+# OpenStack dashboard to use a specific API version for a given service API.
+# Versions specified here should be integers or floats, not strings.
+# NOTE: The version should be formatted as it appears in the URL for the
+# service API. For example, The identity service APIs have inconsistent
+# use of the decimal point, so valid options would be 2.0 or 3.
+OPENSTACK_API_VERSIONS = {
+    &amp;quot;data-processing&amp;quot;: 1.1,
+    &amp;quot;identity&amp;quot;: 3,
+    &amp;quot;volume&amp;quot;: 2,
+}
+
+# Set this to True if running on multi-domain model. When this is enabled, it
+# will require user to enter the Domain name in addition to username for login.
+OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here the important things are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;identity: 3 # It tells horizon to use the V3 of Keystone
+
+OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True #This one is pretty easy to understand ;-)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There is an other thing to change in this file (and that made us waste a lot of time so you&amp;rsquo;ll thank us one day), here it is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# We recommend you use memcached for development; otherwise after every reload
+# of the django development server, you will have to login again. To use
+# memcached set CACHES to something like
+SESSION_ENGINE = &#39;django.contrib.sessions.backends.cache&#39;
+CACHES = {
+    &#39;default&#39;: {
+        &#39;BACKEND&#39;: &#39;django.core.cache.backends.memcached.MemcachedCache&#39;,
+        &#39;LOCATION&#39;: &#39;127.0.0.1:11211&#39;,
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;What is that? This is where the sessions are stored. By default, they are not stored on memcached. What is the problem? There is a size limit! It works fine without multi-domain but once you enable it, you can have some problems that are very curious. In our case, before we changed the sessions engine, we could not switch between projects. Let&amp;rsquo;s say user A has access to the projects P1 and P2, he could not change from one to the other. This was &lt;em&gt;not easy&lt;/em&gt; to find, so we are writing it down hoping it will help some people :)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; obvioulsy, we presume that you have memcached installed, which should be the case if you followed the official installation guide for OS Kilo.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Enabling a LDAP-backend for authentification is not hard on OpenStack, the problems you may encounter are the creation of the config file for your domain, the fact that you may be using the V2 of Keystone (which does not know about domains at all), the sessions engine not configured on memcached and that&amp;rsquo;s pretty much all. If you followed the guide, it already makes you work with the V3 when it&amp;rsquo;s possible.&lt;/p&gt;
+
+&lt;p&gt;Also, note that when you use the CLI or the API, you also need to specifiy the region, the id of the project&amp;rsquo;s domain and the id of the user&amp;rsquo;s domain (in addition to all the other options that were already asked by the v2 of Keystone, like the username, password, project, etc.).&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Openstack Swift</title>
+      <link>http://heig-cloud.github.io/article/2015-12-17%20swift/</link>
+      <pubDate>Thu, 17 Dec 2015 14:01:53 +0100</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-17%20swift/</guid>
+      <description>
+
+&lt;h2 id=&#34;what-is-openstack-swift:8c7538e959991150e91a688eedefb8d1&#34;&gt;What is OpenStack Swift&lt;/h2&gt;
+
+&lt;p&gt;Swift is OpenStack&amp;rsquo;s implementation of an object storage. In cloud computing, we often refer to block and object storage. OpenStack provides two different components, each responsibe for one of these parts:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cinder:&lt;/strong&gt; Block storage&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Swift:&lt;/strong&gt; Object storage&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; We won&amp;rsquo;t be covering Cinder in this article.&lt;/p&gt;
+
+&lt;h2 id=&#34;object-storage-vs-block-storage:8c7538e959991150e91a688eedefb8d1&#34;&gt;Object storage VS Block storage&lt;/h2&gt;
+
+&lt;p&gt;What is the difference between these two types of storage? Well, the name probably says it all, one is on the block level, it means that you can install an operating system, have a filesystem and use it as you would use any physical drive you may have.&lt;/p&gt;
+
+&lt;p&gt;The other one is about objects, it means you can store data (images, music, videos, archives, all kind of data). So you guessed right, the title is misleading with the &amp;ldquo;VS&amp;rdquo;, because they don&amp;rsquo;t provide the same kind of service.&lt;/p&gt;
+
+&lt;h2 id=&#34;more-about-swift:8c7538e959991150e91a688eedefb8d1&#34;&gt;More about Swift&lt;/h2&gt;
+
+&lt;p&gt;Here are a few cool things about Swift:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The project is considered &amp;ldquo;mature&amp;rdquo; by the community.&lt;/li&gt;
+&lt;li&gt;Quite easy to use.&lt;/li&gt;
+&lt;li&gt;Manages the repplication of your objects (3 copys by default)&lt;/li&gt;
+&lt;li&gt;Works well with OpenStack (integrated in the dashboard)&lt;/li&gt;
+&lt;li&gt;So on&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;how-do-i-access-data:8c7538e959991150e91a688eedefb8d1&#34;&gt;How do I access data&lt;/h3&gt;
+
+&lt;p&gt;Swift, like all the components of the stack uses a REST API to communicate. It&amp;rsquo;s also true for the user. It&amp;rsquo;s possible to interact with swift in 3 separate ways:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;CLI:&lt;/strong&gt; using the CLI (Command-Line Interface). To do so, you need to install the python client that provides the command. Usually, the openstack clients packages are named like this: python-*name*client, which in the case of swift is:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;python-swiftclient&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To use it, you only need to install the following packages:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo apt-get install python-swiftclient python-keystoneclient
+
+
+OR
+
+
+$ sudo pip install python-swiftclient python-keystoneclient
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that we also install the keystone client because by default swift will use keystone for authentification. It&amp;rsquo;s possible to change this, swift has its own auth methods but that would only add some needless complications so we&amp;rsquo;ll stick with keystone.&lt;/p&gt;
+
+&lt;p&gt;Here are a few examples of what you can do with the cli (you need to source an openrc.sh script first or use the env vars):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ swift -V 3 upload container-name file
+$ swift -V 3 download container-name file
+$ swift -V 3 post container-name 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, in order:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Uploads a file (or a directory) on the given container&lt;/li&gt;
+&lt;li&gt;Downloads a file (or a directory) from the given container&lt;/li&gt;
+&lt;li&gt;Creates a new container with the given name (if does not exist)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Python API&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You can also work on your own version of the python client, we don&amp;rsquo;t do that so this is just for reference. More info can be found &lt;a href=&#34;http://docs.openstack.org/developer/python-swiftclient/swiftclient.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;REST API&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Usually, the cli python clients do nothing more than provide you with friendly commands you can use on your terminal. All these commands exist with the REST API as well (the basic rule is, you should be able to do the same things with the CLI and the REST API). As for Swift, we never really had to work with the API, but once again, you can check it &lt;a href=&#34;http://developer.openstack.org/api-ref-objectstorage-v1.html&#34;&gt;here&lt;/a&gt; for reference.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;what-can-i-do-with-an-object-storage:8c7538e959991150e91a688eedefb8d1&#34;&gt;What can I do with an object storage&lt;/h3&gt;
+
+&lt;p&gt;A fair question indeed. You can either use it for storage, which would probably be the primary option but there are other things one can do with an object store. This image will give you a good hint:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/2015-12-17 swift/hadoop_spark_scala.png&#34; alt=&#34;Hadoop, Spark and Scala&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you have ever worked with Hadoop or Spark, chances are pretty good that you are familiar with HDFS. If not, HDFS is simply a shared filesystem used by the hadoop workers to share data (read and write). Hadoop needs HDFS and Spark may use it as well but is not entirely dependant. It should be possible (as we read on Spark&amp;rsquo;s website) to replace HDFS by Swift. Why would we do that though? Well, first reason, we already have a working swift cluster. An other reason is, to use HDFS we need to install it on all the workers, meaning if we want to have a &amp;ldquo;virtual&amp;rdquo; cluster, we still need to give our instances a lot of &lt;strong&gt;block storage&lt;/strong&gt;. Also, deleting the instances will delete the HDFS cluster, which won&amp;rsquo;t be the case with Swift.&lt;/p&gt;
+
+&lt;p&gt;We are still working on this but the big part of the work is to adapt our codes to work with swift (login, access, etc). We have high expectations regarding this so we&amp;rsquo;ll keep working on it until it works :)&lt;/p&gt;
+
+&lt;h2 id=&#34;problems-with-swift:8c7538e959991150e91a688eedefb8d1&#34;&gt;Problems with Swift&lt;/h2&gt;
+
+&lt;p&gt;We&amp;rsquo;ve had a few problems while installing Swift. First, swift does not create logs files, it uses syslog for logging. It means that you need to consult this file to see what&amp;rsquo;s up:
+&amp;gt; /var/log/syslog&lt;/p&gt;
+
+&lt;p&gt;Is this really a problem? No but it&amp;rsquo;s worth knowing :)&lt;/p&gt;
+
+&lt;p&gt;Also, Swift makes a loooooot of logs, because it&amp;rsquo;s very verbose. Once again, having an ELK Stack is very useful :P (you can check our post about it if you are interested).&lt;/p&gt;
+
+&lt;p&gt;The installation in itself is pretty straightforward, once the conf files are downloaded, change them accordingly, create the rings, distribute them accross your swift-storage nodes and check if everything works fine.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Architecture of our OpenStack deployment</title>

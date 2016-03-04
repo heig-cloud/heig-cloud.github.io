@@ -764,7 +764,7 @@ $ cat services/mysql/main.yaml
 
 &lt;h2 id=&#34;what-is-ldap:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;What is LDAP&lt;/h2&gt;
 
-&lt;p&gt;LDAP is a protocole used to create a directory, we often speak of LDAP directories. For those who are more familiar with Microsoft&amp;rsquo;s world, you&amp;rsquo;ve probably already heard about Active Directory. This is &amp;ldquo;nothing more&amp;rdquo; than a special implementation of LDAP made by Microsoft. Of course that&amp;rsquo;s not true, but it&amp;rsquo;s possible to get both to work together. It&amp;rsquo;s not the aim of this post though ;-) (Even if we use Active Directory, or AD for short, and not another LDAP implementation).&lt;/p&gt;
+&lt;p&gt;LDAP is a protocol used to create a directory, we often speak of LDAP directories. For those who are more familiar with Microsoft&amp;rsquo;s world, you&amp;rsquo;ve probably already heard about Active Directory. This is &amp;ldquo;nothing more&amp;rdquo; than a special implementation of LDAP made by Microsoft. Of course that&amp;rsquo;s not true, but it&amp;rsquo;s possible to get both to work together. It&amp;rsquo;s not the aim of this post though ;-) (Even if we use Active Directory, or AD for short, and not another LDAP implementation).&lt;/p&gt;
 
 &lt;h3 id=&#34;why-do-i-need-a-directory:c220c0d92879b41605b247e5a0b4f1bb&#34;&gt;Why do I need a directory&lt;/h3&gt;
 

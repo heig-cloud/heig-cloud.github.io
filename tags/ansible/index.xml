@@ -6,8 +6,354 @@
     <description>Recent content in Ansible on HEIG-Cloud blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 15 Dec 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 18 Dec 2015 14:40:53 +0100</lastBuildDate>
     <atom:link href="http://heig-cloud.github.io/tags/ansible/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Orchestration with Ansible</title>
+      <link>http://heig-cloud.github.io/article/2015-12-18%20ansible/</link>
+      <pubDate>Fri, 18 Dec 2015 14:40:53 +0100</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2015-12-18%20ansible/</guid>
+      <description>
+
+&lt;h2 id=&#34;orchestration-tools:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Orchestration tools&lt;/h2&gt;
+
+&lt;p&gt;First of all, what is an orchestration tool? Well, as the name implies, it&amp;rsquo;s something that plays the rool of a chief conductor that is leading an orchestra. Its job is to manage the orchestra by giving orders and instructions.&lt;/p&gt;
+
+&lt;h3 id=&#34;different-tools:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Different tools&lt;/h3&gt;
+
+&lt;p&gt;There are many orchestration tools that you can use and most of them are free. The famous ones are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Ansible (the one we use)&lt;/li&gt;
+&lt;li&gt;Chef&lt;/li&gt;
+&lt;li&gt;Puppet&lt;/li&gt;
+&lt;li&gt;Salt&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Usually, these tools require you to install a &amp;ldquo;supervisor&amp;rdquo; on a certain host that will act as the orchestrator. As for Ansible however, you only need to install Ansible and you are set. No need to install something else, configure or pay, you are all set.&lt;/p&gt;
+
+&lt;p&gt;As you can imagine we chose to use Ansible, though we could have used any of the others. The main point is to have an idempotent script that you can run to make your setup, update it and recover it in case of emergency.&lt;/p&gt;
+
+&lt;h2 id=&#34;install-ansible:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Install Ansible&lt;/h2&gt;
+
+&lt;p&gt;From now on, we will only be speaking about Ansible.&lt;/p&gt;
+
+&lt;p&gt;The main requirement for Ansible is python. To install Ansible you can use pip, like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo pip install ansible
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you don&amp;rsquo;t have pip, you can install it like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo easy_install pip
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can also get ansible from sources:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git clone git://github.com/ansible/ansible.git --recursive
+$ cd ./ansible
+$ source ./hacking/env-setup
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And you can also install it on Mac with pip.&lt;/p&gt;
+
+&lt;p&gt;That&amp;rsquo;s all for the installation.&lt;/p&gt;
+
+&lt;h2 id=&#34;state-scripts:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;State scripts&lt;/h2&gt;
+
+&lt;p&gt;There is a very cool concept with Ansible (and probably most of the orchestration tools), we don&amp;rsquo;t specify the commands we want to do, we specify a &lt;strong&gt;state&lt;/strong&gt;. What does it mean? Let&amp;rsquo;s take an example, say we need to install the package called &lt;em&gt;mysql-server&lt;/em&gt;. In Ansible we&amp;rsquo;ll say:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;apt: 
+    name: mysql-server
+    state: latest
+    update_cache: yes
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, what is up? Why not use &lt;em&gt;apt-get&lt;/em&gt; and be done with it? First let&amp;rsquo;s see what we did in here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;apt, Ansible&amp;rsquo;s command to install a package&lt;/li&gt;
+&lt;li&gt;name, the name of the package we want to install&lt;/li&gt;
+&lt;li&gt;state, the state we want. Latest means we want the last version available.&lt;/li&gt;
+&lt;li&gt;update_cache, will launch apt-get update before the operation.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There are more options, you can check them &lt;a href=&#34;http://docs.ansible.com/ansible/apt_module.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So why is this powerful? Well, we never used commands! It means that the Ansible script can work on different OS. For instance, if I wanted to install mysql-server on Ubuntu:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo apt-get install mysql-server
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And on RH or CentOS?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ yum install mysql-server
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But on Ansible it&amp;rsquo;s always the same. We just say, I want to have mysql&amp;rsquo;s latest version installed, I don&amp;rsquo;t care how you do it. That&amp;rsquo;s the power of Ansible. That&amp;rsquo;s also why these scripts can be idempotents. If the state we want to reach is already ok, for instance, we are trying to install a package that is already installed, nothing will be done.&lt;/p&gt;
+
+&lt;p&gt;What if we wanted to uninstall mysql-server with Ansible?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;apt: 
+    name: mysql-server
+    state: absent
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The new state is &amp;ldquo;absent&amp;rdquo;, meaning that it must be deleted if it exists or nothing will be done.&lt;/p&gt;
+
+&lt;h2 id=&#34;yaml:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;YAML&lt;/h2&gt;
+
+&lt;p&gt;If you&amp;rsquo;ve ever worked on configuration files, maybe for an application or a website, you&amp;rsquo;ve probably already know a little about YAML. This is a language with a very human friendly syntax. It means that it is quite easy to understand at first glance, unline XML or JSON for example.&lt;/p&gt;
+
+&lt;p&gt;With Ansible, we are going to create playbooks, these &amp;ldquo;books&amp;rdquo; contain instructions that Ansible will execute on the remote hosts.&lt;/p&gt;
+
+&lt;p&gt;This here is an example of YAML code:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;---
+- name: Install cinder-api
+  hosts: cinder-api
+  sudo: True
+  gather_facts: True
+  vars: 
+    packages:
+      - cinder-api
+      - cinder-scheduler
+      - python-cinderclient
+    services:
+      - cinder-scheduler
+      - cinder-api
+
+  tasks: 
+
+  - name: Install packages
+    apt:
+      pkg: &amp;quot;{{ item }}&amp;quot;
+      state: latest
+    with_items: packages
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can already see what a playbook looks like, in here we indicate on which hosts we want to run this, if we need sudo permissions, if we want to gather_facts, we set a few variables and have a task to install a package. We will see this in detail later ;-)&lt;/p&gt;
+
+&lt;h3 id=&#34;architecture-of-the-project:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Architecture of the project&lt;/h3&gt;
+
+&lt;p&gt;This is an example of a project, we&amp;rsquo;ll use this example as reference.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Project/ 
+    - playbooks/
+        - book1.yaml
+        - book2.yaml
+    - inventory
+    - ansible.cfg
+    - group_vars/
+        - all.yaml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;templating:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Templating&lt;/h2&gt;
+
+&lt;p&gt;The other functionnality that we use a lot with Ansible is templating. This is very powerful, it allows us to use variables in files. For instance, we need to have an IP address in a conf file, instead of writing it ourselves, we put a variable. It means that if one day we need to change the IP, we don&amp;rsquo;t need to change the conf file itself. It gives us a lot of options and we are going to see a few examples, so you can grasp the amazing possibilities if offers you.&lt;/p&gt;
+
+&lt;p&gt;Ansible uses jinja2 templates, it&amp;rsquo;s quite easy to understand how they work. Variables will be inside {{ }}, when starting a line, you&amp;rsquo;ll need to use &amp;ldquo;{{ }}&amp;rdquo;, that&amp;rsquo;s pretty much all you need to know.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s create a directory for variables. If you create a directory called &lt;strong&gt;group_vars&lt;/strong&gt;, the variables defined inside will be usable automatically. That&amp;rsquo;s quite useful so we will do this. Inside, you can create various files but again, if you create a file called all.yaml, the content will be available automatically. So in the end:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ touch group_vars/all.yaml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once you have your all.yaml file created, you can start creating variables like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;instance_tunnel_network: 172.20.0.0
+instance_tunnel_netmask: 255.255.0.0
+instance_tunnel_broadcast: 172.20.255.255
+
+instance_tunnel_address_network: 172.20.0.1
+instance_tunnel_address_compute1: 172.20.0.11
+
+#You can also use python methods, to get a specifi IP or to get the content of a file for example
+controller_host: &amp;quot;{{ hostvars[&#39;controller&#39;]|find_ip(management_network) }}&amp;quot;
+keystone_admin_token : &amp;quot;{{ lookup(&#39;password&#39;, inventory_dir + &#39;/credentials/keystone-admin-token&#39;) }}&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The cool thing is, you can have all your passwords inside files and in the conf files, you get the content of these pasword. Very useful if you want to share your implementation but don&amp;rsquo;t want to share your passwords (which would probably be a bad idea).&lt;/p&gt;
+
+&lt;p&gt;We can now use these vars in playbooks or in text files, like conf files. Let&amp;rsquo;s see an example of both:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Inside a playbook
+  - name: Create the service project 
+    keystone_user: 
+      endpoint: &amp;quot;{{ keystone_admin_url }}&amp;quot;
+      token: &amp;quot;{{ keystone_admin_token }}&amp;quot; 
+      tenant: service
+      tenant_description: &amp;quot;Service Project&amp;quot;   
+
+# Inside a conf file
+  bind-address      = {{ controller_host }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;ansible-template-instruction:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Ansible template instruction&lt;/h3&gt;
+
+&lt;p&gt;When you want to replace a conf file by one that has been &amp;ldquo;templated&amp;rdquo;, you need to use ansible&amp;rsquo;s template command. Let&amp;rsquo;s say we want to change the &lt;strong&gt;my.cnf&lt;/strong&gt; file of mysql on a certain host with one we templated ourselves (changing the bind-address value with {{ controller_host }} for instance).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- name: install mysql config file that binds to management network interface
+  template: 
+    src: templates/etc/mysql/my.cnf 
+    dest: /etc/mysql/my.cnf 
+    owner: root 
+    group: root 
+    mode: 0644
+    backup: yes
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can also specify the mode, group and user of the file once it has been copied on the remote host. The backup line will copy the original file and leave it as &lt;em&gt;name.backup&lt;/em&gt;, in our case, we&amp;rsquo;ll have a &lt;strong&gt;my.cnf.backup&lt;/strong&gt; file present on the remote host.&lt;/p&gt;
+
+&lt;h2 id=&#34;project:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Project&lt;/h2&gt;
+
+&lt;p&gt;Once you have Ansible ready, you can test if you have this command in your path for instance:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ansible-playbook 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is the command we&amp;rsquo;ll be using to launch playbooks. Now let&amp;rsquo;s see what we need for an Ansible project.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Ansible installed (obviously)&lt;/li&gt;
+&lt;li&gt;SSH on all remote hosts&lt;/li&gt;
+&lt;li&gt;An inventory file&lt;/li&gt;
+&lt;li&gt;A playbook&lt;/li&gt;
+&lt;li&gt;A file containing vars (optionnal)&lt;/li&gt;
+&lt;li&gt;A config file ansible.cfg (optionnal)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This would be the minimal setting as we see it. You need to know that Ansible has a lot of modules, some of them are in the &amp;ldquo;core&amp;rdquo;, some are extra and you can also create your own modules.&lt;/p&gt;
+
+&lt;p&gt;There are also a few good practices about the playbooks that we will see later.&lt;/p&gt;
+
+&lt;h3 id=&#34;ssh-on-remote:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;SSH on remote&lt;/h3&gt;
+
+&lt;p&gt;Ansible needs to connect to the remote hosts to run the commands. To do so, it needs to be able to ssh on the remote hosts.&lt;/p&gt;
+
+&lt;p&gt;If you don&amp;rsquo;t know how to create a ssh key pair, check this &lt;a href=&#34;https://help.github.com/articles/generating-ssh-keys/&#34;&gt;link&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can also edit the ansible.cfg file to match the ssh user, like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[defaults]
+ssh_user = sshuser
+ssh_pass = pa$$word
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once you can ssh on the remote hosts without typing a password and with the user &amp;ldquo;ssh_user&amp;rdquo;, it should work fine.&lt;/p&gt;
+
+&lt;h3 id=&#34;inventory-file:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Inventory file&lt;/h3&gt;
+
+&lt;p&gt;The inventory file is very important, it contains all the information about the hosts. You must know that with Ansible, you can create groups of hosts. Let&amp;rsquo;s say you have 10 nodes:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;8 web servers&lt;/li&gt;
+&lt;li&gt;1 mysql server&lt;/li&gt;
+&lt;li&gt;1 load balancer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You could create 3 groups, like:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;[web]&lt;/li&gt;
+&lt;li&gt;[mysql]&lt;/li&gt;
+&lt;li&gt;[loadbalancing]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Why do that? Well, chances are, you probably will be doing the same operations on all the web servers, so why not just say, do this operation on all the web servers instead of doing this indivudally? Fair point right? :)&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s see an example of an inventory file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;controller ansible_ssh_host=xxx.xxx.xxx.xxx
+network    ansible_ssh_host=xxx.xxx.xxx.xxx
+
+compute1   ansible_ssh_host=xxx.xxx.xxx.xxx
+compute2   ansible_ssh_host=xxx.xxx.xxx.xxx
+compute3   ansible_ssh_host=xxx.xxx.xxx.xxx
+
+[mysql]
+controller
+
+[computenodes]
+compute1
+compute2
+compute3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There you go, 5 hosts, 2 groups. When writing a playbook, you can use any of the following hosts:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;controller&lt;/li&gt;
+&lt;li&gt;network&lt;/li&gt;
+&lt;li&gt;compute1&lt;/li&gt;
+&lt;li&gt;compute2&lt;/li&gt;
+&lt;li&gt;compute3&lt;/li&gt;
+&lt;li&gt;mysql&lt;/li&gt;
+&lt;li&gt;computenodes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This is of course a very basic inventory file. There are other options too, you can check them &lt;a href=&#34;http://docs.ansible.com/ansible/intro_inventory.html&#34;&gt;here&lt;/a&gt;. You also probably noticed the &lt;strong&gt;ansible_ssh_host=xxx.xxx.xxx.xxx&lt;/strong&gt; part, it&amp;rsquo;s the IP address for each host that will be accessed by Ansible. Specifying it once on top of the file is enough, when creating groups you only need to specify the name of the host.That&amp;rsquo;s enough about the inventory.&lt;/p&gt;
+
+&lt;h3 id=&#34;playbooks:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Playbooks&lt;/h3&gt;
+
+&lt;p&gt;Now that we can access all our remote hosts and that we have our groups, all we need to do is to actually give them instructions, that&amp;rsquo;s what playbooks are for.&lt;/p&gt;
+
+&lt;p&gt;There are a few good practices when it comes to playbooks, since we need to install many services we chose to do it like so :&lt;/p&gt;
+
+&lt;p&gt;We take the example architecture from before:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Project/ 
+    - services/
+        - mysql/
+            - main.yaml
+            - install.yaml
+            - setup.yaml
+        - keystone/
+            - main.yaml
+            - install.yaml 
+            - setup.yaml
+    - templates/
+        - etc/
+            - mysql/
+                - my.cnf
+            - keystone/
+                - keystone.conf
+        - home/
+    - inventory
+    - ansible.cfg
+    - group_vars/
+        - all.yaml
+    - openstack.yaml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, the main thing is, we have a directory for each &amp;ldquo;service&amp;rdquo; and a directory containing the templates. What is a service? MySQL, PHP, Apache, Keystone, Nova, Neutron, whatever. For us, we decided that each package or group of packages giving us a specific functionnality would be one. In each service directory you will find the playbooks and a &lt;strong&gt;main.yaml&lt;/strong&gt; file. This file only contains include lines to call the other files. The same thing happens with the openstack.yaml file. It only includes the mains in each services directories, like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cat openstack.yaml
+---
+- include: services/mysql/main.yaml
+- include: services/keystone/main.yaml
+- include: services/nova/main.yaml
+
+$ cat services/mysql/main.yaml
+---
+- include: install_mysql.yaml
+- include: configure_mysql.yaml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is a very basic example but should be enough for you to get the idea.&lt;/p&gt;
+
+&lt;p&gt;Once all is said and done, we can run the openstack.yaml playbook like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ansible-playbook -i inventory openstack.yaml # -i is for specifying an inventory file
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;conclusion:1a9d0df1dffc119b10ddd86cf39ae2c9&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Ansible is a very powerful tool that is quite easy to use. The official documentation is complete and there are a lot of examples on the web. Also, it is important to always think about idempotency, because you can also use shell commands with ansible, sometimes you don&amp;rsquo;t have a choice. If you have to, make sure it won&amp;rsquo;t act redundantly (like adding the same line many times in a file instead of just once).&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>How to deploy OpenStack</title>
