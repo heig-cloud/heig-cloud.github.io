@@ -1293,25 +1293,32 @@ the Internet (through the networking node) as well as the user interface
       <guid>http://heig-cloud.github.io/about/</guid>
       <description>
 
-&lt;h2 id=&#34;who-we-are:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;Who we are&lt;/h2&gt;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;a href=&#34;http://www.heig-vd.ch&#34;&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/logo HEIG-VD.png&#34;/&gt;&lt;/a&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;a href=&#34;http://iict.heig-vd.ch&#34;&gt;&lt;img src=&#34;http://heig-cloud.github.io/static/img/logo IICT.png&#34;/&gt;&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
 
-&lt;p&gt;We are a small group of professors and scientific collaborators doing research on cloud computing. We are using public clouds like Amazon AWS and Microsoft Azure for research and teaching, but we also have deployed a private cloud based on OpenStack for IaaS and Cloud Foundry for PaaS. The aim is to have an alternative to the public cloud offerings for teaching and to be able to experiment with a private cloud for research. The deployment in itself is also very educative and is a very interesting subject to tackle.&lt;/p&gt;
+&lt;h4 id=&#34;who-we-are:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;Who we are&lt;/h4&gt;
 
-&lt;h2 id=&#34;why-the-blog:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;Why the blog&lt;/h2&gt;
+&lt;p&gt;We are a small group of professors and scientific collaborators at the &lt;a href=&#34;http://iict.heig-vd.ch&#34;&gt;IICT institute&lt;/a&gt; of &lt;a href=&#34;http://www.heig-vd.ch&#34;&gt;HEIG-VD&lt;/a&gt; doing research on cloud computing. We are using public clouds like Amazon AWS and Microsoft Azure for research and teaching, but we also have deployed a private cloud based on OpenStack for IaaS and Cloud Foundry for PaaS. The aim is to have an alternative to the public cloud offerings for teaching and to be able to experiment with a private cloud for research. The deployment in itself is also very educative and is a very interesting subject to tackle.&lt;/p&gt;
+
+&lt;h4 id=&#34;why-the-blog:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;Why the blog&lt;/h4&gt;
 
 &lt;p&gt;We want to share our experience with everybody who is also interested in cloud computing. It&amp;rsquo;s not always easy to get stuff working, sometimes the documentation has flaws, is not very clear, the missing information can&amp;rsquo;t be found on the web either, you know the game. We will be posting some of our results and experiments on this blog, hoping that it may assist those in need :)&lt;/p&gt;
 
-&lt;h2 id=&#34;what-we-did:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;What we did&lt;/h2&gt;
+&lt;h4 id=&#34;what-we-did:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;What we did&lt;/h4&gt;
 
 &lt;p&gt;It&amp;rsquo;s a lot of work to install the stack from scratch, it&amp;rsquo;s also very easy to forget something and even easier to make mistakes. That&amp;rsquo;s why we&amp;rsquo;ve decided to implement our solution using an automation tool. The one we chose is Ansible.&lt;/p&gt;
 
 &lt;p&gt;As for the infrastructure, we have 10 servers (there will be a post with more informations about this of course) and we followed the neutron network architecture from &lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_basic_environment.html#basics-networking-neutron&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h2 id=&#34;what-can-you-expect-of-us:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;What can you expect of us&lt;/h2&gt;
+&lt;h4 id=&#34;what-can-you-expect-of-us:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;What can you expect of us&lt;/h4&gt;
 
 &lt;p&gt;Well, we will be posting different things on this blog, from basic to more advanced. There won&amp;rsquo;t be a &amp;ldquo;full installation tutorial&amp;rdquo; in here. We will basically write about what we liked and what we think is useful or necessary.&lt;/p&gt;
 
-&lt;h2 id=&#34;i-have-a-question-can-i-contact-you-directly:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;I have a question, can I contact you directly?&lt;/h2&gt;
+&lt;h4 id=&#34;i-have-a-question-can-i-contact-you-directly:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;I have a question, can I contact you directly?&lt;/h4&gt;
 
 &lt;p&gt;Every post has a comment section (Disqus API), feel free to ask your questions there (if it&amp;rsquo;s related to the actual post). If you have a different question that we don&amp;rsquo;t cover in one of our posts, or want to contact us directly: marcel (insert dot here) graf (insert at-sign here) heig-vd.ch&lt;/p&gt;
 </description>
