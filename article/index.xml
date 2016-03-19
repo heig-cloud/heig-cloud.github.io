@@ -6,8 +6,23 @@
     <description>Recent content in Articles on HEIG-Cloud blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 15 Feb 2016 14:58:22 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 19 Mar 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://heig-cloud.github.io/article/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Meetup presentation on OpenStack</title>
+      <link>http://heig-cloud.github.io/article/2016-03-19%20meetup/</link>
+      <pubDate>Sat, 19 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2016-03-19%20meetup/</guid>
+      <description>
+
+&lt;h2 id=&#34;meetup-presentation-on-openstack:5c754e4e3b4ba3066f40c82aa6c72453&#34;&gt;Meetup presentation on OpenStack&lt;/h2&gt;
+
+&lt;p&gt;On Thursday we gave a talk at the Lausanne Cloud Meetup on our
+experiences deploying OpenStack at HEIG-VD: &lt;a href=&#34;http://heig-cloud.github.io/static/img/2016-03-19 meetup/2016-03-17 Graf, Brito Carvalho - Building a private cloud with OpenStack.pdf&#34;&gt;Building a private cloud with OpenStack (PDF)&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Cloud Foundry</title>
@@ -1377,7 +1392,7 @@ what a typical company pays to run its own traditional IT
 infrastructure.&lt;/p&gt;
 
 &lt;p&gt;Now there are many companies that shy away from public cloud offerings
-like AWS and Azure because the data they work with is sensitive. Think
+like AWS and Azure because the data they work with is &lt;em&gt;sensitive&lt;/em&gt;. Think
 of banks, anybody providing health services like hospitals, or even
 schools that need to keep personal data which is protected by privacy
 laws. Sometimes using public cloud services has to be ruled out

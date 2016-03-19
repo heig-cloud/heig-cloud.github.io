@@ -101,7 +101,7 @@ what a typical company pays to run its own traditional IT
 infrastructure.&lt;/p&gt;
 
 &lt;p&gt;Now there are many companies that shy away from public cloud offerings
-like AWS and Azure because the data they work with is sensitive. Think
+like AWS and Azure because the data they work with is &lt;em&gt;sensitive&lt;/em&gt;. Think
 of banks, anybody providing health services like hospitals, or even
 schools that need to keep personal data which is protected by privacy
 laws. Sometimes using public cloud services has to be ruled out

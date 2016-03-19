@@ -6,8 +6,23 @@
     <description>Recent content on HEIG-Cloud blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 15 Feb 2016 14:58:22 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 19 Mar 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://heig-cloud.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Meetup presentation on OpenStack</title>
+      <link>http://heig-cloud.github.io/article/2016-03-19%20meetup/</link>
+      <pubDate>Sat, 19 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://heig-cloud.github.io/article/2016-03-19%20meetup/</guid>
+      <description>
+
+&lt;h2 id=&#34;meetup-presentation-on-openstack:5c754e4e3b4ba3066f40c82aa6c72453&#34;&gt;Meetup presentation on OpenStack&lt;/h2&gt;
+
+&lt;p&gt;On Thursday we gave a talk at the Lausanne Cloud Meetup on our
+experiences deploying OpenStack at HEIG-VD: &lt;a href=&#34;http://heig-cloud.github.io/static/img/2016-03-19 meetup/2016-03-17 Graf, Brito Carvalho - Building a private cloud with OpenStack.pdf&#34;&gt;Building a private cloud with OpenStack (PDF)&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Cloud Foundry</title>
@@ -1302,21 +1317,21 @@ the Internet (through the networking node) as well as the user interface
 
 &lt;h4 id=&#34;who-we-are:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;Who we are&lt;/h4&gt;
 
-&lt;p&gt;We are a small group of professors and scientific collaborators at the &lt;a href=&#34;http://iict.heig-vd.ch&#34;&gt;IICT institute&lt;/a&gt; of &lt;a href=&#34;http://www.heig-vd.ch&#34;&gt;HEIG-VD&lt;/a&gt; doing research on cloud computing. We are using public clouds like Amazon AWS and Microsoft Azure for research and teaching, but we also have deployed a private cloud based on OpenStack for IaaS and Cloud Foundry for PaaS. The aim is to have an alternative to the public cloud offerings for teaching and to be able to experiment with a private cloud for research. The deployment in itself is also very educative and is a very interesting subject to tackle.&lt;/p&gt;
+&lt;p&gt;We are a small group of professors and scientific collaborators at the &lt;a href=&#34;http://iict.heig-vd.ch&#34;&gt;IICT institute&lt;/a&gt; of &lt;a href=&#34;http://www.heig-vd.ch&#34;&gt;HEIG-VD&lt;/a&gt; doing research on cloud computing. We are using public clouds like Amazon AWS and Microsoft Azure for research and teaching, but we have also deployed a private cloud. We use OpenStack to provide an IaaS and Cloud Foundry to provide a PaaS. The aim is to have an alternative to the public cloud offerings for teaching and to be able to experiment with a private cloud for research. The deployment of a private cloud is also very educative in itself and is a very interesting subject to tackle.&lt;/p&gt;
 
 &lt;h4 id=&#34;why-the-blog:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;Why the blog&lt;/h4&gt;
 
-&lt;p&gt;We want to share our experience with everybody who is also interested in cloud computing. It&amp;rsquo;s not always easy to get stuff working, sometimes the documentation has flaws, is not very clear, the missing information can&amp;rsquo;t be found on the web either, you know the game. We will be posting some of our results and experiments on this blog, hoping that it may assist those in need :)&lt;/p&gt;
+&lt;p&gt;We want to share our experience with everybody who is also interested in cloud computing. In the first blog posts we&amp;rsquo;ll focus on OpenStack. It&amp;rsquo;s not always easy to get stuff working, sometimes the documentation has flaws, is not very clear, the missing information can&amp;rsquo;t be found on the web either, you know the game. We will be posting some of our results and experiments on this blog, hoping that it may assist those in need :)&lt;/p&gt;
 
 &lt;h4 id=&#34;what-we-did:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;What we did&lt;/h4&gt;
 
-&lt;p&gt;It&amp;rsquo;s a lot of work to install the stack from scratch, it&amp;rsquo;s also very easy to forget something and even easier to make mistakes. That&amp;rsquo;s why we&amp;rsquo;ve decided to implement our solution using an automation tool. The one we chose is Ansible.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s a lot of work to install OpenStack from scratch, it&amp;rsquo;s also very easy to forget something and even easier to make mistakes. That&amp;rsquo;s why we&amp;rsquo;ve decided to implement our solution using an automation tool. The one we chose is Ansible.&lt;/p&gt;
 
-&lt;p&gt;As for the infrastructure, we have 10 servers (there will be a post with more informations about this of course) and we followed the neutron network architecture from &lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_basic_environment.html#basics-networking-neutron&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As for the infrastructure, we have 10 servers (there will be a post with more informations about this of course) and we followed the Neutron network architecture from &lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_basic_environment.html#basics-networking-neutron&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h4 id=&#34;what-can-you-expect-of-us:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;What can you expect of us&lt;/h4&gt;
 
-&lt;p&gt;Well, we will be posting different things on this blog, from basic to more advanced. There won&amp;rsquo;t be a &amp;ldquo;full installation tutorial&amp;rdquo; in here. We will basically write about what we liked and what we think is useful or necessary.&lt;/p&gt;
+&lt;p&gt;Well, we will be posting different things on this blog, from basic to more advanced. There won&amp;rsquo;t be a &amp;ldquo;full OpenStack installation tutorial&amp;rdquo; in here. We will basically write about what we liked and what we think is useful or necessary.&lt;/p&gt;
 
 &lt;h4 id=&#34;i-have-a-question-can-i-contact-you-directly:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;I have a question, can I contact you directly?&lt;/h4&gt;
 
@@ -1416,7 +1431,7 @@ what a typical company pays to run its own traditional IT
 infrastructure.&lt;/p&gt;
 
 &lt;p&gt;Now there are many companies that shy away from public cloud offerings
-like AWS and Azure because the data they work with is sensitive. Think
+like AWS and Azure because the data they work with is &lt;em&gt;sensitive&lt;/em&gt;. Think
 of banks, anybody providing health services like hospitals, or even
 schools that need to keep personal data which is protected by privacy
 laws. Sometimes using public cloud services has to be ruled out
